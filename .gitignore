@@ -1,0 +1,34 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.age-identity
+age-identity*.txt
+
+# Personal financial data, raw statements, backups (ADR-0004, ADR-0014)
+# Everything under data/ is local only: inbox, imports, raw payloads, backups.
+data/*
+!data/.gitkeep
+*.age
+*.dump
+*.pdf
+*.xlsx
+*.xls
+# Synthetic test fixtures are allowed (never real statements)
+!tests/fixtures/**
+
+# Python tooling
+.venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.coverage
+htmlcov/
+mutants/
+
+# Source prompt kept local; its Parts A–G are tracked as CLAUDE.md
+Master Build Prompt*.md
