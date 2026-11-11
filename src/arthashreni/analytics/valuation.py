@@ -9,13 +9,13 @@ monthly review separately (Phase 2).
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import date, datetime
-from decimal import Decimal, localcontext
+from decimal import Decimal
 
 from arthashreni.dq.measured import (
-    PRECISION,
     Measured,
     QualityStatus,
     day_stamp,
+    exact,
     m_div,
     m_mul,
     m_sub,
@@ -55,19 +55,18 @@ class Position:
     cost_orig: Decimal
 
 
+@exact
 def positions_from_book(book: LotBook, assets: Mapping[int, AssetInfo]) -> list[Position]:
     acc: dict[tuple[int, int], list[Decimal]] = {}
-    with localcontext() as ctx:
-        ctx.prec = PRECISION
-        for lot in book.lots:
-            if lot.remaining_qty == 0:
-                continue
-            # Remaining cost in the original currency: the share of the lot's cost that is left.
-            orig = lot.cost_orig * lot.remaining_cost_inr / lot.cost_inr if lot.cost_inr else ZERO
-            row = acc.setdefault((lot.account_id, lot.asset_id), [ZERO, ZERO, ZERO])
-            row[0] += lot.remaining_qty
-            row[1] += lot.remaining_cost_inr
-            row[2] += orig
+    for lot in book.lots:
+        if lot.remaining_qty == 0:
+            continue
+        # Remaining cost in the original currency: the share of the lot's cost that is left.
+        orig = lot.cost_orig * lot.remaining_cost_inr / lot.cost_inr if lot.cost_inr else ZERO
+        row = acc.setdefault((lot.account_id, lot.asset_id), [ZERO, ZERO, ZERO])
+        row[0] += lot.remaining_qty
+        row[1] += lot.remaining_cost_inr
+        row[2] += orig
     return [
         Position(account, assets[asset], units, cost_inr, cost_orig)
         for (account, asset), (units, cost_inr, cost_orig) in sorted(acc.items())
@@ -159,6 +158,7 @@ class Realised:
     gain_inr: Measured[Decimal]
 
 
+@exact
 def realised_pnl(book: LotBook, as_of: date) -> tuple[dict[int, Realised], Realised]:
     """FIFO realised gain per asset and in total, in INR, before any tax (C2). Tax is not computed here:
     no verified tax rule exists yet, so any tax figure is "tax unavailable" (C7)."""
@@ -196,6 +196,7 @@ class IncomeAndCosts:
     stamp_duty_inr: Measured[Decimal]
 
 
+@exact
 def income_and_costs(txns: Iterable[TxnRow], as_of: date) -> IncomeAndCosts:
     """Dividends, interest, fees, taxes and stamp duty, in INR, from the effective ledger up to `as_of`.
 

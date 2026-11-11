@@ -818,6 +818,10 @@ def test_results_do_not_depend_on_the_callers_decimal_context() -> None:
         tx(2, TxnType.SELL, days(5), "3", "40"),
     ]
     third = m(1), m(3)
+    income = [
+        tx(3, TxnType.DIVIDEND_REINVESTMENT, days(2), "3.123", "41.37", fees="1.2345", fx="83.1234567"),
+        tx(4, TxnType.BUY, days(3), "2", "10.01", fees="0.55555", fx="81.7654321"),
+    ]
 
     book = build_lots(txns, [])  # the ledger is outside this contract
 
@@ -829,6 +833,8 @@ def test_results_do_not_depend_on_the_callers_decimal_context() -> None:
             absolute_return(*third).result.value,
             cagr(m(3), m(7), D0, days(1000)).result.value,
             (p.cost_orig, held.value_local.value, held.unrealised_pct.value),
+            income_and_costs(income, days(10)),
+            realised_pnl(book, days(10))[1],
         ]
 
     reference = run()
