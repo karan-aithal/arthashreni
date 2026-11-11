@@ -10,4 +10,4 @@ Personal investment intelligence platform for one Indian investor: ledger, data 
 - Decisions: `docs/decisions/`
 - Phase reports: `docs/gates/`
 
-Status: Phase 0 (documents only).
+Status: Phase 1 (backend foundation). Setup and commands: `docs/runbook.md`.

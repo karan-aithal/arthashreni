@@ -26,6 +26,7 @@ pw_real=$(openssl rand -hex 24)
 
 # SQL goes through stdin so passwords never appear in the process list.
 sudo -u postgres psql -v ON_ERROR_STOP=1 -q -d postgres <<SQL
+-- pragma: allowlist nextline secret
 SET password_encryption = 'scram-sha-256';
 SELECT format('CREATE ROLE artha_owner LOGIN CREATEDB PASSWORD %L', '$pw_owner')
   WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'artha_owner') \gexec

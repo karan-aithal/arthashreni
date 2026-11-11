@@ -35,6 +35,10 @@ Unique: `isin`, `amfi_code`, `(ticker, exchange_mic)` where not null.
 **tax_rules** — mirror of `config/tax_rules.yaml`, reloaded at start-up.
 `id TEXT PK, jurisdiction, asset_class, holding_period, rate_or_method JSONB, effective_from DATE, effective_to DATE NULL, source_url, verified_on DATE, review_by DATE`.
 
+**local_user** (Phase 1) — `id SMALLINT PK CHECK (id = 1), username, password_hash (Argon2id), created_at`. Exactly one user. App roles: SELECT only; created by `arthashreni user init` as owner.
+
+**auth_sessions** (Phase 1) — `token_hash TEXT PK (SHA-256 of cookie token), csrf_token, created_at, expires_at`. App roles: SELECT, INSERT, DELETE.
+
 **job_runs** — `id, job_name, scheduled_for, started_at, finished_at, status (ok, failed, skipped), attempt, detail JSONB`. Unique `(job_name, scheduled_for)` for idempotency.
 
 ## 2. Accounts and ledger
