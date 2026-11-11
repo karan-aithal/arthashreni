@@ -90,6 +90,51 @@ uv run arthashreni reconcile open                       # differences that block
 uv run arthashreni reconcile accept ID --reason "..."   # only with a recorded reason
 ```
 
+## Market data and data quality (Phase 3)
+
+Nothing is fetched until you consent per source. In `.env`:
+
+```
+ARTHA_CONSENTED_SOURCES=amfi_nav,sbi_tt_archive,fbil_ref,tiingo_eod,sec_companyfacts   # only the ones you accept
+ARTHA_TIINGO_API_KEY=...            # personal key, never committed
+ARTHA_SEC_USER_AGENT="Your Name your.email@example.com"   # sent to the SEC only
+```
+
+```bash
+uv run alembic upgrade head                      # migration 0003
+uv run arthashreni demo market                   # DEMO: synthetic prices, NAV, FX, fundamentals (no network)
+uv run arthashreni market ingest [--source ID] [--force]   # fetch from consented sources
+uv run arthashreni market sources                # health: state, freshness, quota, pending items
+uv run arthashreni market price AMFI:900001 --date 2026-11-10    # value + quality status
+uv run arthashreni market fx FBIL_REF            # rate type is required (SBI_TT_BUY, FBIL_REF, BROKER_ACTUAL)
+uv run arthashreni market import-prices FILE     # manual CSV: asset_ref,valid_at,close,currency,price_type
+uv run arthashreni market import-fx FILE         # manual FBIL CSV: rate_type,valid_at,rate
+uv run arthashreni asset cik TICKER:AAPL 320193  # needed for SEC fundamentals
+```
+
+Review queue (a pending item blocks the monthly review, like an unexplained ledger difference):
+
+```bash
+uv run arthashreni quarantine list [--all]
+uv run arthashreni quarantine accept ID --note "checked on the exchange site"      # keeps the value as a new ok row
+uv run arthashreni quarantine correct ID --value 101.5 --note "decimal slip"       # new row with your value
+uv run arthashreni quarantine reject ID --note "bad tick"
+```
+
+Scheduler (Asia/Kolkata, daily at `ARTHA_INGEST_TIME`, default 20:00):
+
+```bash
+uv run arthashreni scheduler catch-up            # run slots missed while the machine was off
+uv run arthashreni scheduler run                 # catch up, then run until stopped (systemd user service, ADR-0019)
+```
+
+API (login required): `GET /sources/health`, `GET /quarantine`.
+
+Capturing real fixtures (after consent, key and User-Agent are set): run `market ingest --source tiingo_eod --force`, then the same for `sec_companyfacts`; the raw bodies are in `data/raw/<source>/`. A mismatch shows as `SCHEMA_DRIFT` in `quarantine list`. Procedure and the "never commit the key" rule: ADR-0023.
+
+A source that is down shows `failing`; stale data is labelled `stale` with both dates; the rest keeps working. AMFI history
+is not available from its daily file: use the CAS or a manual CSV. The FBIL mirror lags about a week, so expect `stale` there.
+
 ## Datasets
 
 `ARTHA_DATASET=demo` (default) or `real`. `real` is refused until `docs/gates/phase-4.approved` exists.

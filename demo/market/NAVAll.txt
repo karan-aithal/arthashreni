@@ -1,0 +1,8 @@
+Scheme Code;ISIN Div Payout/ ISIN Growth;ISIN Div Reinvestment;Scheme Name;Plan;Option;Net Asset Value;Date
+ 
+Open Ended Schemes(Equity Scheme - Large Cap Fund)
+ 
+Demo Mutual Fund
+ 
+900001;ZZDEMOMF0001;-;Demo Growth Equity Fund;Direct Plan;Growth Option;20.0040;10-Nov-2026
+900002;ZZDEMOMF0002;-;Demo Other Fund;Direct Plan;Growth Option;11.1111;10-Nov-2026

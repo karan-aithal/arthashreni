@@ -85,3 +85,15 @@ settings.register_profile(
     "ci", max_examples=1000, deadline=None, suppress_health_check=[HealthCheck.too_slow]
 )
 settings.load_profile(os.environ.get("HYPOTHESIS_PROFILE", "dev"))
+
+
+@pytest.fixture(autouse=True)
+def _restore_logging() -> Iterator[None]:
+    """CLI tests call configure_logging(), which binds a handler to the runner's captured stderr."""
+    import logging
+
+    root = logging.getLogger()
+    handlers, level = list(root.handlers), root.level
+    yield
+    root.handlers[:] = handlers
+    root.setLevel(level)

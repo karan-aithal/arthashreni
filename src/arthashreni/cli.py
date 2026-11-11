@@ -24,9 +24,13 @@ import_app = typer.Typer(no_args_is_help=True, help="Statement imports: preview,
 ledger_app = typer.Typer(no_args_is_help=True, help="Ledger inspection and corrections.")
 reconcile_app = typer.Typer(no_args_is_help=True, help="Ledger vs statement reconciliation.")
 demo_app = typer.Typer(no_args_is_help=True, help="DEMO dataset.")
+market_app = typer.Typer(no_args_is_help=True, help="Market data: sources, ingest, prices, FX (Phase 3).")
+quarantine_app = typer.Typer(no_args_is_help=True, help="Data-quality review queue (E3).")
+scheduler_app = typer.Typer(no_args_is_help=True, help="Scheduled jobs (G3).")
 for _name, _sub in (
     ("user", user_app), ("backup", backup_app), ("account", account_app), ("asset", asset_app),
     ("import", import_app), ("ledger", ledger_app), ("reconcile", reconcile_app), ("demo", demo_app),
+    ("market", market_app), ("quarantine", quarantine_app), ("scheduler", scheduler_app),
 ):  # fmt: skip
     app.add_typer(_sub, name=_name)
 
@@ -446,3 +450,203 @@ def demo_seed() -> None:
         raise typer.BadParameter("set ARTHA_DATASET=demo; the demo portfolio never goes into REAL")
     for step in seed_demo():
         typer.echo(f"{step.outcome:<17} {step.name}  {step.detail}")
+
+
+@demo_app.command("market")
+def demo_market() -> None:
+    """Load synthetic DEMO prices, NAVs, FX and fundamentals through the real adapters (no network)."""
+    from arthashreni.demo_market import load_demo_market
+
+    if get_settings().dataset != "demo":
+        raise typer.BadParameter("set ARTHA_DATASET=demo")
+    _print_runs(load_demo_market())
+
+
+def _print_runs(results: list) -> None:  # type: ignore[type-arg]
+    for r in results:
+        typer.echo(
+            f"{r.source_id:<18} {r.status:<12} stored {r.stored}, duplicates {r.duplicates}, "
+            f"quarantined {r.quarantined}, conflicts {r.conflicts}  {r.detail}"
+        )
+
+
+@market_app.command("sources")
+def market_sources() -> None:
+    """Source health: state, freshness, quota use and pending review items (D5)."""
+    from arthashreni.dq.health import source_health
+
+    s = get_settings()
+    with session_scope() as db:
+        rep = source_health(db, date.today(), s.consented())
+    for h in rep.sources:
+        quota = f"{h.calls_today}/{h.daily_quota}" if h.daily_quota else str(h.calls_today)
+        typer.echo(
+            f"{h.id:<20} {h.state:<14} latest {h.latest_valid_at or '-'}  calls {quota}  "
+            f"pending {h.pending_quarantine}  {h.freshness_note or ''}"
+        )
+    typer.echo(
+        f"pending quarantine {rep.pending_quarantine}, open ledger differences {rep.ledger_differences}"
+        + ("  -> BLOCKS the monthly review" if rep.blocks_monthly_review else "")
+    )
+
+
+@market_app.command("ingest")
+def market_ingest(
+    source: Annotated[list[str] | None, typer.Option(help="Only these source ids.")] = None,
+    force: Annotated[bool, typer.Option(help="Ignore the refresh interval.")] = False,
+) -> None:
+    """Fetch from the sources you consented to (ARTHA_CONSENTED_SOURCES)."""
+    from arthashreni.ingestion.sources.ingest import run_daily
+
+    _print_runs(run_daily(get_settings().dataset, date.today(), only=set(source or []) or None, force=force))
+
+
+@market_app.command("import-prices")
+def market_import_prices(csv_file: Path) -> None:
+    """Manual price/NAV CSV: asset_ref,valid_at,close,currency,price_type (last resort, D1)."""
+    from arthashreni.ingestion.sources.contract import Window
+    from arthashreni.ingestion.sources.manual import ManualPrices
+    from arthashreni.ingestion.sources.registry import sync_registry
+    from arthashreni.ingestion.sources.runner import run_adapter
+
+    with session_scope() as db:
+        sync_registry(db)
+    today = date.today()
+    _print_runs(
+        [run_adapter(get_settings().dataset, ManualPrices(csv_file), Window(today, today), offline=True)]
+    )
+
+
+@market_app.command("import-fx")
+def market_import_fx(csv_file: Path) -> None:
+    """Manual FBIL reference CSV: rate_type,valid_at,rate (fallback when the mirror lags)."""
+    from arthashreni.ingestion.sources.contract import Window
+    from arthashreni.ingestion.sources.manual import ManualFx
+    from arthashreni.ingestion.sources.registry import sync_registry
+    from arthashreni.ingestion.sources.runner import run_adapter
+
+    with session_scope() as db:
+        sync_registry(db)
+    today = date.today()
+    _print_runs([run_adapter(get_settings().dataset, ManualFx(csv_file), Window(today, today), offline=True)])
+
+
+@market_app.command("price")
+def market_price(asset_ref: str, on: Annotated[str | None, typer.Option("--date")] = None) -> None:
+    """Latest known price/NAV on or before a date, with its quality status."""
+    from arthashreni.db.as_of import price_as_of
+    from arthashreni.ledger.assets import UnknownAsset, resolve_asset
+
+    day = date.fromisoformat(on) if on else date.today()
+    try:
+        with session_scope() as db:
+            m = price_as_of(db, resolve_asset(db, get_settings().dataset, asset_ref).id, day)
+    except UnknownAsset as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(f"{m.value}  [{m.status}]  as of {m.as_of.date()}  {'; '.join(m.notes)}")
+
+
+@market_app.command("fx")
+def market_fx(rate_type: str, on: Annotated[str | None, typer.Option("--date")] = None) -> None:
+    """USD/INR for a named rate type (SBI_TT_BUY, FBIL_REF, BROKER_ACTUAL): no default type (ADR-0016)."""
+    from arthashreni.db.as_of import fx_as_of
+
+    if rate_type not in ("SBI_TT_BUY", "FBIL_REF", "BROKER_ACTUAL"):
+        raise typer.BadParameter("rate_type must be SBI_TT_BUY, FBIL_REF or BROKER_ACTUAL")
+    day = date.fromisoformat(on) if on else date.today()
+    with session_scope() as db:
+        m = fx_as_of(db, rate_type, day)  # type: ignore[arg-type]
+    typer.echo(f"{m.value}  [{m.status}]  as of {m.as_of.date()}  {'; '.join(m.notes)}")
+
+
+@asset_app.command("cik")
+def asset_cik(asset_ref: str, cik: str) -> None:
+    """Set the SEC CIK of a US stock (needed for fundamentals)."""
+    from sqlalchemy import text as sql
+
+    from arthashreni.ledger.assets import resolve_asset
+
+    with session_scope() as db:
+        a = resolve_asset(db, get_settings().dataset, asset_ref)
+        db.execute(sql("UPDATE ref.assets SET cik = :c WHERE id = :i"), {"c": cik.lstrip("0"), "i": a.id})
+    typer.echo(f"{asset_ref}: CIK {cik}")
+
+
+@quarantine_app.command("list")
+def quarantine_list(all_items: Annotated[bool, typer.Option("--all")] = False) -> None:
+    from arthashreni.dq.store import list_quarantine
+
+    with session_scope() as db:
+        items = list_quarantine(db, pending_only=not all_items)
+    for i in items:
+        reason = (i["detail"] or {}).get("reason") or (i["detail"] or {}).get("error") or ""
+        typer.echo(
+            f"#{i['id']:<4} {i['resolution']:<12} {i['table_name']}:{i['row_ref']:<10} "
+            f"{i['check_name']:<18} {reason}"
+        )
+    typer.echo(f"{len(items)} item(s)")
+
+
+def _resolve(qid: int, resolution: str, note: str, value: str | None = None) -> None:
+    from decimal import Decimal
+
+    from arthashreni.dq.store import resolve_quarantine
+
+    try:
+        with session_scope() as db:
+            resolve_quarantine(db, qid, resolution, note, Decimal(value) if value else None)
+    except ValueError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(f"#{qid} {resolution}")
+
+
+@quarantine_app.command("accept")
+def quarantine_accept(qid: int, note: Annotated[str, typer.Option(help="Why it is right.")]) -> None:
+    """Keep the value: a new `ok` row supersedes the quarantined one."""
+    _resolve(qid, "ACCEPTED", note)
+
+
+@quarantine_app.command("correct")
+def quarantine_correct(
+    qid: int,
+    value: Annotated[str, typer.Option(help="The right value.")],
+    note: Annotated[str, typer.Option()],
+) -> None:
+    """Replace the value: a new row with the corrected value supersedes the quarantined one."""
+    _resolve(qid, "CORRECTED", note, value)
+
+
+@quarantine_app.command("reject")
+def quarantine_reject(qid: int, note: Annotated[str, typer.Option(help="Why it is wrong.")]) -> None:
+    _resolve(qid, "REJECTED", note)
+
+
+@scheduler_app.command("catch-up")
+def scheduler_catch_up() -> None:
+    """Run the daily ingest slots missed while the machine was off."""
+    from arthashreni.jobs import catch_up
+
+    for slot, status in catch_up(get_settings().dataset):
+        typer.echo(f"{slot:%Y-%m-%d %H:%M} IST  {status}")
+
+
+@scheduler_app.command("run")
+def scheduler_run() -> None:
+    """Catch up, then run the daily ingest on schedule (Asia/Kolkata) until stopped."""
+    import signal
+    import threading
+
+    from arthashreni.jobs import build_scheduler, catch_up
+
+    ds = get_settings().dataset
+    catch_up(ds)
+    sched = build_scheduler(ds)
+    sched.start()
+    typer.echo(f"scheduler running ({ds}); ingest at {get_settings().ingest_time} IST. Ctrl+C to stop.")
+    stop = threading.Event()
+    signal.signal(signal.SIGINT, lambda *_: stop.set())
+    signal.signal(signal.SIGTERM, lambda *_: stop.set())
+    stop.wait()
+    sched.shutdown()

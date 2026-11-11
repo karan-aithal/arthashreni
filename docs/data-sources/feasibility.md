@@ -83,6 +83,12 @@ Legend for **Automation**: `yes` = terms or official docs allow scripted access 
 - **Zerodha Console** (https://support.zerodha.com/category/console/reports/articles/where-can-i-see-all-the-trades-i-ve-taken-for-a-particular-period, 2026-11-11): Reports → Tradebook, choose segment and dates, download XLSX or CSV. Whether Coin MF orders appear in the standard tradebook or only an external tradebook is **open**; resolve with a sample file in Phase 2.
 - **INDmoney US stocks**: account statement under US Stocks → Manage → Account Statement (third-party guide, 2026-11-11); INDmoney mandatory disclosures (https://www.indmoney.com/page/mandatory-disclosures) state transaction, holding and tax P&L reports are downloadable. **File format (PDF/CSV) unconfirmed** — Phase 2 builds the parser against a sample the investor provides, or a synthetic sample clearly marked as assumed format.
 
+## Phase 3 findings (2026-11-11, from real responses)
+- **AMFI** `NAVAll.txt` now has 8 columns (Plan and Option split out); the adapter pins the exact header. A header change is treated as schema drift.
+- **SBI archive** writes `TT BUY 0.00` on 47 days (SBI gave no TT rate); those rows are quarantined, not used. Timestamps carry a time of day.
+- **Frankfurter FBIL** response is a plain list `[{date, base, quote, rate}]`; the adapter pins that shape.
+- **Tiingo / SEC** adapters follow documentation only; no live call was made (key and declared User-Agent not set). See V23.
+
 ## Options considered and rejected
 | Option | Reason |
 | --- | --- |

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail if money code uses float (ADR-0003). Stdlib only.
 
-Scans the packages where numbers are computed: ledger, analytics, policy, risk. Flags `float(...)`,
+Scans the packages where numbers are computed: ledger, dq, analytics, policy, risk. Flags `float(...)`,
 float literals, `float` annotations and `import math`-free float helpers such as `round(x)` on
 floats are not detectable, so the rule is: Decimal in, Decimal out, convert at the boundary.
 """
@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGES = ("ledger", "analytics", "policy", "risk")
+PACKAGES = ("ledger", "dq", "analytics", "policy", "risk")
 
 
 def violations(source: str, name: str) -> list[str]:
