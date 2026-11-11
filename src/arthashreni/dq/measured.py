@@ -3,8 +3,12 @@
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, replace
 from datetime import UTC, date, datetime, time
-from decimal import Decimal, DivisionByZero, InvalidOperation, Overflow
+from decimal import Decimal, DivisionByZero, InvalidOperation, Overflow, localcontext
 from enum import StrEnum
+
+PRECISION = (
+    40  # digits for every Decimal multiply, divide, power and root in the calculation engine (ADR-0024)
+)
 
 
 class QualityStatus(StrEnum):
@@ -66,7 +70,9 @@ def _combine(
         out = status if status.severity >= QualityStatus.MISSING.severity else QualityStatus.MISSING
         return Measured(None, out, as_of, sources, (*notes, "an input has no usable value"))
     try:
-        return Measured(fn(a.value, b.value), status, as_of, sources, notes)
+        with localcontext() as ctx:
+            ctx.prec = PRECISION  # not the caller's ambient context
+            return Measured(fn(a.value, b.value), status, as_of, sources, notes)
     except (DivisionByZero, InvalidOperation, Overflow):
         return Measured(None, QualityStatus.MISSING, as_of, sources, (*notes, "arithmetic error"))
 

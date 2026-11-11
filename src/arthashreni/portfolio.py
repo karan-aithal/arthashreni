@@ -181,8 +181,8 @@ def _returns(
     )
     points: list[ValuePoint] = []
     for d in sorted({f[0] for f in flows} | {day}):
-        v = t.value_inr if d == day else _portfolio_value(db, txns, actions, assets, d, known_at).value_inr
-        points.append(ValuePoint(d, v, twr_flow(flows, d)))
+        at = t if d == day else _portfolio_value(db, txns, actions, assets, d, known_at)
+        points.append(ValuePoint(d, at.value_inr, twr_flow(flows, d), complete=not at.unvalued))
     return (xirr_m, twr(points), absolute_return(gain, invested))
 
 

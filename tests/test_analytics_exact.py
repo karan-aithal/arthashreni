@@ -2,8 +2,9 @@
 paths. Written against mutation testing: a test that only checks `.value is None` lets a wrong note, a
 lost source or a wrong as-of through, and those are exactly what travels to the investor's screen."""
 
+from dataclasses import replace
 from datetime import UTC, date, datetime, timedelta
-from decimal import Decimal
+from decimal import Decimal, localcontext
 
 from arthashreni.analytics import PRECISION
 from arthashreni.analytics.allocation import allocate, concentration, look_through, overlap
@@ -16,6 +17,7 @@ from arthashreni.analytics.valuation import (
     Position,
     from_ledger,
     income_and_costs,
+    positions_from_book,
     realised_pnl,
     totals,
     value_position,
@@ -35,6 +37,13 @@ OK, EST, STALE, MISSING = (
 )
 D0 = date(2025, 1, 1)
 LEDGER = ("ledger",)
+
+
+def div(a: int | str, b: int | str) -> Decimal:
+    """a / b at the engine's precision, the reference for exact expected values."""
+    with localcontext() as ctx:
+        ctx.prec = PRECISION
+        return D(a) / D(b)
 
 
 def at(d: date) -> datetime:
@@ -473,12 +482,12 @@ def test_totals_exact() -> None:
     assert t.value_inr == Measured(D(1350), STALE, at(D0), ("ledger", "t", "q"), ())
     assert t.cost_inr == Measured(D(1100), OK, at(days(9)), LEDGER, ())
     assert t.unrealised_inr.value == D(250) and t.unrealised_inr.status is STALE
-    assert t.unrealised_pct.value == D(250) / D(1100) and t.holdings == 2 and t.unvalued == ()
+    assert t.unrealised_pct.value == div(250, 1100) and t.holdings == 2 and t.unvalued == ()
     partial = totals([a, b, c], days(9))
     note = "1 of 3 holdings have no usable value and are left out: A3"
     assert partial.value_inr.notes[-1] == note and partial.cost_inr.notes == (note,)
     assert partial.cost_inr.status is EST and partial.unvalued == ("A3",) and partial.holdings == 3
-    assert partial.cost_inr.value == D(1100) and partial.unrealised_pct.value == D(250) / D(1100)
+    assert partial.cost_inr.value == D(1100) and partial.unrealised_pct.value == div(250, 1100)
     two = totals([c, value_position(pos(4, "1", "50"), m(None, MISSING), None, None, days(9))], days(9))
     assert two.value_inr.notes[-1] == "2 of 2 holdings have no usable value and are left out: A3, A4"
     assert (
@@ -712,6 +721,49 @@ def test_volatility_refuses_a_series_that_is_not_daily() -> None:
     assert volatility(dated(D0, [1, 1, 1, 4] * 6)).status is OK  # ordinary weekends
 
 
+def test_median_gap_is_the_true_median_for_an_even_number_of_gaps() -> None:
+    # 12 gaps of 1 and 12 of 7: the median is 4 (a daily series with a gap every other step), not the upper 7
+    mixed = volatility(dated(D0, [1, 7] * 12))
+    assert (
+        mixed.status is EST
+        and mixed.value is not None
+        and "12 gap(s) longer than 5 days" in " ".join(mixed.notes)
+    )
+    # 12 gaps of 4 and 12 of 7: the median is 5.5, over the limit, and is reported as such
+    sparse = volatility(dated(D0, [4, 7] * 12))
+    assert sparse.value is None and sparse.notes == (
+        "not a daily series (median gap 5.5 days): annualising with 252 periods a year would be wrong",
+    )
+    on_limit = volatility(dated(D0, [3, 7] * 12))  # median exactly 5: still daily
+    assert on_limit.value is not None
+
+
+def test_twr_refuses_a_partial_valuation_instead_of_chaining_through_it() -> None:
+    """Holding B has no price on day 30: the value drops by B, then jumps when B is priced again on day 60.
+    Chained, that is a fake -8% then +10%; the right answer is no TWR."""
+    pts = [
+        ValuePoint(D0, m(1000), D(1000)),
+        ValuePoint(days(30), m(920, EST), D(0), complete=False),
+        ValuePoint(days(60), m(1100), D(0)),
+    ]
+    r = twr(pts).result
+    assert r.value is None and r.status is MISSING
+    assert r.notes[-1] == (
+        "valuation left out holdings with no price on 2025-01-31: chain-linking over a partial value "
+        "would count the gap as a loss or a gain"
+    )
+    complete = [replace(p, complete=True) for p in pts]
+    assert twr(complete).result.value is not None  # the same numbers, once complete, do chain
+    many = [ValuePoint(days(i), m(100 + i), D(0), complete=False) for i in range(5)]
+    assert (
+        twr(many)
+        .result.notes[-1]
+        .startswith(
+            "valuation left out holdings with no price on 2025-01-01, 2025-01-02, 2025-01-03 and more:"
+        )
+    )
+
+
 def test_volatility_flags_gaps_inside_a_daily_series() -> None:
     gaps = [1] * 20 + [6, 10] + [1] * 4
     v = volatility(dated(D0, gaps))
@@ -749,3 +801,39 @@ def test_correlation_pairs_returns_over_the_same_interval_in_both_series() -> No
     )
     naive = correlation([(days(i), x) for i, (_, x) in enumerate(a[: len(b)])], b, min_returns=5)
     assert naive.value != both.value  # pairing by position instead of by date gives a different, wrong number
+
+
+# ---- one precision for every calculation path ------------------------------------------------------------------
+
+
+def test_results_do_not_depend_on_the_callers_decimal_context() -> None:
+    """Every multiply, divide and power runs at PRECISION digits, whatever precision the caller has set."""
+    pts = [
+        ValuePoint(D0, m("1000.123456789123456789"), D("1000.123456789123456789")),
+        ValuePoint(days(30), m("1100.987654321987654321"), D(0)),
+        ValuePoint(days(60), m("2310.111111111111111111"), D("1100")),
+    ]
+    txns = [
+        tx(1, TxnType.BUY, D0, "7", "33.33", fees="1"),
+        tx(2, TxnType.SELL, days(5), "3", "40"),
+    ]
+    third = m(1), m(3)
+
+    book = build_lots(txns, [])  # the ledger is outside this contract
+
+    def run() -> list[object]:
+        (p,) = positions_from_book(book, {1: asset()})
+        held = value_position(p, m("41.37"), None, None, D0)
+        return [
+            twr(pts).result.value,
+            absolute_return(*third).result.value,
+            cagr(m(3), m(7), D0, days(1000)).result.value,
+            (p.cost_orig, held.value_local.value, held.unrealised_pct.value),
+        ]
+
+    reference = run()
+    assert len(str(reference[1])) > 30  # 1/3 really was computed to many digits
+    with localcontext() as ctx:
+        for prec in (5, 12, 28, 80):
+            ctx.prec = prec
+            assert run() == reference, prec

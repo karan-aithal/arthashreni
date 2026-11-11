@@ -1,10 +1,11 @@
 """Pure calculation engine (Phase 4, F1): hand-computed expectations, status propagation, refusals."""
 
 from datetime import UTC, date, datetime, timedelta
-from decimal import Decimal
+from decimal import Decimal, localcontext
 
 import pytest
 
+from arthashreni.analytics import PRECISION
 from arthashreni.analytics.allocation import allocate, concentration, look_through, overlap
 from arthashreni.analytics.benchmarks import BENCHMARKS, benchmark_for
 from arthashreni.analytics.flows import cash_flows, has_internal_moves, paid_in
@@ -143,6 +144,13 @@ def test_ipo_block_and_refund_net_to_the_allotment_cost() -> None:
 # ---- valuation -----------------------------------------------------------------------------------------
 
 
+def div(a: int | str, b: int | str) -> Decimal:
+    """a / b at the engine's precision, the reference for exact expected values."""
+    with localcontext() as ctx:
+        ctx.prec = PRECISION
+        return D(a) / D(b)
+
+
 def _positions() -> tuple[list[Position], dict[int, AssetInfo]]:
     txns = [
         tx(1, TxnType.BUY, D0, "10", "100", fees="5", asset=1),
@@ -174,7 +182,7 @@ def test_value_position_inr_and_usd() -> None:
     alpha, beta = _positions()[0]
     a = value_position(alpha, m(110), None, None, date(2025, 6, 30))
     assert a.value_inr.value == D(660) and a.unrealised_inr.value == D(57)
-    assert a.unrealised_pct.value == D(57) / D(603) and a.fx is None and a.fx_rate_type is None
+    assert a.unrealised_pct.value == div(57, 603) and a.fx is None and a.fx_rate_type is None
     b = value_position(beta, m(60), m(85), "FBIL_REF", date(2025, 6, 30))
     assert b.value_local.value == D(120) and b.value_inr.value == D(10200)
     assert b.unrealised_inr.value == D(2200) and b.fx_rate_type == "FBIL_REF"

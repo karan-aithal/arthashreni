@@ -1,6 +1,6 @@
 uv run python scripts/verify.py
 All checks passed!
-151 files already formatted
+152 files already formatted
 Success: no issues found in 78 source files
 no float in money packages
 
@@ -18,7 +18,7 @@ no float in money packages
 Contracts
 ---------
 
-Analyzed 115 files, 466 dependencies.
+Analyzed 116 files, 468 dependencies.
 -------------------------------------
 
 core imports nothing else from arthashreni and no web framework KEPT
@@ -37,9 +37,9 @@ gate check ok
 ........................................................................ [ 19%]
 ........................................................................ [ 39%]
 ........................................................................ [ 59%]
-........................................................................ [ 79%]
-........................................................................ [ 99%]
-.                                                                        [100%]
+........................................................................ [ 78%]
+........................................................................ [ 98%]
+.....                                                                    [100%]
 =============================== warnings summary ===============================
 .venv/lib/python3.12/site-packages/fastapi/testclient.py:1
   /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
@@ -89,23 +89,23 @@ src/arthashreni/jobs.py                          63      1      6      0    99% 
 src/arthashreni/ledger/repository.py             79      1     12      1    98%   180
 src/arthashreni/portfolio.py                    162      3     34      3    97%   118, 219, 284
 -----------------------------------------------------------------------------------------
-TOTAL                                          4128     98    998     46    97%
+TOTAL                                          4143     98   1000     46    97%
 
 52 files skipped due to complete coverage.
-361 passed, 11 warnings in 24.60s
+365 passed, 11 warnings in 24.20s
 Name                                      Stmts   Miss Branch BrPart  Cover
 ---------------------------------------------------------------------------
-src/arthashreni/analytics/__init__.py         1      0      0      0   100%
+src/arthashreni/analytics/__init__.py         2      0      0      0   100%
 src/arthashreni/analytics/allocation.py      90      0     26      0   100%
 src/arthashreni/analytics/benchmarks.py      11      0      0      0   100%
 src/arthashreni/analytics/flows.py           14      0      0      0   100%
 src/arthashreni/analytics/fx.py              38      0      0      0   100%
-src/arthashreni/analytics/returns.py         62      0     18      0   100%
-src/arthashreni/analytics/series.py         125      0     24      0   100%
-src/arthashreni/analytics/valuation.py      133      0     28      0   100%
+src/arthashreni/analytics/returns.py         69      0     20      0   100%
+src/arthashreni/analytics/series.py         127      0     24      0   100%
+src/arthashreni/analytics/valuation.py      135      0     28      0   100%
 src/arthashreni/analytics/xirr.py           118      2     56      3    97%
 ---------------------------------------------------------------------------
-TOTAL                                       592      2    152      3    99%
+TOTAL                                       604      2    154      3    99%
 ...................                                                      [100%]
 =============================== warnings summary ===============================
 .venv/lib/python3.12/site-packages/fastapi/testclient.py:1
@@ -113,10 +113,10 @@ TOTAL                                       592      2    152      3    99%
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-19 passed, 342 deselected, 1 warning in 43.83s
+19 passed, 346 deselected, 1 warning in 43.49s
 expected.json matches the independent derivation
 ......                                                                   [100%]
-6 passed in 1.37s
+6 passed in 1.29s
 ok   ten percent in a year: ours=0.1000000000, pyxirr=0.1000000000, libreoffice=0.1000000000
 ok   two contributions: ours=0.1184354980, pyxirr=0.1184354980, libreoffice=0.1184354980
 ok   twelve monthly SIPs with a gain: ours=0.2194626391, pyxirr=0.2194626391, libreoffice=0.2194626391
@@ -150,12 +150,12 @@ tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rat
     warnings.warn(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-11 passed, 9 warnings in 2.89s
+11 passed, 9 warnings in 2.96s
 No known vulnerabilities found
 Name        Skip Reason
 ----------- -------------------------------
 arthashreni distribution marked as editable
-mutation analytics: 128/1786 not killed = 7.2% (limit 10%) ok  [killed 1658, survived 121, timeout 7]
+mutation analytics: 128/1801 not killed = 7.1% (limit 10%) ok  [killed 1673, survived 121, timeout 7]
 mutation ledger: 19/411 not killed = 4.6% (limit 10%) ok  [killed 392, survived 19]
 mutation policy: no mutants (package absent or not mutated)
 -- ruff check: ok [0.0s]
@@ -165,16 +165,16 @@ mutation policy: no mutants (package absent or not mutated)
 -- import contracts: ok [0.1s]
 -- gate check: ok [0.1s]
 -- secret scan: ok [0.5s]
--- tests: ok [25.5s]
+-- tests: ok [25.1s]
 -- branch coverage >= 95% (ledger, dq, analytics, policy, risk): ok [0.1s]
--- property tests (1000 examples): ok [44.6s]
+-- property tests (1000 examples): ok [44.2s]
 -- golden values reproducible: ok [0.0s]
 -- golden fixtures: ok [1.8s]
--- XIRR oracle (ours vs pyxirr vs LibreOffice): ok [1.5s]
+-- XIRR oracle (ours vs pyxirr vs LibreOffice): ok [1.2s]
 -- golden calculations reproducible: ok [0.0s]
--- golden calculations: ok [3.4s]
+-- golden calculations: ok [3.6s]
 -- tax-rule check: skipped (no targets yet)
--- dependency audit: ok [0.5s]
--- mutation: run mutants (analytics, ledger): ok [80.8s]
+-- dependency audit: ok [8.0s]
+-- mutation: run mutants (analytics, ledger): ok [11.6s]
 -- mutation: survivors < 10% (analytics, ledger, policy): ok [0.3s]
 verify: all steps passed

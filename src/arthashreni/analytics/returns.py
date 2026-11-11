@@ -61,6 +61,7 @@ class ValuePoint:
     day: date
     value: Measured[Decimal]
     flow: Decimal
+    complete: bool = True  # False when the value leaves out holdings that had no usable price
 
 
 def twr(points: Sequence[ValuePoint]) -> ReturnMeasure:
@@ -68,6 +69,10 @@ def twr(points: Sequence[ValuePoint]) -> ReturnMeasure:
 
     Sub-period (t-1, t]: (value_t - flow_t) / value_(t-1). A sub-period that starts from zero value is
     skipped (there is nothing to measure yet). Result is cumulative, not annualised.
+
+    Partial valuations are refused, not estimated: if any valuation date left out a holding (no usable price),
+    the chain would read the missing holding as a loss on that date and as a gain on the next one where it is
+    priced, and the error compounds. The result is `missing` and names the dates.
     """
     measure = "TWR"
     why = "chain-linked sub-period returns; removes the effect of when money was added or taken out"
@@ -85,13 +90,23 @@ def twr(points: Sequence[ValuePoint]) -> ReturnMeasure:
 
     if any(p.value.value is None for p in pts):
         return fail("a valuation date has no value")
+    partial = [p.day.isoformat() for p in pts if not p.complete]
+    if partial:
+        return fail(
+            f"valuation left out holdings with no price on {', '.join(partial[:3])}"
+            f"{' and more' if len(partial) > 3 else ''}: chain-linking over a partial value would count "
+            "the gap as a loss or a gain"
+        )
     growth, periods = ONE, 0
-    for prev, cur in itertools.pairwise(pts):
-        assert prev.value.value is not None and cur.value.value is not None
-        if prev.value.value <= 0:
-            continue
-        growth *= (cur.value.value - cur.flow) / prev.value.value
-        periods += 1
+    with localcontext() as ctx:
+        ctx.prec = PRECISION
+        for prev, cur in itertools.pairwise(pts):
+            assert prev.value.value is not None and cur.value.value is not None
+            if prev.value.value <= 0:
+                continue
+            growth *= (cur.value.value - cur.flow) / prev.value.value
+            periods += 1
+        total = growth - 1
     if periods == 0:
         return fail("the portfolio had no value at the start of any sub-period")
-    return ReturnMeasure(measure, why, Measured(growth - 1, status, as_of, sources, notes))
+    return ReturnMeasure(measure, why, Measured(total, status, as_of, sources, notes))

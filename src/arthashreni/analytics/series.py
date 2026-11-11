@@ -13,6 +13,7 @@ every pair of returns covers the same interval in both series, whatever each ser
 """
 
 import itertools
+import statistics
 from collections.abc import Sequence
 from dataclasses import dataclass, replace
 from datetime import date
@@ -86,15 +87,16 @@ def volatility(series: Series, min_returns: int = MIN_RETURNS) -> Measured[Decim
             day_stamp(c.days[-1]) if c.days else None,
             f"volatility needs {min_returns} returns, have {max(len(c.px) - 1, 0)}",
         )
-    gaps = sorted((b - a).days for a, b in itertools.pairwise(c.days))
-    if gaps[len(gaps) // 2] > MAX_DAILY_GAP_DAYS:
+    gaps = [(b - a).days for a, b in itertools.pairwise(c.days)]
+    median_gap = statistics.median(gaps)  # the true median: the mean of the middle pair for an even count
+    if median_gap > MAX_DAILY_GAP_DAYS:
         return Measured(
             None,
             QualityStatus.MISSING,
             day_stamp(c.days[-1]),
             c.sources,
             (
-                f"not a daily series (median gap {gaps[len(gaps) // 2]} days): "
+                f"not a daily series (median gap {median_gap:g} days): "
                 "annualising with 252 periods a year would be wrong",
             ),
         )

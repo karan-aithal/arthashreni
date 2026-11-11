@@ -2,12 +2,13 @@
 (database, price lookups, flows, chain-linking), checked against numbers worked out by hand."""
 
 from datetime import date
-from decimal import Decimal
+from decimal import Decimal, localcontext
 from pathlib import Path
 
 import pytest
 import pyxirr
 
+from arthashreni.analytics import PRECISION
 from arthashreni.db.session import session_scope
 from arthashreni.dq.measured import QualityStatus
 from arthashreni.ingestion.sources.contract import Window
@@ -62,7 +63,9 @@ def test_twr_xirr_and_absolute_return_by_hand(world: None) -> None:
     # sub-period 1: (2200 - 1100) / 1000 = 1.10 ; sub-period 2: 2420 / 2200 = 1.10 ; TWR = 21%
     assert twr_m.result.value == D("0.21") and twr_m.result.status is QualityStatus.OK
     assert r.totals.value_inr.value == D(2420) and r.invested_inr.value == D(2100)
-    assert abs_m.result.value == D(320) / D(2100)  # gain 320 on 2100 paid in
+    with localcontext() as ctx:
+        ctx.prec = PRECISION
+        assert abs_m.result.value == D(320) / D(2100)  # gain 320 on 2100 paid in
     flows = [(date(2025, 1, 2), -1000.0), (date(2025, 2, 3), -1100.0), (date(2025, 3, 3), 2420.0)]
     expected = pyxirr.xirr([d for d, _ in flows], [a for _, a in flows])
     assert xirr_m.result.value is not None and float(xirr_m.result.value) == pytest.approx(expected, abs=1e-9)
