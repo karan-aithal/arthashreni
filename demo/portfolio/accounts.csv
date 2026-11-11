@@ -1,0 +1,4 @@
+label,platform,account_kind,currency,folio_or_ref_masked
+COIN-DEMO,ZERODHA_COIN,MF_FOLIO,INR,****0001
+KITE-DEMO,ZERODHA_KITE,BROKER,INR,****0002
+INDMONEY-DEMO,INDMONEY,BROKER,USD,****0003

@@ -22,7 +22,10 @@ COVERAGE_PACKAGES = ["ledger", "dq", "analytics", "policy", "risk"]
 ENV = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
 
 
-def steps(fast: bool) -> list[tuple[str, list[str] | None]]:
+Step = tuple[str, list[str] | None, dict[str, str]]
+
+
+def steps(fast: bool) -> list[Step]:
     cov_pkgs = [p for p in COVERAGE_PACKAGES if (PKG / p).is_dir()]
     pytest = [
         "pytest",
@@ -32,14 +35,15 @@ def steps(fast: bool) -> list[tuple[str, list[str] | None]]:
         "--cov-branch",
         "--cov-report=term-missing:skip-covered",
     ]
-    s: list[tuple[str, list[str] | None]] = [
-        ("ruff check", ["ruff", "check", "."]),
-        ("ruff format", ["ruff", "format", "--check", "."]),
-        ("mypy --strict", ["mypy", "--strict", "src", "scripts"]),
-        ("import contracts", ["lint-imports"]),
-        ("gate check", [sys.executable, "scripts/check_gates.py"]),
-        ("secret scan", [sys.executable, "scripts/secret_scan.py"]),
-        ("tests", pytest),
+    s: list[Step] = [
+        ("ruff check", ["ruff", "check", "."], {}),
+        ("ruff format", ["ruff", "format", "--check", "."], {}),
+        ("mypy --strict", ["mypy", "--strict", "src", "scripts"], {}),
+        ("no float in money packages", [sys.executable, "scripts/check_no_float.py"], {}),
+        ("import contracts", ["lint-imports"], {}),
+        ("gate check", [sys.executable, "scripts/check_gates.py"], {}),
+        ("secret scan", [sys.executable, "scripts/secret_scan.py"], {}),
+        ("tests", pytest, {}),
     ]
     if fast:
         return s
@@ -49,18 +53,30 @@ def steps(fast: bool) -> list[tuple[str, list[str] | None]]:
             ["coverage", "report", "--fail-under=95", *[f"--include=src/arthashreni/{p}/*" for p in cov_pkgs]]
             if cov_pkgs
             else None,
+            {},
         ),
-        ("property tests", None),  # Phase 2
-        ("golden fixtures", None),  # Phase 2 / 4
-        ("XIRR oracle", None),  # Phase 4
-        ("mutation testing", None),  # Phase 4
+        # Same property tests as above, re-run with the `ci` profile (1,000 examples each).
+        (
+            "property tests (1000 examples)",
+            ["pytest", "-q", "-m", "property", "--no-cov", "--allow-hosts=127.0.0.1,::1"],
+            {"HYPOTHESIS_PROFILE": "ci"},
+        ),
+        ("golden values reproducible", [sys.executable, "tests/golden/derive_expected.py", "--check"], {}),
+        (
+            "golden fixtures",
+            ["pytest", "-q", "--no-cov", "--allow-hosts=127.0.0.1,::1", "tests/test_golden.py"],
+            {},
+        ),
+        ("XIRR oracle", None, {}),  # Phase 4
+        ("mutation testing", None, {}),  # Phase 4
         (
             "tax-rule check",
             [sys.executable, "scripts/check_tax_rules.py"]
             if (ROOT / "config" / "tax_rules.yaml").exists()
             else None,
+            {},
         ),
-        ("dependency audit", ["pip-audit", "--progress-spinner=off", "--skip-editable"]),
+        ("dependency audit", ["pip-audit", "--progress-spinner=off", "--skip-editable"], {}),
     ]
     return s
 
@@ -71,12 +87,12 @@ def main() -> int:
     ap.add_argument("--keep-going", action="store_true")
     args = ap.parse_args()
     failed: list[str] = []
-    for name, cmd in steps(args.fast):
+    for name, cmd, extra_env in steps(args.fast):
         if cmd is None:
             print(f"-- {name}: skipped (no targets yet)")
             continue
         t0 = time.monotonic()
-        rc = subprocess.run(cmd, cwd=ROOT, env=ENV, check=False).returncode
+        rc = subprocess.run(cmd, cwd=ROOT, env={**ENV, **extra_env}, check=False).returncode
         status = "ok" if rc == 0 else f"FAILED (exit {rc})"
         print(f"-- {name}: {status} [{time.monotonic() - t0:.1f}s]")
         if rc != 0:

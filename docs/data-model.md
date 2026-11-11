@@ -22,12 +22,11 @@ Schemas: `ref` (shared, non-personal), `demo` and `real` (identical personal + m
 ## 1. Reference (`ref`)
 
 **assets** — one row per instrument.
-`id, asset_class (EQUITY_IN, EQUITY_US, MF, ETF_IN, ETF_US, GOLD_ETF, SILVER_ETF, SGB, DIGITAL_GOLD, CASH), name, isin NULL, amfi_code NULL, ticker NULL, exchange_mic NULL (XNYS, XNAS, XBOM, XNSE), currency, country, mf_plan (DIRECT, REGULAR) NULL, mf_option (GROWTH, IDCW) NULL, fund_house NULL, sector NULL, market_cap_bucket NULL, is_sme BOOLEAN DEFAULT false, regulated BOOLEAN, maturity_date DATE NULL, coupon_rate NUMERIC(12,8) NULL, coupon_frequency_months INT NULL, created_at`.
+`id, asset_class (EQUITY_IN, EQUITY_US, MF, ETF_IN, ETF_US, GOLD_ETF, SILVER_ETF, SGB, DIGITAL_GOLD, CASH), name, isin NULL, amfi_code NULL, ticker NULL, exchange_mic NULL (XNYS, XNAS, XBOM, XNSE), currency, country, mf_plan (DIRECT, REGULAR) NULL, mf_option (GROWTH, IDCW) NULL, fund_house NULL, sector NULL, market_cap_bucket NULL, is_sme BOOLEAN DEFAULT false (always false: SME assets are refused), is_demo BOOLEAN NOT NULL (DEMO sees only DEMO assets), regulated BOOLEAN, maturity_date DATE NULL, coupon_rate NUMERIC(12,8) NULL, coupon_frequency_months INT NULL, created_at`.
 SME assets (`is_sme = true`) are outside the investment universe: policy never allocates to them and IPO eligibility is always false (ADR-0021). SGB rows use the maturity/coupon fields (ADR-0020).
 Unique: `isin`, `amfi_code`, `(ticker, exchange_mic)` where not null.
 
-**asset_identifier_map** — AMFI ↔ ISIN ↔ ticker history.
-`asset_id, id_type, id_value, valid_from, valid_to, source_id`.
+**asset_identifier_map** — deferred. `ref.assets` carries `isin`, `amfi_code`, `ticker` + `exchange_mic` (each unique). A history table is added when an identifier actually changes.
 
 **data_source_registry** — D2.
 `id TEXT PK, name, provider (who serves the data, e.g. `frankfurter`), underlying_series (whose data it is, e.g. `FBIL`), data_category, adapter, auth_type, free_tier, rate_limit, historical_coverage, expected_delay INTERVAL, terms_url, storage_permitted, redistribution_permitted, priority INT, enabled BOOLEAN, last_success_at, last_failure_at, notes`.
@@ -43,27 +42,29 @@ Unique: `isin`, `amfi_code`, `(ticker, exchange_mic)` where not null.
 
 ## 2. Accounts and ledger
 
-**accounts** — `id, platform (INDMONEY, ZERODHA_COIN, ZERODHA_KITE, CAMS, KFINTECH, OTHER), account_kind (BROKER, MF_FOLIO, DEMAT, BANK, RESERVE), label, folio_or_ref_masked, currency, opened_on, closed_on NULL`.
+**accounts** — `id, platform (INDMONEY, ZERODHA_COIN, ZERODHA_KITE, CAMS, KFINTECH, OTHER), account_kind (BROKER, MF_FOLIO, DEMAT, BANK, RESERVE), label (unique), folio_or_ref_masked, currency, opened_on, closed_on NULL`.
 Real identifiers are stored masked except the last 4 characters (security model).
 
-**import_batches** — `id, source_kind (CAS_CAMS, CAS_KFIN, CAS_NSDL, CAS_CDSL, ZERODHA_CONSOLE, INDMONEY, CSV_TEMPLATE, MANUAL), file_name, file_sha256 UNIQUE, received_at, status (PREVIEW, COMMITTED, REJECTED), approved_at NULL, statement_period_start, statement_period_end`.
+**import_batches** — `id, source_kind (CAS_CAMS, CAS_KFIN, CAS_NSDL, CAS_CDSL, ZERODHA_CONSOLE, INDMONEY, CSV_TEMPLATE, CSV_CORPORATE_ACTIONS, CSV_HOLDINGS, MANUAL), file_name, file_sha256, received_at, status (PREVIEW, COMMITTED, REJECTED), approved_at NULL, statement_period_start, statement_period_end, summary JSONB (counts, blocking problems, warnings, commit outcome)`. Unique `file_sha256` among batches that are not REJECTED, so a rejected file can be imported again. The app role may update only `status`, `approved_at` and `summary`.
 
-**transaction_imports_raw** (append-only) — `id, batch_id, row_no, raw JSONB, fingerprint TEXT, parse_status (NEW, DUPLICATE, AMBIGUOUS, REJECTED), reject_reason NULL`.
+**transaction_imports_raw** (append-only) — `id, batch_id, row_no, item_kind (TRANSACTION, CORPORATE_ACTION, STATEMENT_HOLDING), raw JSONB (the source row as read), candidate JSONB (the validated normalised row), fingerprint, parse_status (NEW, DUPLICATE, AMBIGUOUS, REJECTED), reject_reason NULL`. Unique `(batch_id, row_no)`.
 
 **transactions** (append-only) — C1.
 `id, asset_id NULL (NULL only for pure cash types), account_id, txn_type, trade_date, settlement_date NULL, price_date NULL, quantity NUMERIC NULL, price NUMERIC NULL, currency, fx_rate NULL, fx_rate_type (SBI_TT_BUY, FBIL_REF, BROKER_ACTUAL) NULL, fees, taxes, stamp_duty, net_cash_inr, net_cash_orig, source_document, import_batch_id NULL, raw_record_id NULL, verification_status (UNVERIFIED, STATEMENT_MATCHED, MANUAL_CONFIRMED), supersedes_id NULL REFERENCES transactions(id), correction_reason NULL, fingerprint TEXT UNIQUE, recorded_at, source_tz`.
-`txn_type` ∈ C1 list plus `INTEREST` (SGB coupons, ADR-0020). `CHECK (txn_type <> 'CORRECTION' OR (supersedes_id IS NOT NULL AND correction_reason IS NOT NULL))`. `CHECK (fx_rate IS NULL OR fx_rate > 0)`. `CHECK (fx_rate IS NULL OR fx_rate_type IS NOT NULL)`.
+`txn_type` ∈ C1 list plus `INTEREST` (SGB coupons, ADR-0020). Extra column `corrected_type` (the real type of a correction row). `CHECK` correction shape: CORRECTION rows have `supersedes_id`, `correction_reason` and `corrected_type`; other rows have none of them. `supersedes_id < id`; unique partial index on `supersedes_id` (one correction per row). `quantity, price, fees, taxes, stamp_duty >= 0`. Sign convention of net cash: ADR-0022. `CHECK (fx_rate IS NULL OR fx_rate > 0)`. `CHECK (fx_rate IS NULL OR fx_rate_type IS NOT NULL)`.
 
-**transactions_effective** (view) — latest non-superseded version of each logical transaction. A CORRECTION row carries the corrected values in full; a correction with `quantity = 0` and `net_cash = 0` acts as a void. Reports read this view; audit reads the table.
+**transactions_effective** (view) — latest non-superseded version of each logical transaction. Exposes `effective_type` (`corrected_type` for corrections). A CORRECTION row carries the corrected values in full; a correction with zero quantity and zero cash is a void and drops out. Reports read this view; the audit view is the table itself (`load_audit`). The Python `resolve_effective` mirrors the view and a test asserts they agree.
 
-**corporate_actions** (append-only) — `id, asset_id, action_type (SPLIT, BONUS, MERGER, DEMERGER, NAME_CHANGE), ex_date, ratio_from, ratio_to, successor_asset_id NULL, source_document, recorded_at`.
+**corporate_actions** (append-only) — `id, asset_id, action_type (SPLIT, BONUS, MERGER, NAME_CHANGE), ex_date, ratio_from, ratio_to, successor_asset_id NULL (required for MERGER only), source_document, import_batch_id, fingerprint UNIQUE, recorded_at`. Ratio meaning: SPLIT/MERGER each unit becomes `ratio_to / ratio_from` units; BONUS gives `ratio_to` free units for every `ratio_from` held (ADR-0022).
+
+**statement_holdings** (append-only) — what a statement says is held: `id, import_batch_id, account_id, asset_id, as_of, units, source_document, fingerprint UNIQUE, recorded_at`. Comes from CAS closing balances, depository CAS, Console holdings or the holdings CSV.
 
 **lots** — derived, rebuildable from the ledger at any time (never the source of truth).
-`id, transaction_id, asset_id, account_id, acquired_on, original_qty, cost_inr, cost_orig, fx_rate_type, adjusted_by_ca_id NULL`.
+`id, transaction_id NULL, corporate_action_id NULL (exactly one of the two is set; bonus lots have no transaction), adjusted_by_ca_id NULL, asset_id, account_id, acquired_on, original_qty (units when bought), remaining_qty (current units after splits, mergers and disposals), cost_inr, cost_orig, remaining_cost_inr, fx_rate_type, is_bonus`.
 
-**lot_consumptions** — derived. `id, lot_id, disposal_transaction_id, qty, cost_inr_consumed, proceeds_inr, holding_days`. FIFO by `(acquired_on, transaction_id)` (ADR-0006).
+**lot_consumptions** — derived. `id, lot_id, disposal_transaction_id, qty (units at the time of sale), cost_inr_consumed, proceeds_inr, holding_days`. FIFO by creation order, which is `(acquired_on, row id)` (ADR-0006).
 
-**reconciliations** — `id, batch_id, run_at, asset_id, account_id, ledger_units, statement_units, diff, status (MATCHED, UNEXPLAINED, ACCEPTED), accepted_reason NULL`. Any `UNEXPLAINED` row blocks the monthly review.
+**reconciliations** — one row per statement holding: `id, statement_holding_id UNIQUE, run_at, ledger_units, statement_units, diff, status (MATCHED, UNEXPLAINED, ACCEPTED), accepted_reason NULL, accepted_diff NULL`. Any `UNEXPLAINED` row on the latest statement of an (account, asset) blocks the monthly review. The app role may update the result columns.
 
 ## 3. Market data (bitemporal, append-only)
 

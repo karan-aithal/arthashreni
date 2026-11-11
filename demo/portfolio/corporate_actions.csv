@@ -1,0 +1,4 @@
+asset_ref,action_type,ex_date,ratio_from,ratio_to,successor_ref
+TICKER:XNSE:DSTK,SPLIT,2025-02-14,1,5,
+TICKER:XNSE:DSTK,BONUS,2025-05-20,1,1,
+TICKER:XNSE:DOLD,MERGER,2025-04-01,1,2,TICKER:XNSE:DNEW

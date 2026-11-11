@@ -6,7 +6,9 @@ requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.20.1",
     "argon2-cffi>=25.1.0",
+    "casparser>=1.4.1",
     "fastapi>=0.162.4",
+    "openpyxl>=3.1.5",
     "psycopg[binary]>=3.3.8",
     "pydantic>=2.14.3",
     "pydantic-settings>=2.16.2",
@@ -30,6 +32,7 @@ packages = ["src/arthashreni"]
 dev = [
     "detect-secrets>=1.5.0",
     "httpx>=0.28.1",
+    "hypothesis>=6.170.15",
     "import-linter>=2.16",
     "mypy>=2.4.1",
     "pip-audit>=2.10.1",
@@ -37,6 +40,7 @@ dev = [
     "pytest-cov>=7.1.0",
     "pytest-socket>=0.8.1",
     "ruff>=0.17.4",
+    "types-openpyxl>=3.1.5.20261017",
 ]
 
 [tool.ruff]
@@ -49,7 +53,8 @@ select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
 ignore = ["S101", "S603", "S607"]  # asserts in tests; subprocess calls use fixed argv lists
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S105", "S106"]
+"tests/**" = ["S105", "S106", "E501"]
+"migrations/**" = ["SIM905", "E501", "S608"]  # SQL assembled from fixed constants
 
 [tool.mypy]
 python_version = "3.12"
@@ -58,12 +63,13 @@ plugins = ["pydantic.mypy"]
 mypy_path = "src"
 
 [[tool.mypy.overrides]]
-module = ["pyrage", "pyrage.*"]
+module = ["pyrage", "pyrage.*", "casparser", "casparser.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--disable-socket"
+markers = ["property: hypothesis property tests (re-run with 1000 examples by make verify)"]
 
 [tool.coverage.run]
 source = ["arthashreni"]
@@ -84,4 +90,16 @@ forbidden_modules = ["arthashreni.db", "arthashreni.api", "arthashreni.cli", "ar
 name = "db does not import api, cli or web frameworks"
 type = "forbidden"
 source_modules = ["arthashreni.db"]
+forbidden_modules = ["arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
+
+[[tool.importlinter.contracts]]
+name = "ledger is pure: no ingestion, api, cli or web frameworks (add ai/research when they exist)"
+type = "forbidden"
+source_modules = ["arthashreni.ledger"]
+forbidden_modules = ["arthashreni.ingestion", "arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
+
+[[tool.importlinter.contracts]]
+name = "ingestion does not reach api, cli or web frameworks (add policy/risk/ai when they exist)"
+type = "forbidden"
+source_modules = ["arthashreni.ingestion"]
 forbidden_modules = ["arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
