@@ -50,7 +50,8 @@ Single Python distribution `arthashreni`, source in `src/arthashreni/`. Each sub
 | `ledger` | assets, accounts, transactions, corrections, lots, FIFO, reconciliation | `core`, `db` | `ai`, `research`, `ingestion.social`, web frameworks | 2 |
 | `ingestion` | adapters (`fetch`/`parse`), importers (CAS, Console, INDmoney, CSV), inbox watcher | `core`, `db`, `dq` | `policy`, `risk`, `ai` | 2, 3 |
 | `dq` | E3 checks, quarantine queue, confidence calculation | `core`, `db` | `ai`, `research`, `ingestion.social`, web frameworks | 3 |
-| `analytics` | F1 calculations, all pure functions returning `Measured` | `core`, `db` (as_of only) | `ai`, `research`, `ingestion`, web frameworks | 4 |
+| `analytics` | F1 calculations, all pure functions returning `Measured` | `core`, `dq.measured`, `ledger` types | `db`, `ai`, `research`, `ingestion`, `api`, `cli`, sqlalchemy, web frameworks | 4 |
+| `portfolio` (module) | loads ledger, prices and FX for one dataset and calls `analytics` (`build_report`); used by `api` and `cli` | `analytics`, `db`, `ledger` | — | 4 |
 | `risk` | F2 signals, levels, scenarios, alerts | `core`, `db`, `analytics` | `ai`, `research`, `ingestion.social`, web frameworks | 5 |
 | `policy` | budget envelope, reserves, IPS, personal context, decision engine | `core`, `db`, `analytics`, `risk` | `ai`, `research`, `ingestion.social`, web frameworks | 5 |
 | `reports` | template-based monthly report (Markdown/PDF) | `core`, `policy`, `risk`, `analytics` | `ai` | 5 |

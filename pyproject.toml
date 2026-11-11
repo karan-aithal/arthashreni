@@ -37,11 +37,13 @@ dev = [
     "httpx>=0.28.1",
     "hypothesis>=6.170.15",
     "import-linter>=2.16",
+    "mutmut>=3.8.1",
     "mypy>=2.4.1",
     "pip-audit>=2.10.1",
     "pytest>=9.2.0",
     "pytest-cov>=7.1.0",
     "pytest-socket>=0.8.1",
+    "pyxirr>=0.10.8",
     "ruff>=0.17.4",
     "types-openpyxl>=3.1.5.20261017",
 ]
@@ -115,3 +117,27 @@ type = "forbidden"
 source_modules = ["arthashreni.dq"]
 forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
                      "fastapi", "starlette"]
+
+[[tool.importlinter.contracts]]
+name = "analytics is pure: no db, ingestion, api, cli, sqlalchemy or web frameworks (add ai/research when they exist)"
+type = "forbidden"
+source_modules = ["arthashreni.analytics"]
+forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
+                     "arthashreni.portfolio", "sqlalchemy", "fastapi", "starlette", "flask"]
+
+[tool.mutmut]
+source_paths = ["src/arthashreni/"]
+do_not_mutate = [
+    "src/arthashreni/api/*", "src/arthashreni/core/*", "src/arthashreni/db/*", "src/arthashreni/dq/*",
+    "src/arthashreni/ingestion/*", "src/arthashreni/cli.py", "src/arthashreni/backup.py",
+    "src/arthashreni/demo.py", "src/arthashreni/demo_market.py", "src/arthashreni/jobs.py",
+    "src/arthashreni/portfolio.py", "src/arthashreni/__init__.py",
+    "src/arthashreni/ledger/assets.py", "src/arthashreni/ledger/reconciliation.py",
+    "src/arthashreni/ledger/repository.py", "src/arthashreni/ledger/models.py",
+]
+also_copy = ["tests/", "demo/", "config/", "alembic.ini", "migrations/", "docs/", "scripts/"]
+pytest_add_cli_args = ["-p", "no:cacheprovider", "--no-cov", "--allow-hosts=127.0.0.1,::1"]
+pytest_add_cli_args_test_selection = [
+    "tests/test_analytics.py", "tests/test_analytics_exact.py", "tests/test_analytics_properties.py",
+    "tests/test_xirr.py", "tests/test_lots.py", "tests/test_ledger_exact.py", "tests/test_ledger_properties.py",
+]

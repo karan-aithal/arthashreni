@@ -135,6 +135,21 @@ Capturing real fixtures (after consent, key and User-Agent are set): run `market
 A source that is down shows `failing`; stale data is labelled `stale` with both dates; the rest keeps working. AMFI history
 is not available from its daily file: use the CAS or a manual CSV. The FBIL mirror lags about a week, so expect `stale` there.
 
+## Portfolio calculations (Phase 4)
+
+```bash
+uv run arthashreni demo seed && uv run arthashreni demo market      # DEMO ledger and prices (no network)
+uv run arthashreni portfolio summary [--date 2026-11-10]            # holdings, P&L, income and costs, XIRR / TWR / absolute return, FX attribution
+uv run arthashreni portfolio allocation [--date ...]                # weights by class, country, currency, sector, market cap; top-3, HHI; look-through
+uv run arthashreni portfolio risk-stats [--date ...]                # volatility, drawdown, correlations, benchmark comparison (last 365 days)
+```
+
+API (login required): `GET /portfolio?as_of=YYYY-MM-DD` returns the same, every number as `{value, status, as_of, sources, notes}`.
+
+How to read it: `stale` = newer data was expected and is missing; `estimated` = computed from a partial or approximate input (a holding without a price, a switch without cash, a rate taken from the SBI archive); `missing` = cannot be computed, with the reason beside it. TWR needs a price on every flow date, so it is `missing` for DEMO. A benchmark comparison needs the index registered as an asset (class `ETF_IN`, ticker `NIFTY50TRI`, `SP500TR`, `GOLDINR` or `SILVERINR`, never held) with levels imported by `market import-prices`. Tax is never shown: "tax unavailable" until verified rules exist.
+
+Checks: `uv run python scripts/xirr_oracle.py` (our XIRR vs pyxirr vs LibreOffice), `uv run python tests/golden/derive_calcs.py --check`, `uv run mutmut run` then `uv run python scripts/mutation_gate.py`.
+
 ## Datasets
 
 `ARTHA_DATASET=demo` (default) or `real`. `real` is refused until `docs/gates/phase-4.approved` exists.

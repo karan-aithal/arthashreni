@@ -4,7 +4,7 @@ import getpass
 import logging
 from datetime import date
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 import typer
 from sqlalchemy import create_engine, text
@@ -27,10 +27,12 @@ demo_app = typer.Typer(no_args_is_help=True, help="DEMO dataset.")
 market_app = typer.Typer(no_args_is_help=True, help="Market data: sources, ingest, prices, FX (Phase 3).")
 quarantine_app = typer.Typer(no_args_is_help=True, help="Data-quality review queue (E3).")
 scheduler_app = typer.Typer(no_args_is_help=True, help="Scheduled jobs (G3).")
+portfolio_app = typer.Typer(no_args_is_help=True, help="Portfolio calculations (Phase 4, F1).")
 for _name, _sub in (
     ("user", user_app), ("backup", backup_app), ("account", account_app), ("asset", asset_app),
     ("import", import_app), ("ledger", ledger_app), ("reconcile", reconcile_app), ("demo", demo_app),
     ("market", market_app), ("quarantine", quarantine_app), ("scheduler", scheduler_app),
+    ("portfolio", portfolio_app),
 ):  # fmt: skip
     app.add_typer(_sub, name=_name)
 
@@ -650,3 +652,95 @@ def scheduler_run() -> None:
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     stop.wait()
     sched.shutdown()
+
+
+# ---- portfolio (Phase 4) -----------------------------------------------------------------------
+
+
+def _fmt(m: Any, pct: bool = False) -> str:
+    """One number with its status and as-of, never bare (E2)."""
+    if m.value is None:
+        body = "missing"
+    elif pct:
+        body = f"{m.value * 100:,.2f}%"
+    else:
+        body = f"{m.value:,.2f}"
+    note = f"  ({'; '.join(m.notes[:2])})" if m.notes else ""
+    return f"{body:>16}  [{m.status.value}] as of {m.as_of.date()}{note}"
+
+
+def _report(on: str | None) -> Any:
+    from arthashreni.portfolio import build_report
+
+    with session_scope() as db:
+        return build_report(db, get_settings().dataset, date.fromisoformat(on) if on else date.today())
+
+
+@portfolio_app.command("summary")
+def portfolio_summary(on: Annotated[str | None, typer.Option("--date")] = None) -> None:
+    """Holdings, totals, P&L, income and costs, returns and FX attribution on a date."""
+    r = _report(on)
+    typer.echo(f"{r.dataset.upper()} portfolio on {r.as_of} (FX rate type: {r.fx_rate_type or 'not needed'})")
+    typer.echo("Holdings (INR):")
+    for h in r.holdings:
+        typer.echo(f"  {h.position.asset.name[:34]:<34}{_fmt(h.value_inr)}   P&L{_fmt(h.unrealised_inr)}")
+    t = r.totals
+    typer.echo(f"Market value{_fmt(t.value_inr)}")
+    typer.echo(f"Cost basis of holdings{_fmt(t.cost_inr)}")
+    typer.echo(f"Unrealised P&L{_fmt(t.unrealised_inr)}")
+    typer.echo(f"Money paid in{_fmt(r.invested_inr)}")
+    typer.echo(f"Realised P&L (FIFO, before tax){_fmt(r.realised.gain_inr)}")
+    for name, m in (("Dividends", r.income.dividends_inr), ("Interest", r.income.interest_inr),
+                    ("Reinvested dividends", r.income.reinvested_dividends_inr), ("Fees", r.income.fees_inr),
+                    ("Taxes", r.income.taxes_inr), ("Stamp duty", r.income.stamp_duty_inr)):  # fmt: skip
+        typer.echo(f"{name}{_fmt(m)}")
+    typer.echo("Returns:")
+    for x in r.returns:
+        typer.echo(f"  {x.measure:<16}{_fmt(x.result, pct=True)}\n      why: {x.why}")
+    for a in r.asset_returns:
+        typer.echo(f"  XIRR {a.asset[:30]:<30}{_fmt(a.xirr.result, pct=True)}")
+    for f in r.fx_attribution:
+        x = f.attribution
+        typer.echo(
+            f"FX attribution {f.asset} (valuation rate {x.valuation_rate_type}):\n"
+            f"    INR return{_fmt(x.inr_return, pct=True)}\n"
+            f"    local{_fmt(x.local_return, pct=True)}\n    fx{_fmt(x.fx_return, pct=True)}\n"
+            f"    interaction{_fmt(x.interaction, pct=True)}   reconciles: {x.reconciles}"
+        )
+
+
+@portfolio_app.command("allocation")
+def portfolio_allocation(on: Annotated[str | None, typer.Option("--date")] = None) -> None:
+    """Weights by asset class, country, currency, sector and market cap; concentration; look-through."""
+    r = _report(on)
+    for dim, slices in r.allocation.items():
+        typer.echo(f"By {dim}:")
+        for s in slices:
+            typer.echo(f"  {s.key[:30]:<30}{_fmt(s.weight, pct=True)}")
+    typer.echo(f"Top-{r.concentration.top_n} weight{_fmt(r.concentration.top_n_weight, pct=True)}")
+    typer.echo(f"HHI{_fmt(r.concentration.hhi)}")
+    typer.echo(f"Look-through: no holdings data for {', '.join(r.look_through.without_data) or 'none'}")
+
+
+@portfolio_app.command("risk-stats")
+def portfolio_risk_stats(on: Annotated[str | None, typer.Option("--date")] = None) -> None:
+    """Volatility, drawdown, correlations and benchmark comparison per holding (last 365 days)."""
+    r = _report(on)
+    for s in r.stats:
+        d = s.drawdown
+        typer.echo(
+            f"{s.asset.name[:34]}\n  volatility{_fmt(s.volatility, pct=True)}\n"
+            f"  max drawdown{_fmt(d.depth, pct=True)}"
+        )
+        if d.peak and d.trough:
+            back = (
+                f"recovered {d.recovered_on} ({d.recovery_days} days)" if d.recovered_on else "not recovered"
+            )
+            typer.echo(f"    {d.peak} peak, {d.trough} trough, {back}")
+    for p in r.correlations:
+        typer.echo(f"corr {p.a[:24]} / {p.b[:24]}{_fmt(p.correlation)}")
+    for b in r.benchmarks:
+        c = b.comparison
+        typer.echo(
+            f"{b.asset[:30]} vs {c.benchmark_id}: excess{_fmt(c.excess_return, pct=True)}  beta{_fmt(c.beta)}"
+        )

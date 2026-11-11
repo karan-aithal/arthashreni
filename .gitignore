@@ -35,3 +35,7 @@ Master Build Prompt*.md
 
 # PR descriptions (local drafts)
 pr/
+
+# mutmut working copy and its run log
+mutants/
+.mutmut-run.log

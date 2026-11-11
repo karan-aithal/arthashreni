@@ -160,21 +160,65 @@ def fx_as_of(
     return m
 
 
-def valuation_fx(db: Session, valid_at: date, known_at: datetime | None = None) -> Measured[Decimal]:
-    """ADR-0016 valuation rule: FBIL_REF, else the latest SBI TT buy marked `estimated`."""
+def valuation_fx_typed(
+    db: Session, valid_at: date, known_at: datetime | None = None
+) -> tuple[Measured[Decimal], FxRateType]:
+    """ADR-0016 valuation rule: FBIL_REF, else the latest SBI TT buy marked `estimated`; the rate type used
+    is returned so reports can name it."""
     primary = fx_as_of(db, "FBIL_REF", valid_at, known_at)
     if primary.value is not None:
-        return primary
+        return primary, "FBIL_REF"
     fallback = fx_as_of(db, "SBI_TT_BUY", valid_at, known_at)
     if fallback.value is None:
-        return primary
-    return Measured(
-        fallback.value,
-        worst(fallback.status, QualityStatus.ESTIMATED),
-        fallback.as_of,
-        fallback.source_ids,
-        (*fallback.notes, "FBIL_REF unavailable: SBI TT buying rate used"),
+        return primary, "FBIL_REF"
+    return (
+        Measured(
+            fallback.value,
+            worst(fallback.status, QualityStatus.ESTIMATED),
+            fallback.as_of,
+            fallback.source_ids,
+            (*fallback.notes, "FBIL_REF unavailable: SBI TT buying rate used"),
+        ),
+        "SBI_TT_BUY",
     )
+
+
+def valuation_fx(db: Session, valid_at: date, known_at: datetime | None = None) -> Measured[Decimal]:
+    return valuation_fx_typed(db, valid_at, known_at)[0]
+
+
+def price_series(
+    db: Session, asset_id: int, start: date, end: date, known_at: datetime | None = None
+) -> list[tuple[date, Measured[Decimal]]]:
+    """Observed closes in [start, end] known by `known_at`: the newest row per day, each labelled with its
+    own quality (quarantined rows are returned as `quarantined` so callers drop them knowingly, and rows
+    that sources disagree on are `conflicting`). No gap filling: a day without an observation is absent."""
+    known_at = known_at or _now()
+    rows = db.execute(
+        text(
+            """SELECT DISTINCT ON (p.valid_at) p.id, p.valid_at, p.close, p.quality_status, p.quality_notes, p.source_id
+               FROM prices p
+               WHERE p.asset_id = :a AND p.valid_at BETWEEN :s AND :e AND p.recorded_at <= :k
+               ORDER BY p.valid_at, p.recorded_at DESC, p.id DESC"""
+        ),
+        {"a": asset_id, "s": start, "e": end, "k": known_at},
+    ).all()
+    conflicts = db.execute(
+        text(
+            """SELECT valid_at, observation_ids, diff_pct, rule FROM source_conflicts
+               WHERE subject = :s AND valid_at BETWEEN :st AND :e AND detected_at <= :k"""
+        ),
+        {"s": f"asset:{asset_id}", "st": start, "e": end, "k": known_at},
+    ).all()
+    out: list[tuple[date, Measured[Decimal]]] = []
+    for r in rows:
+        status, notes = QualityStatus(r.quality_status), list(r.quality_notes)
+        for c in conflicts:
+            if c.valid_at == r.valid_at and r.id in c.observation_ids:
+                status = worst(status, QualityStatus.CONFLICTING)
+                notes.append(f"sources differ by {c.diff_pct:.2%}; chose by rule: {c.rule}")
+        out.append((r.valid_at, Measured(r.close, status, _stamp(r.valid_at), (r.source_id,), tuple(notes))))
+    return out
 
 
 def fundamental_as_of(

@@ -94,7 +94,7 @@ def test_demo_market_loaded_cleanly_and_is_idempotent() -> None:
     with session_scope("demo") as db:
         counts = {t: db.execute(text(f"SELECT count(*) FROM {t}")).scalar_one() for t in  # noqa: S608
                   ("prices", "fx_rates", "fundamentals", "raw_payloads")}  # fmt: skip
-    assert counts["fx_rates"] == 44 and counts["fundamentals"] == 3 and counts["prices"] == 150 + 1 + 26
+    assert counts["fx_rates"] == 44 and counts["fundamentals"] == 3 and counts["prices"] == 300 + 1 + 26
     again = load_demo_market()
     assert all(r.stored == 0 and r.status == "OK" for r in again)
     assert pending() == []  # a clean DEMO load queues nothing

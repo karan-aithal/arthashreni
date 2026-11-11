@@ -2,7 +2,7 @@
 
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, replace
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime, time
 from decimal import Decimal, DivisionByZero, InvalidOperation, Overflow
 from enum import StrEnum
 
@@ -39,6 +39,11 @@ class Measured[T]:
     def usable(self) -> bool:
         """A value that may feed a calculation: present and not quarantined."""
         return self.value is not None and self.status is not QualityStatus.QUARANTINED
+
+
+def day_stamp(d: date) -> datetime:
+    """Midnight UTC of a business date: the `as_of` of a value that is true for that day."""
+    return datetime.combine(d, time.min, tzinfo=UTC)
 
 
 def missing[T](as_of: datetime | None = None, note: str = "no data") -> "Measured[T]":

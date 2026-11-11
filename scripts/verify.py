@@ -67,8 +67,13 @@ def steps(fast: bool) -> list[Step]:
             ["pytest", "-q", "--no-cov", "--allow-hosts=127.0.0.1,::1", "tests/test_golden.py"],
             {},
         ),
-        ("XIRR oracle", None, {}),  # Phase 4
-        ("mutation testing", None, {}),  # Phase 4
+        ("XIRR oracle (ours vs pyxirr vs LibreOffice)", [sys.executable, "scripts/xirr_oracle.py"], {}),
+        ("golden calculations reproducible", [sys.executable, "tests/golden/derive_calcs.py", "--check"], {}),
+        (
+            "golden calculations",
+            ["pytest", "-q", "--no-cov", "--allow-hosts=127.0.0.1,::1", "tests/test_phase4_gate.py"],
+            {},
+        ),
         (
             "tax-rule check",
             [sys.executable, "scripts/check_tax_rules.py"]
@@ -77,6 +82,19 @@ def steps(fast: bool) -> list[Step]:
             {},
         ),
         ("dependency audit", ["pip-audit", "--progress-spinner=off", "--skip-editable"], {}),
+    ]
+    # Slow, so not in --fast. Only DB-free test modules are selected, so parallel workers cannot collide.
+    s += [
+        (
+            "mutation: run mutants (analytics, ledger)",
+            ["mutmut", "run", "--max-children", str(min(8, os.cpu_count() or 1))],
+            {},
+        ),
+        (
+            "mutation: survivors < 10% (analytics, ledger, policy)",
+            [sys.executable, "scripts/mutation_gate.py"],
+            {},
+        ),
     ]
     return s
 
@@ -92,7 +110,18 @@ def main() -> int:
             print(f"-- {name}: skipped (no targets yet)")
             continue
         t0 = time.monotonic()
-        rc = subprocess.run(cmd, cwd=ROOT, env={**ENV, **extra_env}, check=False).returncode
+        quiet = name.startswith("mutation: run")  # mutmut's progress spinner would flood the log
+        log = open(ROOT / ".mutmut-run.log", "w") if quiet else None  # noqa: SIM115
+        rc = subprocess.run(
+            cmd,
+            cwd=ROOT,
+            env={**ENV, **extra_env},
+            check=False,
+            stdout=log,
+            stderr=subprocess.STDOUT if quiet else None,
+        ).returncode
+        if log:
+            log.close()
         status = "ok" if rc == 0 else f"FAILED (exit {rc})"
         print(f"-- {name}: {status} [{time.monotonic() - t0:.1f}s]")
         if rc != 0:
