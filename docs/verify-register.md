@@ -23,4 +23,4 @@ Every time-sensitive fact used by the project, with source and check date. Statu
 | V17 | All tax rates (C7): equity/debt MF, foreign stock gains, US dividend withholding, Form 67, TCS on LRS, Schedule FA | not yet touched | Enter only when `config/tax_rules.yaml` is created; official sources only | — | — |
 | V18 | Ollama models and licences (F5) | not yet touched | Phase 8 | — | — |
 | V19 | Free chart library licence (Part H) | not yet touched | Phase 6 | — | — |
-| V20 | pyrage availability on Windows (ADR-0014) | closed: not needed | Linux only (ADR-0018) | — | 2026-11-11 |
+| V20 | pyrage availability and licence (ADR-0014) | verified | Windows not needed (ADR-0018); pyrage 1.4.0 MIT, works on Linux | https://github.com/woodruffw/pyrage | 2026-11-11 |
