@@ -1,0 +1,111 @@
+{
+  "note": "Derived independently by tests/golden/derive_calcs.py (no arthashreni imports).",
+  "valuation_date": "2026-11-10",
+  "fx_rate_used": {
+    "type": "FBIL_REF",
+    "date": "2026-11-10",
+    "rate": "84.0264"
+  },
+  "holdings": {
+    "AMFI:900001": {
+      "units": "15.504",
+      "price": "20.0040",
+      "price_date": "2026-11-10",
+      "value_inr": "310.1420",
+      "cost_inr": "757.4035",
+      "unrealised_inr": "-447.2615"
+    },
+    "TICKER:XNAS:DTECH": {
+      "units": "1",
+      "price": "178.8000",
+      "price_date": "2026-11-09",
+      "value_inr": "15023.9203",
+      "cost_inr": "9262.4000",
+      "unrealised_inr": "5761.5203"
+    },
+    "TICKER:XNSE:DEMOETF": {
+      "units": "30",
+      "price": "250.0000",
+      "price_date": "2026-11-09",
+      "value_inr": "7500.0000",
+      "cost_inr": "3108.0000",
+      "unrealised_inr": "4392.0000"
+    },
+    "TICKER:XNSE:DIPO": {
+      "units": "40",
+      "price": "165.0000",
+      "price_date": "2026-11-09",
+      "value_inr": "6600.0000",
+      "cost_inr": "6000.0000",
+      "unrealised_inr": "600.0000"
+    },
+    "TICKER:XNSE:DNEW": {
+      "units": "15",
+      "price": "310.0000",
+      "price_date": "2026-11-09",
+      "value_inr": "4650.0000",
+      "cost_inr": "3750.0000",
+      "unrealised_inr": "900.0000"
+    }
+  },
+  "totals": {
+    "value_inr": "34084.0623",
+    "cost_inr": "22877.8035",
+    "unrealised_inr": "11206.2588",
+    "unrealised_pct": "0.4898310642"
+  },
+  "realised_gain_inr": "32915.6000",
+  "paid_in_inr": "71213.2035",
+  "gain_inr": "44387.5588",
+  "absolute_return": "0.6233051829",
+  "income_and_costs": {
+    "dividends_inr": "253.3000",
+    "reinvested_dividends_inr": "12.4000",
+    "fees_inr": "199.8000",
+    "taxes_inr": "44.2000"
+  },
+  "xirr_portfolio": "0.714152820630",
+  "xirr_by_asset": {
+    "AMFI:900001": "-0.253072645540",
+    "TICKER:XNAS:DTECH": "0.517552574146",
+    "TICKER:XNSE:DEMOETF": "0.645895225939",
+    "TICKER:XNSE:DIPO": "0.071833504249",
+    "TICKER:XNSE:DNEW": "0.113225187267",
+    "TICKER:XNSE:DSTK": "1.350904546195"
+  },
+  "fx_attribution_DTECH": {
+    "purchase_rate": "84.0000000000",
+    "local_return": "0.6215235792",
+    "fx_return": "0.0003142857",
+    "interaction": "0.0001953360",
+    "inr_return": "0.6220332009",
+    "local_effect_inr": "5756.8000",
+    "fx_effect_inr": "2.9110",
+    "interaction_inr": "1.8093"
+  },
+  "allocation": {
+    "asset_class": {
+      "EQUITY_IN": "0.3300662899",
+      "EQUITY_US": "0.4407901902",
+      "ETF_IN": "0.2200441933",
+      "MF": "0.0090993266"
+    },
+    "country": {
+      "IN": "0.5592098098",
+      "US": "0.4407901902"
+    },
+    "currency": {
+      "INR": "0.5592098098",
+      "USD": "0.4407901902"
+    },
+    "sector": {
+      "Materials": "0.1364273998",
+      "Technology": "0.6344290803",
+      "UNKNOWN": "0.2291435199"
+    }
+  },
+  "concentration": {
+    "top3": "0.8544732735",
+    "hhi": "0.2989066917"
+  }
+}

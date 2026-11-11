@@ -61,15 +61,36 @@ def _release_database(name: str, old: dict[str, str | None]) -> None:
     get_settings.cache_clear()
 
 
-@pytest.fixture(scope="session", autouse=True)
+# Modules that never touch the database. They skip the throwaway database, which is what lets mutation
+# testing run them in parallel without workers recreating the same database under each other.
+NO_DB_MODULES = frozenset(
+    {
+        "test_xirr",
+        "test_analytics",
+        "test_analytics_exact",
+        "test_analytics_properties",
+        "test_lots",
+        "test_ledger_exact",
+        "test_ledger_properties",
+    }
+)
+
+
+@pytest.fixture(scope="session")
 def test_database() -> Iterator[None]:
     old = _use_database("arthashreni_test")
     yield
     _release_database("arthashreni_test", old)
 
 
+@pytest.fixture(autouse=True)
+def _database_unless_pure(request: pytest.FixtureRequest) -> None:
+    if request.module.__name__.rsplit(".", 1)[-1] not in NO_DB_MODULES:
+        request.getfixturevalue("test_database")
+
+
 @pytest.fixture(scope="module")
-def ledger_db(request: pytest.FixtureRequest) -> Iterator[str]:
+def ledger_db(request: pytest.FixtureRequest, test_database: None) -> Iterator[str]:
     """A fresh migrated database for one test module."""
     name = "arthashreni_t_" + re.sub(r"\W", "", request.module.__name__.rsplit(".", 1)[-1])[:30]
     old = _use_database(name)

@@ -28,3 +28,4 @@ Changing a Part A invariant requires a `Proposed` ADR and investor approval befo
 | 0021 | Excluded technologies and data scope | Accepted |
 | 0022 | Ledger conventions (Phase 2) | Accepted |
 | 0023 | Data-quality and ingestion conventions (Phase 3) | Accepted |
+| 0024 | Calculation conventions (Phase 4) | Accepted |

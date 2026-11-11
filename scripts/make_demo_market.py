@@ -35,13 +35,19 @@ def main() -> None:
     nav = walk(len(prev), Decimal("20.0000"), Decimal("0.0040"), 1)
     etf = walk(len(prev), Decimal("250.0000"), Decimal("0.4000"), 2)
     stock = walk(len(prev), Decimal("500.0000"), Decimal("1.2000"), 3)
+    ipo = walk(len(prev), Decimal("165.0000"), Decimal("0.5000"), 6)
+    new = walk(len(prev), Decimal("310.0000"), Decimal("0.8000"), 7)
+    index = walk(len(prev), Decimal("20000.0000"), Decimal("18.0000"), 8)  # DEMO benchmark series
     with (OUT / "manual_prices.csv").open("w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["asset_ref", "valid_at", "close", "currency", "price_type"])
-        for d, a, b, c in zip(prev, nav, etf, stock, strict=True):
+        for d, a, b, c, i, n, x in zip(prev, nav, etf, stock, ipo, new, index, strict=True):
             w.writerow(["AMFI:900001", d, a, "INR", "NAV"])
             w.writerow(["TICKER:XNSE:DEMOETF", d, b, "INR", "CLOSE"])
             w.writerow(["TICKER:XNSE:DSTK", d, c, "INR", "CLOSE"])
+            w.writerow(["TICKER:XNSE:DIPO", d, i, "INR", "CLOSE"])
+            w.writerow(["TICKER:XNSE:DNEW", d, n, "INR", "CLOSE"])
+            w.writerow(["TICKER:XNSE:NIFTY50TRI", d, x, "INR", "CLOSE"])
 
     (OUT / "NAVAll.txt").write_text(
         "Scheme Code;ISIN Div Payout/ ISIN Growth;ISIN Div Reinvestment;"

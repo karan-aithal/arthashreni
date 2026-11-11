@@ -2,9 +2,26 @@
 
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, replace
-from datetime import UTC, datetime
-from decimal import Decimal, DivisionByZero, InvalidOperation, Overflow
+from datetime import UTC, date, datetime, time
+from decimal import Decimal, DivisionByZero, InvalidOperation, Overflow, localcontext
 from enum import StrEnum
+from functools import wraps
+
+PRECISION = (
+    40  # digits for every Decimal multiply, divide, power and root in the calculation engine (ADR-0024)
+)
+
+
+def exact[**P, R](fn: Callable[P, R]) -> Callable[P, R]:
+    """Run `fn` at PRECISION digits whatever Decimal context the caller has set."""
+
+    @wraps(fn)
+    def run(*args: P.args, **kwargs: P.kwargs) -> R:
+        with localcontext() as ctx:
+            ctx.prec = PRECISION
+            return fn(*args, **kwargs)
+
+    return run
 
 
 class QualityStatus(StrEnum):
@@ -41,6 +58,11 @@ class Measured[T]:
         return self.value is not None and self.status is not QualityStatus.QUARANTINED
 
 
+def day_stamp(d: date) -> datetime:
+    """Midnight UTC of a business date: the `as_of` of a value that is true for that day."""
+    return datetime.combine(d, time.min, tzinfo=UTC)
+
+
 def missing[T](as_of: datetime | None = None, note: str = "no data") -> "Measured[T]":
     return Measured(None, QualityStatus.MISSING, as_of or datetime.now(UTC), (), (note,))
 
@@ -61,7 +83,9 @@ def _combine(
         out = status if status.severity >= QualityStatus.MISSING.severity else QualityStatus.MISSING
         return Measured(None, out, as_of, sources, (*notes, "an input has no usable value"))
     try:
-        return Measured(fn(a.value, b.value), status, as_of, sources, notes)
+        with localcontext() as ctx:
+            ctx.prec = PRECISION  # not the caller's ambient context
+            return Measured(fn(a.value, b.value), status, as_of, sources, notes)
     except (DivisionByZero, InvalidOperation, Overflow):
         return Measured(None, QualityStatus.MISSING, as_of, sources, (*notes, "arithmetic error"))
 
