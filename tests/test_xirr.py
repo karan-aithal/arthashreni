@@ -194,6 +194,21 @@ def test_a_tangent_root_next_to_a_crossing_root_is_still_multiple_roots() -> Non
     assert m.notes == ("XIRR undefined: 2 different rates solve these cash flows (multiple roots)",)
 
 
+@pytest.mark.parametrize(
+    ("rate", "supported"), [(11_999, True), (12_000, True), (12_001, False), (120_000, False)]
+)
+def test_search_range_ends_at_plus_1200000_percent(rate: int, supported: bool) -> None:
+    """r = 12,000 is +1,200,000% a year. A root above it is `missing`, never returned or clamped to the limit."""
+    m = xirr([(D0, D(-1)), (D0 + timedelta(days=365), D(1 + rate))])
+    if supported:
+        assert (
+            m.status is QualityStatus.OK and m.value is not None and abs(m.value - rate) < D("1e-20") * rate
+        )
+    else:
+        assert m.value is None and m.status is QualityStatus.MISSING
+        assert m.notes == ("XIRR undefined: no root between -99.9% and +1,200,000% a year",)
+
+
 def test_a_tangent_root_exactly_on_the_search_grid_is_refused() -> None:
     """NPV = (1 - 1 / (1 + r)) ** 2 touches zero at exactly 0%, a point the grid lands on. The NPV there is an
     exact 0, which must not be taken for a crossing: it has the same sign on both sides."""

@@ -129,17 +129,9 @@ def test_xirr_exact_zero_root_on_the_grid_and_boundaries() -> None:
     assert big.value is not None and abs(big.value - 1) < D("1e-25")
     loss = xirr([(D0, D(-1000)), (days(365), D(500))])
     assert loss.value is not None and abs(loss.value + D("0.5")) < D("1e-25")
-    huge = xirr(
-        [
-            (
-                D0,
-                D(-1),
-            ),
-            (days(365), D(1_000_000)),
-        ]
-    )  # +99,999,900%: inside the search range
-    assert huge.value is not None and abs(huge.value - 999_999) < D("1e-6")
-    too_big = xirr([(D0, D(-1)), (days(365), D(2_000_000))])  # beyond +1,200,000%
+    huge = xirr([(D0, D(-1)), (days(365), D(11_000))])  # +1,099,900%: inside the search range
+    assert huge.value is not None and abs(huge.value - 10_999) < D("1e-20")
+    too_big = xirr([(D0, D(-1)), (days(365), D(1_000_000))])  # +99,999,900%: beyond +1,200,000%
     assert too_big.value is None and "no root" in too_big.notes[0]
     deep = xirr([(D0, D(-1000)), (days(365), D(2))])  # -99.8%, inside
     assert deep.value is not None and abs(deep.value + D("0.998")) < D("1e-24")

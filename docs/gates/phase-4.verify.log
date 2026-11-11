@@ -34,11 +34,12 @@ ai/research when they exist) KEPT
 
 Contracts: 6 kept, 0 broken.
 gate check ok
-........................................................................ [ 20%]
-........................................................................ [ 40%]
-........................................................................ [ 60%]
-........................................................................ [ 80%]
-.....................................................................    [100%]
+........................................................................ [ 19%]
+........................................................................ [ 39%]
+........................................................................ [ 59%]
+........................................................................ [ 79%]
+........................................................................ [ 99%]
+.                                                                        [100%]
 =============================== warnings summary ===============================
 .venv/lib/python3.12/site-packages/fastapi/testclient.py:1
   /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
@@ -68,7 +69,7 @@ _______________ coverage: platform linux, python 3.12.16-final-0 _______________
 
 Name                                          Stmts   Miss Branch BrPart  Cover   Missing
 -----------------------------------------------------------------------------------------
-src/arthashreni/analytics/xirr.py               112      2     54      2    98%   95, 119
+src/arthashreni/analytics/xirr.py               118      2     56      3    97%   63->67, 104, 128
 src/arthashreni/api/serialize.py                 22      1     14      1    94%   27
 src/arthashreni/backup.py                       139      5     26      6    93%   74, 115, 153->158, 201-206, 207->209, 223
 src/arthashreni/cli.py                          442     55     92      6    87%   58-59, 68-88, 94-98, 104-107, 119-122, 128-131, 221->223, 224, 226, 275-286, 640-654, 735->729
@@ -88,10 +89,10 @@ src/arthashreni/jobs.py                          63      1      6      0    99% 
 src/arthashreni/ledger/repository.py             79      1     12      1    98%   180
 src/arthashreni/portfolio.py                    162      3     34      3    97%   118, 219, 284
 -----------------------------------------------------------------------------------------
-TOTAL                                          4122     98    996     45    97%
+TOTAL                                          4128     98    998     46    97%
 
 52 files skipped due to complete coverage.
-357 passed, 11 warnings in 24.06s
+361 passed, 11 warnings in 24.60s
 Name                                      Stmts   Miss Branch BrPart  Cover
 ---------------------------------------------------------------------------
 src/arthashreni/analytics/__init__.py         1      0      0      0   100%
@@ -102,9 +103,9 @@ src/arthashreni/analytics/fx.py              38      0      0      0   100%
 src/arthashreni/analytics/returns.py         62      0     18      0   100%
 src/arthashreni/analytics/series.py         125      0     24      0   100%
 src/arthashreni/analytics/valuation.py      133      0     28      0   100%
-src/arthashreni/analytics/xirr.py           112      2     54      2    98%
+src/arthashreni/analytics/xirr.py           118      2     56      3    97%
 ---------------------------------------------------------------------------
-TOTAL                                       586      2    150      2    99%
+TOTAL                                       592      2    152      3    99%
 ...................                                                      [100%]
 =============================== warnings summary ===============================
 .venv/lib/python3.12/site-packages/fastapi/testclient.py:1
@@ -112,10 +113,10 @@ TOTAL                                       586      2    150      2    99%
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-19 passed, 338 deselected, 1 warning in 43.79s
+19 passed, 342 deselected, 1 warning in 43.83s
 expected.json matches the independent derivation
 ......                                                                   [100%]
-6 passed in 1.17s
+6 passed in 1.37s
 ok   ten percent in a year: ours=0.1000000000, pyxirr=0.1000000000, libreoffice=0.1000000000
 ok   two contributions: ours=0.1184354980, pyxirr=0.1184354980, libreoffice=0.1184354980
 ok   twelve monthly SIPs with a gain: ours=0.2194626391, pyxirr=0.2194626391, libreoffice=0.2194626391
@@ -149,12 +150,12 @@ tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rat
     warnings.warn(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-11 passed, 9 warnings in 2.82s
+11 passed, 9 warnings in 2.89s
 No known vulnerabilities found
 Name        Skip Reason
 ----------- -------------------------------
 arthashreni distribution marked as editable
-mutation analytics: 123/1777 not killed = 6.9% (limit 10%) ok  [killed 1654, survived 116, timeout 7]
+mutation analytics: 128/1786 not killed = 7.2% (limit 10%) ok  [killed 1658, survived 121, timeout 7]
 mutation ledger: 19/411 not killed = 4.6% (limit 10%) ok  [killed 392, survived 19]
 mutation policy: no mutants (package absent or not mutated)
 -- ruff check: ok [0.0s]
@@ -164,16 +165,16 @@ mutation policy: no mutants (package absent or not mutated)
 -- import contracts: ok [0.1s]
 -- gate check: ok [0.1s]
 -- secret scan: ok [0.5s]
--- tests: ok [24.9s]
+-- tests: ok [25.5s]
 -- branch coverage >= 95% (ledger, dq, analytics, policy, risk): ok [0.1s]
--- property tests (1000 examples): ok [44.4s]
+-- property tests (1000 examples): ok [44.6s]
 -- golden values reproducible: ok [0.0s]
--- golden fixtures: ok [1.6s]
--- XIRR oracle (ours vs pyxirr vs LibreOffice): ok [1.2s]
+-- golden fixtures: ok [1.8s]
+-- XIRR oracle (ours vs pyxirr vs LibreOffice): ok [1.5s]
 -- golden calculations reproducible: ok [0.0s]
--- golden calculations: ok [3.3s]
+-- golden calculations: ok [3.4s]
 -- tax-rule check: skipped (no targets yet)
--- dependency audit: ok [6.5s]
--- mutation: run mutants (analytics, ledger): ok [59.8s]
+-- dependency audit: ok [0.5s]
+-- mutation: run mutants (analytics, ledger): ok [80.8s]
 -- mutation: survivors < 10% (analytics, ledger, policy): ok [0.3s]
 verify: all steps passed

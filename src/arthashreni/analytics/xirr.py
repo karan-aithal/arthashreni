@@ -30,9 +30,14 @@ from arthashreni.analytics import PRECISION
 from arthashreni.dq.measured import Measured, QualityStatus, day_stamp, missing, worst
 
 _DAYS = Decimal(365)
-_X_LO, _X_HI = Decimal(-7), Decimal(14)  # r = -99.9% .. about +1,200,000%; both on the 0.25 and 0.05 grids
 _COARSE, _FINE = Decimal("0.25"), Decimal("0.05")
 _WIDTH = Decimal("1e-30")
+_R_MAX = Decimal(12_000)  # +1,200,000% a year as a fraction
+_X_LO = Decimal(-7)  # r = e**-7 - 1 = -99.909% (the "-99.9%" of the contract); on the 0.25 and 0.05 grids
+with localcontext() as _ctx:
+    _ctx.prec = PRECISION
+    # ln(1 + r_max); _WIDTH of slack keeps a root at exactly r_max inside despite rounding in the last digit
+    _X_HI = (1 + _R_MAX).ln() + _WIDTH
 _TOUCH = Decimal("1e-18")  # |NPV| / sum|PV| below this at an extremum means the NPV touches zero
 
 
@@ -55,6 +60,10 @@ def _grid(flows: Sequence[tuple[Decimal, Decimal]], step: Decimal) -> list[tuple
     while x <= _X_HI:
         out.append((x, _g(x, flows)))
         x += step
+    if (
+        out[-1][0] < _X_HI
+    ):  # _X_HI is not on the step grid; without its own point a crossing before it is missed
+        out.append((_X_HI, _g(_X_HI, flows)))
     return out
 
 

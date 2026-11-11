@@ -16,8 +16,8 @@ Date: 2026-11-11. Branch `phase-4-calculation-engine`. Agent stops here and wait
 | Oracle comparison: XIRR vs `pyxirr` vs LibreOffice within 1e-6 | pass | `scripts/xirr_oracle.py` (in `make verify`): 12 cases (single lump, two contributions, 12 and 24 monthly SIPs, loss, leap day, dividends, same-day flows, zero return, buy/part-sale/buy, and two no-solution cases where all three report none). Largest disagreement seen: ~3e-10 (pyxirr is float). LibreOffice 7.3.7.2 really computed the values (V28). Multiple-root cases are excluded on purpose: ours refuses, the others return one root. Property test `test_agrees_with_pyxirr_when_the_root_is_unique` adds 1,000 random unique-root flows against pyxirr |
 | Golden fixtures | pass | `tests/golden/derive_calcs.py --check` (stale file fails `make verify`) and `tests/test_phase4_gate.py`: values (to 4 dp, exact), per-asset and portfolio XIRR (1e-8 / 1e-9; the script uses float bisection on the rate, a different method), FX attribution, weights, HHI. The golden script imports nothing from `arthashreni` |
 | FX attribution reconciles | pass | `FxAttribution.reconciles` (residual <= 1e-12): INR return = local + FX + interaction and the three INR amounts sum to the holding's unrealised P&L; DEMO DTECH residual 0E-36. Property test over random costs, values and rates; names the valuation rate type (`FBIL_REF`) |
-| Mutation threshold (surviving < 10%) | pass | `mutmut` 3.8.1, per package: `analytics` 123 of 1,777 not killed = **6.9%**, `ledger` (pure modules) 19 of 411 = **4.6%**; `policy` does not exist yet. `scripts/mutation_gate.py` counts "no tests" as surviving. Remaining survivors are mostly equivalent mutants (`events.sort(key=None)`, the quantum of `Decimal(2).scaleb(-n)`, internal loop bounds) and a few `missing()` notes whose `as_of` is the wall clock |
-| Branch coverage >= 95% | pass | `analytics` 99%, `ledger` 99%, `dq` 97%; whole project 97% (357 tests) |
+| Mutation threshold (surviving < 10%) | pass | `mutmut` 3.8.1, per package: `analytics` 128 of 1,786 not killed = **7.2%**, `ledger` (pure modules) 19 of 411 = **4.6%**; `policy` does not exist yet. `scripts/mutation_gate.py` counts "no tests" as surviving. Remaining survivors are mostly equivalent mutants (`events.sort(key=None)`, the quantum of `Decimal(2).scaleb(-n)`, internal loop bounds) and a few `missing()` notes whose `as_of` is the wall clock |
+| Branch coverage >= 95% | pass | `analytics` 99%, `ledger` 99%, `dq` 97%; whole project 97% (361 tests) |
 | import-linter contracts | pass | 6 kept, 0 broken (new: `analytics` imports no `db`, `ingestion`, `api`, `cli`, `portfolio`, sqlalchemy or web framework) |
 | No float in money code | pass | `check_no_float.py` covers `analytics`; the "documented XIRR boundary" exception was not needed |
 | mypy --strict | pass | 78 files; a bare number where a price or FX rate is expected is a type error |
@@ -30,7 +30,7 @@ Date: 2026-11-11. Branch `phase-4-calculation-engine`. Agent stops here and wait
 -- import contracts: ok            (6 kept, 0 broken)
 -- gate check: ok
 -- secret scan: ok
--- tests: ok                       (357 passed)
+-- tests: ok                       (361 passed)
 -- branch coverage >= 95% (ledger, dq, analytics, policy, risk): ok     ledger 99%, dq 97%, analytics 99%
 -- property tests (1000 examples): ok
 -- golden fixtures / golden values reproducible: ok
@@ -39,7 +39,7 @@ Date: 2026-11-11. Branch `phase-4-calculation-engine`. Agent stops here and wait
 -- tax-rule check: skipped (no tax rules yet)
 -- dependency audit: ok            (pip-audit: no known vulnerabilities)
 -- mutation: run mutants: ok       (about 130 s on 8 workers; whole `make verify` about 4 min)
--- mutation: survivors < 10%: ok   analytics 6.9%, ledger 4.6%
+-- mutation: survivors < 10%: ok   analytics 7.2%, ledger 4.6%
 verify: all steps passed
 ```
 
@@ -117,4 +117,10 @@ A tangent (even-multiplicity) root that the grid lands on exactly (for example f
 
 Full `make verify` output after the fix, unabridged: `docs/gates/phase-4.verify.log` (357 tests, 1000-example property run, oracle 12 cases 0 disagreements, mutation analytics 6.9% / ledger 4.6%, dependency audit, all steps passed).
 
-Open item, not changed here: the XIRR upper search bound is e^14 - 1 (about +120,260,300%), not the documented +1,200,000%. Awaiting investor decision.
+### Upper search bound (investor-approved fix)
+
+The contract (ADR-0024, report §8) is a search range of -99.9% to +1,200,000% a year. The code searched up to x = ln(1 + r) = 14, i.e. r = e^14 - 1 = 1,202,603 as a fraction, which is **+120,260,300%**: the docs were right, the constant was 100 times too wide (it read 1.2 million as a fraction, not as a percent). The upper bound is now ln(1 + 12,000) (plus 1e-30 of slack so a root at exactly +1,200,000% stays inside), and `_grid` adds that point because it is not on the 0.25 / 0.05 step grid. A root beyond it is `missing` with the existing "no root between -99.9% and +1,200,000% a year" note; nothing is clamped. The lower bound e^-7 - 1 = -99.909% is what "-99.9%" always meant and is unchanged.
+
+Tests: rate 11,999 and 12,000 (the limit itself) return `ok` with the right value; 12,001 and 120,000 return `missing`. An older test that called +99,999,900% "inside the search range" encoded the wrong range and was corrected (+1,099,900% inside, +99,999,900% outside).
+
+Final `make verify`: 361 tests, oracle 12 cases 0 disagreements, mutation analytics 7.2% / ledger 4.6%, all steps passed; unabridged output in `docs/gates/phase-4.verify.log`.
