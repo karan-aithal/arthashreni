@@ -1,0 +1,179 @@
+uv run python scripts/verify.py
+All checks passed!
+151 files already formatted
+Success: no issues found in 78 source files
+no float in money packages
+
+╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐
+╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │
+ ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗
+ ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝
+╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║
+╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝
+  └──▶║║                    ▲ 
+      ╚╝────────────────────┘
+
+
+---------
+Contracts
+---------
+
+Analyzed 115 files, 466 dependencies.
+-------------------------------------
+
+core imports nothing else from arthashreni and no web framework KEPT
+db does not import api, cli or web frameworks KEPT
+ledger is pure: no ingestion, api, cli or web frameworks (add ai/research when 
+they exist) KEPT
+ingestion does not reach api, cli or web frameworks (add policy/risk/ai when 
+they exist) KEPT
+dq is pure: no db, ingestion adapters, api, cli or web frameworks (add 
+ai/research when they exist) KEPT
+analytics is pure: no db, ingestion, api, cli, sqlalchemy or web frameworks (add
+ai/research when they exist) KEPT
+
+Contracts: 6 kept, 0 broken.
+gate check ok
+........................................................................ [ 20%]
+........................................................................ [ 40%]
+........................................................................ [ 60%]
+........................................................................ [ 80%]
+.....................................................................    [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_cli_phase2.py::test_setup_and_import_workflow
+tests/test_ledger_db.py::test_correction_void_and_effective_view
+  /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/pydantic/main.py:520: UserWarning: Pydantic serializer warnings:
+    PydanticSerializationUnexpectedValue(Expected `enum` - serialized value may not be as expected [field_name='type', input_value='BUY', input_type=str])
+    return self.__pydantic_serializer__.to_python(
+
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+tests/test_dq.py::test_exchange_sessions
+  /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.
+  See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.16-final-0 _______________
+
+Name                                          Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------------
+src/arthashreni/analytics/xirr.py               112      2     54      2    98%   95, 119
+src/arthashreni/api/serialize.py                 22      1     14      1    94%   27
+src/arthashreni/backup.py                       139      5     26      6    93%   74, 115, 153->158, 201-206, 207->209, 223
+src/arthashreni/cli.py                          442     55     92      6    87%   58-59, 68-88, 94-98, 104-107, 119-122, 128-131, 221->223, 224, 226, 275-286, 640-654, 735->729
+src/arthashreni/core/logging.py                  30      1      8      2    92%   36->38, 39
+src/arthashreni/db/as_of.py                      98      4     32      2    94%   38, 217-219
+src/arthashreni/demo_market.py                   52      2     12      2    94%   50, 56
+src/arthashreni/dq/calendars.py                  36      1     12      1    96%   65
+src/arthashreni/dq/health.py                     77      2     22      2    96%   121, 127
+src/arthashreni/dq/store.py                      76      2     22      1    95%   267-268
+src/arthashreni/ingestion/cas.py                156      5     54      1    97%   193-196, 252
+src/arthashreni/ingestion/common.py              76      1     12      1    98%   81
+src/arthashreni/ingestion/pipeline.py           166      3     62      3    97%   60, 200, 261
+src/arthashreni/ingestion/sources/ingest.py      89      4     32      5    93%   110, 124, 129->140, 133, 137
+src/arthashreni/ingestion/sources/runner.py     183      1     56      2    99%   97, 260->175
+src/arthashreni/ingestion/tables.py              57      4     28      4    91%   22, 26, 52, 64
+src/arthashreni/jobs.py                          63      1      6      0    99%   110
+src/arthashreni/ledger/repository.py             79      1     12      1    98%   180
+src/arthashreni/portfolio.py                    162      3     34      3    97%   118, 219, 284
+-----------------------------------------------------------------------------------------
+TOTAL                                          4122     98    996     45    97%
+
+52 files skipped due to complete coverage.
+357 passed, 11 warnings in 24.06s
+Name                                      Stmts   Miss Branch BrPart  Cover
+---------------------------------------------------------------------------
+src/arthashreni/analytics/__init__.py         1      0      0      0   100%
+src/arthashreni/analytics/allocation.py      90      0     26      0   100%
+src/arthashreni/analytics/benchmarks.py      11      0      0      0   100%
+src/arthashreni/analytics/flows.py           14      0      0      0   100%
+src/arthashreni/analytics/fx.py              38      0      0      0   100%
+src/arthashreni/analytics/returns.py         62      0     18      0   100%
+src/arthashreni/analytics/series.py         125      0     24      0   100%
+src/arthashreni/analytics/valuation.py      133      0     28      0   100%
+src/arthashreni/analytics/xirr.py           112      2     54      2    98%
+---------------------------------------------------------------------------
+TOTAL                                       586      2    150      2    99%
+...................                                                      [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+19 passed, 338 deselected, 1 warning in 43.79s
+expected.json matches the independent derivation
+......                                                                   [100%]
+6 passed in 1.17s
+ok   ten percent in a year: ours=0.1000000000, pyxirr=0.1000000000, libreoffice=0.1000000000
+ok   two contributions: ours=0.1184354980, pyxirr=0.1184354980, libreoffice=0.1184354980
+ok   twelve monthly SIPs with a gain: ours=0.2194626391, pyxirr=0.2194626391, libreoffice=0.2194626391
+ok   twenty-four monthly SIPs at a loss: ours=-0.1585103018, pyxirr=-0.1585103018, libreoffice=-0.1585103018
+ok   loss of a third over two years: ours=-0.1832769438, pyxirr=-0.1832769438, libreoffice=-0.1832769438
+ok   spans a leap day: ours=0.1334169536, pyxirr=0.1334169536, libreoffice=0.1334169536
+ok   dividends then sale: ours=0.1613283431, pyxirr=0.1613283429, libreoffice=0.1613283431
+ok   same-day flows: ours=0.4477156656, pyxirr=0.4477156653, libreoffice=0.4477156656
+ok   zero return: ours=0.0000000000, pyxirr=0.0000000000, libreoffice=-0.0000000000
+ok   buy, part sale, buy again, final value: ours=0.1382492819, pyxirr=0.1382492818, libreoffice=0.1382492819
+ok   no solution: only outflows: ours=none, pyxirr=none, libreoffice=none
+ok   no solution: only inflows: ours=none, pyxirr=none, libreoffice=none
+xirr oracle: 12 cases, 0 disagreement(s)
+expected_calcs.json matches the independent derivation
+...........                                                              [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+tests/test_phase4_gate.py::test_holdings_are_valued_from_the_right_price_and_rate
+  /home/xlr8/2CODE/arthashreni/.venv/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.
+  See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+11 passed, 9 warnings in 2.82s
+No known vulnerabilities found
+Name        Skip Reason
+----------- -------------------------------
+arthashreni distribution marked as editable
+mutation analytics: 123/1777 not killed = 6.9% (limit 10%) ok  [killed 1654, survived 116, timeout 7]
+mutation ledger: 19/411 not killed = 4.6% (limit 10%) ok  [killed 392, survived 19]
+mutation policy: no mutants (package absent or not mutated)
+-- ruff check: ok [0.0s]
+-- ruff format: ok [0.0s]
+-- mypy --strict: ok [0.2s]
+-- no float in money packages: ok [0.0s]
+-- import contracts: ok [0.1s]
+-- gate check: ok [0.1s]
+-- secret scan: ok [0.5s]
+-- tests: ok [24.9s]
+-- branch coverage >= 95% (ledger, dq, analytics, policy, risk): ok [0.1s]
+-- property tests (1000 examples): ok [44.4s]
+-- golden values reproducible: ok [0.0s]
+-- golden fixtures: ok [1.6s]
+-- XIRR oracle (ours vs pyxirr vs LibreOffice): ok [1.2s]
+-- golden calculations reproducible: ok [0.0s]
+-- golden calculations: ok [3.3s]
+-- tax-rule check: skipped (no targets yet)
+-- dependency audit: ok [6.5s]
+-- mutation: run mutants (analytics, ledger): ok [59.8s]
+-- mutation: survivors < 10% (analytics, ledger, policy): ok [0.3s]
+verify: all steps passed

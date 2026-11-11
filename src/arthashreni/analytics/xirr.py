@@ -59,25 +59,31 @@ def _grid(flows: Sequence[tuple[Decimal, Decimal]], step: Decimal) -> list[tuple
 
 
 def _crossings(grid: Sequence[tuple[Decimal, Decimal]]) -> list[tuple[Decimal, Decimal]]:
-    """Brackets (x_lo, x_hi) where g changes sign. An exact zero on the grid counts as one root."""
+    """Brackets (x_lo, x_hi) where g changes sign. An exact zero on the grid counts as one root, unless g has
+    the same sign on both sides of it (a touch, counted by `_hidden_roots`)."""
     out: list[tuple[Decimal, Decimal]] = []
-    for (x, prev), (nxt, cur) in itertools.pairwise(grid):
-        if prev == 0:
-            out.append((x, x))
-        elif cur != 0 and (prev > 0) != (cur > 0):
-            out.append((x, nxt))
-    if grid[-1][1] == 0:
-        out.append((grid[-1][0], grid[-1][0]))
+    for i, (x, cur) in enumerate(grid):
+        if cur == 0:
+            if not _touches(grid, i):
+                out.append((x, x))
+        elif i + 1 < len(grid) and grid[i + 1][1] != 0 and (cur > 0) != (grid[i + 1][1] > 0):
+            out.append((x, grid[i + 1][0]))
     return out
 
 
+def _touches(grid: Sequence[tuple[Decimal, Decimal]], i: int) -> bool:
+    """g is exactly 0 at grid[i] with the same sign on both neighbours: it touches zero without crossing."""
+    return 0 < i < len(grid) - 1 and grid[i - 1][1] * grid[i + 1][1] > 0
+
+
 def _hidden_roots(flows: Sequence[tuple[Decimal, Decimal]], grid: Sequence[tuple[Decimal, Decimal]]) -> int:
-    """Roots the grid cannot see: 2 for a pair of crossings inside one step, 1 for a tangent root.
+    """Roots the grid cannot see: 2 for a pair of crossings inside one step, 1 for a tangent root (including
+    one the grid lands on exactly).
 
     At each strict local extremum of g on the grid (all three values the same sign) the true extremum is
     located by bisecting g' between the neighbours. If it has the opposite sign, g crosses zero twice there;
     if it is zero to within rounding, g touches zero without crossing (even multiplicity)."""
-    found = 0
+    found = sum(1 for i, (_, v) in enumerate(grid) if v == 0 and _touches(grid, i))
     for (x0, g0), (_, g1), (x2, g2) in zip(grid, grid[1:], grid[2:], strict=False):
         if g0 == 0 or g1 == 0 or g2 == 0 or not (g0 > 0) == (g1 > 0) == (g2 > 0):
             continue

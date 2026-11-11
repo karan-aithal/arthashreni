@@ -194,6 +194,33 @@ def test_a_tangent_root_next_to_a_crossing_root_is_still_multiple_roots() -> Non
     assert m.notes == ("XIRR undefined: 2 different rates solve these cash flows (multiple roots)",)
 
 
+def test_a_tangent_root_exactly_on_the_search_grid_is_refused() -> None:
+    """NPV = (1 - 1 / (1 + r)) ** 2 touches zero at exactly 0%, a point the grid lands on. The NPV there is an
+    exact 0, which must not be taken for a crossing: it has the same sign on both sides."""
+    m = xirr(yrs([0, 1, 2], ["1", "-2", "1"]))
+    assert m.value is None and m.status is QualityStatus.MISSING
+    assert m.notes == (
+        "XIRR undefined: the only root has even multiplicity: the NPV touches zero without crossing",
+    )
+
+
+def test_a_grid_aligned_tangent_root_next_to_a_crossing_root_is_multiple_roots() -> None:
+    """(v - 1)^2 (v - 2): a double root at 0% (on the grid) and a simple root at -50%. Counting the exact zero
+    as a crossing would make this look like two plain roots; either way it must be refused as multiple."""
+    flows = yrs([0, 1, 2, 3], [-2, 5, -4, 1])
+    m = xirr(flows)
+    assert m.value is None and m.status is QualityStatus.MISSING
+    assert m.notes == ("XIRR undefined: 2 different rates solve these cash flows (multiple roots)",)
+
+
+def test_a_simple_root_exactly_on_the_grid_beside_a_second_crossing_is_two_roots() -> None:
+    """(v - 1)(v - 2): simple roots at 0% (on the grid) and -50%. The exact zero is a real crossing here."""
+    m = xirr(yrs([0, 1, 2], [2, -3, 1]))
+    assert m.value is None and m.notes == (
+        "XIRR undefined: 2 different rates solve these cash flows (multiple roots)",
+    )
+
+
 def test_two_crossings_inside_one_grid_step_are_found() -> None:
     # (v - a)(v - b) with a, b only 0.2% apart in rate: both crossings sit inside one 0.05 log-rate step
     a, b = D(1) / D("1.100"), D(1) / D("1.102")
