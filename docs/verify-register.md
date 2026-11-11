@@ -17,10 +17,12 @@ Every time-sensitive fact used by the project, with source and check date. Statu
 | V11 | Sovereign Gold Bond issuance (C8) | verified | Latest official issuance notice is SGB 2023-24 (PIB, Dec 2023, tranches to Feb 2024); no later official issuance notice found on PIB. No formal discontinuation notice exists either. Design treats SGB as existing holdings only, which holds in both cases | https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1984145 | 2026-11-11 |
 | V12 | exchange_calendars XNYS/XBOM (E3) | verified | v4.13.2 (2026-03-10), Apache-2.0, XNYS and XBOM included | https://pypi.org/project/exchange-calendars/ | 2026-11-11 |
 | V13 | pyxirr (G1.5) | verified | v0.10.8 (2025-11-03), Unlicense | https://pypi.org/project/pyxirr/ | 2026-11-11 |
-| V14 | Zerodha Console exports (C3) | partly verified | Tradebook XLSX/CSV; Coin MF order location open | Zerodha support article | 2026-11-11 |
-| V15 | INDmoney statement format (C3) | open | Statements downloadable; format unconfirmed | INDmoney mandatory disclosures page | 2026-11-11 |
+| V14 | Zerodha Console exports (C3) | partly verified | Tradebook XLSX/CSV confirmed. Column names and the meaning of `quantity_available` in the holdings export are ASSUMED in the Phase 2 parser (`ingestion/console.py`). Coin MF order location still open | Zerodha support article | 2026-11-11 |
+| V15 | INDmoney statement format (C3) | open | Statements downloadable; format unconfirmed. The Phase 2 parser is written against an ASSUMED sample layout (`ingestion/indmoney.py`, `SAMPLE_HEADER`) and warns on every import | INDmoney mandatory disclosures page | 2026-11-11 |
 | V16 | MF NAV applicability and stamp duty (C6) | not yet touched | Phase 2/4 | — | — |
 | V17 | All tax rates (C7): equity/debt MF, foreign stock gains, US dividend withholding, Form 67, TCS on LRS, Schedule FA | not yet touched | Enter only when `config/tax_rules.yaml` is created; official sources only | — | — |
 | V18 | Ollama models and licences (F5) | not yet touched | Phase 8 | — | — |
 | V19 | Free chart library licence (Part H) | not yet touched | Phase 6 | — | — |
 | V20 | pyrage availability and licence (ADR-0014) | verified | Windows not needed (ADR-0018); pyrage 1.4.0 MIT, works on Linux | https://github.com/woodruffw/pyrage | 2026-11-11 |
+| V21 | casparser on real PDFs (C3, C6) | open | Parser logic is tested against casparser's own data models (CASData, NSDLCASData, v1.4.1, MIT), not against real CAMS/KFintech/NSDL/CDSL PDFs, which cannot be committed. First real import must be previewed and read by the investor before commit | https://pypi.org/project/casparser/ | 2026-11-11 |
+| V22 | Stamp duty on MF purchases (C6) | open | Not hard-coded: the parser reads stamp-duty lines from the CAS and folds them into the purchase. The rate itself is a [VERIFY] item for the cost-rule work (B4) | — | — |

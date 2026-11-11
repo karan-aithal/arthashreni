@@ -1,0 +1,8 @@
+asset_class,name,currency,country,isin,amfi_code,ticker,exchange_mic,mf_plan,mf_option,fund_house,sector,maturity_date,coupon_rate,coupon_frequency_months
+MF,Demo Growth Equity Fund - Direct Growth,INR,IN,ZZDEMOMF0001,900001,,,DIRECT,GROWTH,Demo AMC,,,,
+ETF_IN,Demo India ETF,INR,IN,ZZDEMOETF001,,DEMOETF,XNSE,,,,,,,
+EQUITY_IN,Demo Stock Co,INR,IN,ZZDEMOEQ0001,,DSTK,XNSE,,,,Industrials,,,
+EQUITY_IN,Demo IPO Ltd,INR,IN,ZZDEMOIPO001,,DIPO,XNSE,,,,Technology,,,
+EQUITY_IN,Demo Old Co,INR,IN,ZZDEMOOLD001,,DOLD,XNSE,,,,Materials,,,
+EQUITY_IN,Demo New Co,INR,IN,ZZDEMONEW001,,DNEW,XNSE,,,,Materials,,,
+EQUITY_US,Demo Tech Inc,USD,US,ZZDEMOUS0001,,DTECH,XNAS,,,,Technology,,,

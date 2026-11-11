@@ -6,7 +6,6 @@ database itself prevents cross-dataset access. search_path is fixed per engine.
 
 from collections.abc import Iterator
 from contextlib import contextmanager
-from functools import lru_cache
 from typing import Any
 
 from sqlalchemy import Engine, create_engine, event
@@ -27,9 +26,24 @@ def _check_dataset(dataset: Dataset) -> None:
         raise RealDataLocked("REAL dataset is locked until docs/gates/phase-4.approved exists")
 
 
-@lru_cache
+_engines: dict[str, Engine] = {}
+
+
+def dispose_engines() -> None:
+    """Close every pooled connection (used when the target database changes, e.g. in tests)."""
+    for engine in _engines.values():
+        engine.dispose()
+    _engines.clear()
+
+
 def get_engine(dataset: Dataset) -> Engine:
     _check_dataset(dataset)
+    if dataset not in _engines:
+        _engines[dataset] = _new_engine(dataset)
+    return _engines[dataset]
+
+
+def _new_engine(dataset: Dataset) -> Engine:
     engine = create_engine(get_settings().app_url(dataset), pool_pre_ping=True)
 
     @event.listens_for(engine, "connect")

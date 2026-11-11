@@ -32,3 +32,6 @@ mutants/
 
 # Source prompt kept local; its Parts A–G are tracked as CLAUDE.md
 Master Build Prompt*.md
+
+# PR descriptions (local drafts)
+pr/

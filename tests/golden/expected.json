@@ -1,0 +1,250 @@
+{
+  "note": "Derived independently by tests/golden/derive_expected.py (no arthashreni imports).",
+  "row_counts": {
+    "transactions": 23,
+    "corporate_actions": 3,
+    "statement_holdings": 7
+  },
+  "holdings": {
+    "COIN-DEMO|AMFI:900001": "15.504",
+    "KITE-DEMO|TICKER:XNSE:DEMOETF": "30",
+    "KITE-DEMO|TICKER:XNSE:DNEW": "15",
+    "KITE-DEMO|TICKER:XNSE:DIPO": "40",
+    "INDMONEY-DEMO|TICKER:XNAS:DTECH": "1"
+  },
+  "lots": [
+    {
+      "account": "COIN-DEMO",
+      "asset": "AMFI:900001",
+      "acquired_on": "2025-01-06",
+      "original_qty": "10",
+      "remaining_qty": "0",
+      "cost_inr": "500.0000",
+      "remaining_cost_inr": "0.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "AMFI:900001",
+      "acquired_on": "2025-02-05",
+      "original_qty": "9.804",
+      "remaining_qty": "4.804",
+      "cost_inr": "500.0040",
+      "remaining_cost_inr": "245.0040",
+      "is_bonus": false
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "AMFI:900001",
+      "acquired_on": "2025-04-07",
+      "original_qty": "10.5",
+      "remaining_qty": "10.5",
+      "cost_inr": "499.9995",
+      "remaining_cost_inr": "499.9995",
+      "is_bonus": false
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "AMFI:900001",
+      "acquired_on": "2025-07-01",
+      "original_qty": "0.2",
+      "remaining_qty": "0.2",
+      "cost_inr": "12.4000",
+      "remaining_cost_inr": "12.4000",
+      "is_bonus": false
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "TICKER:XNAS:DTECH",
+      "acquired_on": "2025-03-05",
+      "original_qty": "2",
+      "remaining_qty": "0",
+      "cost_inr": "16681.6000",
+      "remaining_cost_inr": "0.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "TICKER:XNAS:DTECH",
+      "acquired_on": "2025-04-10",
+      "original_qty": "1.5",
+      "remaining_qty": "1",
+      "cost_inr": "13893.6000",
+      "remaining_cost_inr": "9262.4000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DEMOETF",
+      "acquired_on": "2025-01-15",
+      "original_qty": "20",
+      "remaining_qty": "20",
+      "cost_inr": "2005.0000",
+      "remaining_cost_inr": "2005.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DEMOETF",
+      "acquired_on": "2025-03-10",
+      "original_qty": "10",
+      "remaining_qty": "10",
+      "cost_inr": "1103.0000",
+      "remaining_cost_inr": "1103.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DIPO",
+      "acquired_on": "2025-07-14",
+      "original_qty": "40",
+      "remaining_qty": "40",
+      "cost_inr": "6000.0000",
+      "remaining_cost_inr": "6000.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DNEW",
+      "acquired_on": "2024-09-02",
+      "original_qty": "10",
+      "remaining_qty": "15",
+      "cost_inr": "5000.0000",
+      "remaining_cost_inr": "3750.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "acquired_on": "2024-06-03",
+      "original_qty": "10",
+      "remaining_qty": "0",
+      "cost_inr": "10020.0000",
+      "remaining_cost_inr": "0.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "acquired_on": "2024-11-18",
+      "original_qty": "5",
+      "remaining_qty": "0",
+      "cost_inr": "6010.0000",
+      "remaining_cost_inr": "0.0000",
+      "is_bonus": false
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "acquired_on": "2025-05-20",
+      "original_qty": "75",
+      "remaining_qty": "0",
+      "cost_inr": "0.0000",
+      "remaining_cost_inr": "0.0000",
+      "is_bonus": true
+    }
+  ],
+  "consumptions": [
+    {
+      "account": "COIN-DEMO",
+      "asset": "AMFI:900001",
+      "disposal_date": "2025-06-10",
+      "acquired_on": "2025-01-06",
+      "qty": "10",
+      "cost_inr_consumed": "500.0000",
+      "proceeds_inr": "600.0000",
+      "holding_days": 155
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "AMFI:900001",
+      "disposal_date": "2025-06-10",
+      "acquired_on": "2025-02-05",
+      "qty": "5",
+      "cost_inr_consumed": "255.0000",
+      "proceeds_inr": "300.0000",
+      "holding_days": 125
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "disposal_date": "2025-08-12",
+      "acquired_on": "2024-06-03",
+      "qty": "50",
+      "cost_inr_consumed": "10020.0000",
+      "proceeds_inr": "12487.5000",
+      "holding_days": 435
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "disposal_date": "2025-08-12",
+      "acquired_on": "2024-11-18",
+      "qty": "10",
+      "cost_inr_consumed": "2404.0000",
+      "proceeds_inr": "2497.5000",
+      "holding_days": 267
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "TICKER:XNAS:DTECH",
+      "disposal_date": "2025-09-15",
+      "acquired_on": "2025-03-05",
+      "qty": "2",
+      "cost_inr_consumed": "16681.6000",
+      "proceeds_inr": "22318.7200",
+      "holding_days": 194
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "TICKER:XNAS:DTECH",
+      "disposal_date": "2025-09-15",
+      "acquired_on": "2025-04-10",
+      "qty": "0.5",
+      "cost_inr_consumed": "4631.2000",
+      "proceeds_inr": "5579.6800",
+      "holding_days": 158
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "disposal_date": "2025-10-01",
+      "acquired_on": "2024-11-18",
+      "qty": "15",
+      "cost_inr_consumed": "3606.0000",
+      "proceeds_inr": "4496.6667",
+      "holding_days": 317
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DSTK",
+      "disposal_date": "2025-10-01",
+      "acquired_on": "2025-05-20",
+      "qty": "75",
+      "cost_inr_consumed": "0.0000",
+      "proceeds_inr": "22483.3333",
+      "holding_days": 134
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "TICKER:XNSE:DNEW",
+      "disposal_date": "2025-11-03",
+      "acquired_on": "2024-09-02",
+      "qty": "5",
+      "cost_inr_consumed": "1250.0000",
+      "proceeds_inr": "1500.0000",
+      "holding_days": 427
+    }
+  ],
+  "realised": {
+    "cost_inr": "39347.8000",
+    "proceeds_inr": "72263.4000",
+    "gain_inr": "32915.6000"
+  },
+  "remaining_cost_inr": "22877.8035",
+  "net_cash_inr_by_account": {
+    "COIN-DEMO": "-600.0035",
+    "KITE-DEMO": "13327.0000",
+    "INDMONEY-DEMO": "39576.5000"
+  }
+}

@@ -24,9 +24,9 @@ def test_demo_role_cannot_create_users() -> None:
 def test_real_dataset_locked_until_phase4(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(s, "gate_approved", lambda n: False)
     with pytest.raises(s.RealDataLocked):
-        s.get_engine.__wrapped__("real")  # bypass the cache; don't orphan pooled connections
+        s.get_engine("real")
 
 
 def test_unknown_dataset_rejected() -> None:
     with pytest.raises(ValueError, match="unknown dataset"):
-        s.get_engine.__wrapped__("other")
+        s.get_engine("other")  # type: ignore[arg-type]

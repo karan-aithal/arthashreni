@@ -49,6 +49,47 @@ uv run arthashreni backup restore data/backups/<file>.tar.age \
 `restore` never writes to the main database. To replace the main database after a disaster, restore
 into a new name, check it, then (as the postgres superuser) rename databases.
 
+## Ledger and imports (Phase 2)
+
+```bash
+make migrate                                  # applies 0002_ledger (ledger, imports, lots, reconciliation)
+uv run arthashreni demo seed                  # loads demo/portfolio/ into the DEMO dataset (safe to re-run)
+uv run arthashreni ledger holdings            # units per account and asset
+uv run arthashreni reconcile report           # every statement holding vs the ledger
+```
+
+Setting up your own data (DEMO or, after the Phase 4 gate, REAL):
+
+```bash
+uv run arthashreni account add KITE --platform ZERODHA_KITE --kind BROKER
+uv run arthashreni asset add EQUITY_IN "Some Co" INR IN --isin INE000A01010 --ticker SOMECO --mic XNSE
+uv run arthashreni account load accounts.csv ; uv run arthashreni asset load assets.csv   # or in bulk
+uv run arthashreni import template transactions        # CSV header + example (also: corporate-actions, holdings)
+```
+
+Importing a statement (nothing reaches the ledger until you commit):
+
+```bash
+uv run arthashreni import file PATH [--account LABEL] [--as-of YYYY-MM-DD]   # preview; PDFs ask for the password
+uv run arthashreni import show BATCH                  # rejected / ambiguous / duplicate rows with reasons
+uv run arthashreni import commit BATCH [--accept-skipped]
+uv run arthashreni import reject BATCH                # discard; the same file can be imported again
+uv run arthashreni import scan | watch                # preview whatever is in data/imports/inbox/ (once / forever)
+```
+
+Inbox layout: files that name their own account (CSV templates, CAS) go in `data/imports/inbox/`; Zerodha and INDmoney
+exports do not, so put them in a sub-folder named after the account label (`inbox/KITE/tradebook.csv`). PDFs are listed
+but imported with `import file` because they need a password.
+
+Fixing mistakes never edits history:
+
+```bash
+uv run arthashreni ledger correct TXN_ID --reason "keyed wrong units" --set quantity=8 --set net_cash_inr=-80 --set net_cash_orig=-80
+uv run arthashreni ledger void TXN_ID --reason "duplicate"
+uv run arthashreni reconcile open                       # differences that block the monthly review
+uv run arthashreni reconcile accept ID --reason "..."   # only with a recorded reason
+```
+
 ## Datasets
 
 `ARTHA_DATASET=demo` (default) or `real`. `real` is refused until `docs/gates/phase-4.approved` exists.

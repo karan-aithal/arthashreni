@@ -23,6 +23,7 @@ PHASE_PATHS: dict[str, int] = {
     "migrations": 1,
     f"{PKG}/ledger": 2,
     f"{PKG}/ingestion": 2,
+    f"{PKG}/demo.py": 2,
     f"{PKG}/dq": 3,
     f"{PKG}/jobs": 3,
     f"{PKG}/analytics": 4,
