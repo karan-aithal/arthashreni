@@ -11,3 +11,5 @@ Personal investment intelligence platform for one Indian investor: ledger, data 
 - Phase reports: `docs/gates/`
 
 Status: Phase 1 (backend foundation). Setup and commands: `docs/runbook.md`.
+
+<img width="813" height="977" alt="Screenshot from 2026-11-11 00-40-47" src="https://github.com/user-attachments/assets/c3f543c2-89bc-440d-abac-203b14857bad" />
