@@ -46,6 +46,7 @@ def configure_logging(level: str = "INFO") -> None:
     root = logging.getLogger()
     root.handlers[:] = [handler]
     root.setLevel(level)
+    logging.getLogger("httpx").setLevel(logging.WARNING)  # its INFO lines carry full URLs (tickers)
     for name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
         lg = logging.getLogger(name)
         lg.handlers[:] = []

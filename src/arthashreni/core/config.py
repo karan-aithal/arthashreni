@@ -33,6 +33,17 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
 
+    # External data (Phase 3). Nothing is fetched from a source unless it is listed in `consented_sources`
+    # (comma-separated registry ids): requests reveal which instruments the investor follows (invariant 10).
+    consented_sources: str = ""
+    tiingo_api_key: SecretStr | None = None
+    sec_user_agent: str | None = None  # "Name contact@example.com"; sent to the SEC only (D1)
+    raw_dir: Path = PROJECT_ROOT / "data" / "raw"
+    ingest_time: str = "20:00"  # Asia/Kolkata, daily ingest (G3)
+
+    def consented(self) -> set[str]:
+        return {x.strip() for x in self.consented_sources.split(",") if x.strip()}
+
     def app_url(self, dataset: Dataset | None = None) -> str:
         ds = dataset or self.dataset
         url = self.db_demo_url if ds == "demo" else self.db_real_url

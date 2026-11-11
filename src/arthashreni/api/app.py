@@ -8,6 +8,7 @@ from sqlalchemy import text
 
 from arthashreni import __version__
 from arthashreni.api.auth import router as auth_router
+from arthashreni.api.sources import router as sources_router
 from arthashreni.core.config import get_settings
 from arthashreni.db.session import session_scope
 
@@ -15,6 +16,7 @@ log = logging.getLogger(__name__)
 
 app = FastAPI(title="ArthaShreni API", version=__version__)
 app.include_router(auth_router)
+app.include_router(sources_router)
 
 
 class Health(BaseModel):

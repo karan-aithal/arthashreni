@@ -1,0 +1,5 @@
+Scheme Code;ISIN Div Payout/ ISIN Growth;ISIN Div Reinvestment;Scheme Name;Plan;Option;Net Asset Value;Date
+135762;INF846K01WO1;-;Axis Children's Fund;Direct Plan;Growth Option;30.9434;09-Nov-2026
+135765;INF846K01WP8;-;Axis Children's Fund;Direct Plan;IDCW Option;28.5045;09-Nov-2026
+135759;INF846K01WJ1;-;Axis Children's Fund;Regular Plan;Growth Option;26.9107;09-Nov-2026
+151165;INF579M01AN2;-;360 ONE ELSS Tax Saver Nifty 50 Index Fund;Direct Plan;GROWTH Option;14.2474;09-Nov-2026

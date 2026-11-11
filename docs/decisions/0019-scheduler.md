@@ -10,3 +10,5 @@ Status: Accepted, 2026-11-11
 
 ## Consequences
 Downtime is recovered on the next start and every run, including catch-up, is recorded.
+
+Amended by ADR-0023 (Phase 3): missed daily slots are all recorded, but only the newest slot fetches, because adapters fetch look-back windows.

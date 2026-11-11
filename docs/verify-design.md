@@ -19,7 +19,8 @@ Status: Phase 0 design, 2026-11-11. Implemented in Phase 1 (`scripts/verify.py`,
 | 13 | Security hygiene | `detect-secrets scan --baseline`, `pip-audit`, licence allow-list, dependency deny-list (ADR-0021: `kiteconnect` and other broker SDKs, `streamlit`, `pymupdf`/`fitz`, `google-api-python-client`, `google-auth-oauthlib`; before Phase 8: ollama/embedding/vector libs; before Phase 6: chart/web libs) | any finding | Phase 1 |
 
 ## Import-linter contracts
-0. **Active contracts (Phase 2):** `core` imports nothing else; `db` and `ledger` and `ingestion` import no `api`, `cli` or web framework; `ledger` does not import `ingestion`. `ai`, `research`, `policy`, `risk` are added to these contracts in the phase that creates them (import-linter cannot name a module that does not exist yet).
+0. **Active contracts (Phase 3):** `dq` imports no `db`, `ingestion`, `api`, `cli` or web framework; `db` also forbids `ingestion`.
+   **Phase 2:** `core` imports nothing else; `db` and `ledger` and `ingestion` import no `api`, `cli` or web framework; `ledger` does not import `ingestion`. `ai`, `research`, `policy`, `risk` are added to these contracts in the phase that creates them (import-linter cannot name a module that does not exist yet).
 1. **Core purity:** `arthashreni.ledger`, `.dq`, `.analytics`, `.risk`, `.policy` forbid `arthashreni.ai`, `arthashreni.research`, `arthashreni.ingestion.social`, `fastapi`, `starlette`, `flask`.
 2. **No look-ahead:** `arthashreni.backtest`, `arthashreni.research` forbid `arthashreni.db.models.market` and `arthashreni.db.repositories`; only `arthashreni.db.as_of` allowed.
 3. **No execution:** no module may import `*.execution`, `*.broker*`, `*.orders*` (also checked by path existence).

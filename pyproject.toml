@@ -5,9 +5,12 @@ description = "Personal investment intelligence platform (decision support only;
 requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.20.1",
+    "apscheduler>=3.11,<4",
     "argon2-cffi>=25.1.0",
     "casparser>=1.4.1",
+    "exchange-calendars>=4.13",
     "fastapi>=0.162.4",
+    "httpx>=0.28.1",
     "openpyxl>=3.1.5",
     "psycopg[binary]>=3.3.8",
     "pydantic>=2.14.3",
@@ -55,6 +58,8 @@ ignore = ["S101", "S603", "S607"]  # asserts in tests; subprocess calls use fixe
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S105", "S106", "E501"]
 "migrations/**" = ["SIM905", "E501", "S608"]  # SQL assembled from fixed constants
+"src/arthashreni/dq/store.py" = ["E501"]
+"src/arthashreni/db/as_of.py" = ["E501"]  # long SQL strings
 
 [tool.mypy]
 python_version = "3.12"
@@ -63,7 +68,7 @@ plugins = ["pydantic.mypy"]
 mypy_path = "src"
 
 [[tool.mypy.overrides]]
-module = ["pyrage", "pyrage.*", "casparser", "casparser.*"]
+module = ["pyrage", "pyrage.*", "casparser", "casparser.*", "exchange_calendars", "exchange_calendars.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
@@ -90,7 +95,7 @@ forbidden_modules = ["arthashreni.db", "arthashreni.api", "arthashreni.cli", "ar
 name = "db does not import api, cli or web frameworks"
 type = "forbidden"
 source_modules = ["arthashreni.db"]
-forbidden_modules = ["arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
+forbidden_modules = ["arthashreni.api", "arthashreni.cli", "arthashreni.ingestion", "fastapi", "starlette"]
 
 [[tool.importlinter.contracts]]
 name = "ledger is pure: no ingestion, api, cli or web frameworks (add ai/research when they exist)"
@@ -103,3 +108,10 @@ name = "ingestion does not reach api, cli or web frameworks (add policy/risk/ai 
 type = "forbidden"
 source_modules = ["arthashreni.ingestion"]
 forbidden_modules = ["arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
+
+[[tool.importlinter.contracts]]
+name = "dq is pure: no db, ingestion adapters, api, cli or web frameworks (add ai/research when they exist)"
+type = "forbidden"
+source_modules = ["arthashreni.dq"]
+forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
+                     "fastapi", "starlette"]
