@@ -6,7 +6,7 @@ from decimal import Decimal
 
 import pytest
 import pyxirr
-from hypothesis import assume, given
+from hypothesis import HealthCheck, assume, given, settings
 from hypothesis import strategies as st
 
 from arthashreni.analytics.xirr import xirr
@@ -297,6 +297,7 @@ def test_a_returned_root_is_never_one_of_several(years: list[int], data: st.Data
 
 
 @pytest.mark.property
+@settings(suppress_health_check=[HealthCheck.filter_too_much])  # the test discards most patterns on purpose
 @given(years=st.lists(st.integers(0, 6), min_size=3, max_size=6, unique=True).map(sorted), data=st.data())
 def test_norstrom_holds_above_zero_but_only_there(years: list[int], data: st.DataObject) -> None:
     """The theorem we rely on, as tested: one sign change in the running total (total not zero) leaves at

@@ -150,6 +150,27 @@ How to read it: `stale` = newer data was expected and is missing; `estimated` = 
 
 Checks: `uv run python scripts/xirr_oracle.py` (our XIRR vs pyxirr vs LibreOffice), `uv run python tests/golden/derive_calcs.py --check`, `uv run mutmut run` then `uv run python scripts/mutation_gate.py`.
 
+## Budget, risk and the monthly review (Phase 5)
+
+All of this is your own setup and your own decisions. Nothing places, changes or cancels a trade, SIP or mandate.
+
+```
+arthashreni budget set 10000 --from 2026-01-01        # one budget for all asset classes
+arthashreni sip add AMFI:123456 --account COIN --amount 2000 --day 6 --start 2025-01-01 --platform ZERODHA_COIN
+arthashreni reserve add "Cash reserve" --kind CASH_RESERVE
+arthashreni context set emergency_fund_inr 400000 --certainty KNOWN   # see `context show` for the fields
+arthashreni ips template > ips.json                    # an example only: the bands are yours
+arthashreni ips draft ips.json                         # stored as a DRAFT, never used
+arthashreni ips approve 1 --note "why"                 # only you approve
+arthashreni risk run --save                            # signals, level, scenarios, new alerts
+arthashreni review run                                 # dry run: prints the report, stores nothing
+arthashreni review run --commit                        # stores the month once (data/reports/review-YYYY-MM.md)
+arthashreni review decide <recommendation id> --decision APPROVE --reason "..." [--line <id>]
+arthashreni review close 2026-11-01                    # unallocated money moves to the cash reserve
+```
+
+Costs: put your platforms' real fees in `config/costs.toml` (`[[schedule]]` tables: platform, asset_class, brokerage_pct, brokerage_flat_inr, fx_markup_pct, transfer_fee_flat_inr, stamp_duty_pct, gst_pct, min_ticket_inr). Without it every investment is "cost unknown" and goes to the cash reserve. `arthashreni demo policy` sets up DEMO budget, SIP, IPS and context (DEMO only). Mainboard IPOs: `ipo add REF --board MAINBOARD --min-lot <from the RHP>`, then `ipo block` / `ipo settle` to record what you did at your broker. The scheduler also runs the daily risk step after the ingest and a draft monthly review on the first weekday of the month; it never approves anything.
+
 ## Datasets
 
 `ARTHA_DATASET=demo` (default) or `real`. `real` is refused until `docs/gates/phase-4.approved` exists.

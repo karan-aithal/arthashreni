@@ -5,9 +5,11 @@ A session-wide database `arthashreni_test` backs the Phase 1 tests. Ledger tests
 `ledger_db` fixture and gets its own throwaway database. None of these touch `arthashreni`.
 """
 
+import gc
 import os
 import re
 import subprocess
+import time
 from collections.abc import Iterator
 
 import pytest
@@ -52,7 +54,17 @@ def _use_database(name: str) -> dict[str, str | None]:
 def _release_database(name: str, old: dict[str, str | None]) -> None:
     admin = PgTarget.from_sqlalchemy(get_settings().db_owner_url.get_secret_value()).with_db("postgres")
     dispose_engines()
-    drop_db(admin, name)
+    for attempt in range(
+        5
+    ):  # a connection from a worker thread may still be closing (FORCE cannot kill other roles)
+        gc.collect()
+        try:
+            drop_db(admin, name)
+            break
+        except Exception:
+            if attempt == 4:
+                raise
+            time.sleep(0.3)
     for k, v in old.items():
         if v is None:
             os.environ.pop(k, None)
@@ -72,6 +84,11 @@ NO_DB_MODULES = frozenset(
         "test_lots",
         "test_ledger_exact",
         "test_ledger_properties",
+        "test_confidence",
+        "test_policy_envelope",
+        "test_policy_rules",
+        "test_policy_decision",
+        "test_risk",
     }
 )
 

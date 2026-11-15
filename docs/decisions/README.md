@@ -29,3 +29,5 @@ Changing a Part A invariant requires a `Proposed` ADR and investor approval befo
 | 0022 | Ledger conventions (Phase 2) | Accepted |
 | 0023 | Data-quality and ingestion conventions (Phase 3) | Accepted |
 | 0024 | Calculation conventions (Phase 4) | Accepted |
+| 0025 | Budget, IPS and decision-engine conventions (Phase 5) | Accepted |
+| 0026 | Risk engine conventions and provisional thresholds (Phase 5) | Accepted |

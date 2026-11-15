@@ -4,7 +4,7 @@ every `Measured` becomes {value, status, as_of, sources, notes}; Decimals stay s
 from dataclasses import fields, is_dataclass
 from datetime import date, datetime
 from decimal import Decimal
-from enum import Enum
+from enum import Enum, IntEnum
 from typing import Any
 
 from arthashreni.dq.measured import Measured
@@ -23,6 +23,8 @@ def jsonable(obj: Any) -> Any:
         return str(obj)
     if isinstance(obj, datetime | date):
         return obj.isoformat()
+    if isinstance(obj, IntEnum):
+        return obj.name  # a risk level is shown by its name, not its rank
     if isinstance(obj, Enum):
         return obj.value
     if is_dataclass(obj) and not isinstance(obj, type):

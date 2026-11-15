@@ -1,6 +1,6 @@
 # ArthaShreni — Architecture
 
-Status: Phase 0 draft, 2026-11-11. Binding rules live in `CLAUDE.md`; this document describes how the code will satisfy them.
+Status: Phase 0 draft, 2026-11-11; Phase 5 rows updated 2026-11-12. Binding rules live in `CLAUDE.md`; this document describes how the code will satisfy them.
 
 ## 1. Shape of the system
 
@@ -52,8 +52,9 @@ Single Python distribution `arthashreni`, source in `src/arthashreni/`. Each sub
 | `dq` | E3 checks, quarantine queue, confidence calculation | `core`, `db` | `ai`, `research`, `ingestion.social`, web frameworks | 3 |
 | `analytics` | F1 calculations, all pure functions returning `Measured` | `core`, `dq.measured`, `ledger` types | `db`, `ai`, `research`, `ingestion`, `api`, `cli`, sqlalchemy, web frameworks | 4 |
 | `portfolio` (module) | loads ledger, prices and FX for one dataset and calls `analytics` (`build_report`); used by `api` and `cli` | `analytics`, `db`, `ledger` | — | 4 |
-| `risk` | F2 signals, levels, scenarios, alerts | `core`, `db`, `analytics` | `ai`, `research`, `ingestion.social`, web frameworks | 5 |
-| `policy` | budget envelope, reserves, IPS, personal context, decision engine | `core`, `db`, `analytics`, `risk` | `ai`, `research`, `ingestion.social`, web frameworks | 5 |
+| `risk` | F2 signals, levels, scenarios, alerts (`store.py` is its only database module) | `core`, `analytics`, `dq` | `policy`, `db`, `ai`, `research`, web frameworks | 5 |
+| `policy` | budget envelope, reserves, IPS, personal context, cost rule, decision engine (`store.py` is its only database module) | `core`, `analytics`, `risk` | `db`, `ai`, `research`, web frameworks | 5 |
+| `review` (module) | loads one dataset and runs `risk` and `policy` (`run_risk`, `monthly_review`); used by `api`, `cli`, `jobs` | `analytics`, `risk`, `policy`, `portfolio`, `db` | — | 5 |
 | `reports` | template-based monthly report (Markdown/PDF) | `core`, `policy`, `risk`, `analytics` | `ai` | 5 |
 | `api` | FastAPI app, auth, routers; thin layer over the packages above | all except `ai` internals | broker execution (none exists) | 1+ |
 | `jobs` | APScheduler definitions, run history, missed-run recovery | `ingestion`, `dq`, `risk`, `policy`, `reports` | — | 3+ |

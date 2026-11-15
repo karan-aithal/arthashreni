@@ -1,0 +1,31 @@
+# DEMO cost schedules: invented round numbers for the synthetic portfolio. They are NOT any platform's real fees
+# (real schedules are the investor's own input in config/costs.toml; none are hardcoded, B4).
+
+[[schedule]]
+platform = "ZERODHA_COIN"
+asset_class = "MF"
+stamp_duty_pct = 0.00005
+min_ticket_inr = 500
+
+[[schedule]]
+platform = "ZERODHA_KITE"
+asset_class = "ETF_IN"
+brokerage_flat_inr = 5
+gst_pct = 0.18
+stamp_duty_pct = 0.00015
+min_ticket_inr = 100
+
+[[schedule]]
+platform = "ZERODHA_KITE"
+asset_class = "EQUITY_IN"
+brokerage_flat_inr = 5
+gst_pct = 0.18
+stamp_duty_pct = 0.00015
+min_ticket_inr = 100
+
+[[schedule]]
+platform = "INDMONEY"
+asset_class = "EQUITY_US"
+fx_markup_pct = 0.005
+transfer_fee_flat_inr = 150
+min_ticket_inr = 1000

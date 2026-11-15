@@ -1,0 +1,109 @@
+# Risk thresholds (F2). Every row says what it measures, why the number was chosen and whether it was backtested.
+#
+# STATUS: all thresholds are PROVISIONAL (ADR-0026, V31). None is backtested: there is no investor history yet
+# and a few months of DEMO data cannot test a drawdown rule. They are conventional market vocabulary (a 10% fall
+# is a "correction", 20% a "bear market"), not predictions. No threshold is presented as a crash predictor and
+# no level triggers a trade (invariant 12). Recalibrate after real history is imported (V31).
+#
+# direction "above": the signal is worse as the value rises; "below": worse as it falls.
+# A signal's level is the highest threshold it has passed.
+
+[level_rules]
+# How signals combine into the portfolio's risk level (counts of signals at or above a level):
+#   Severe Stress: >= 2 signals at Severe          High Risk: >= 1 at Severe or >= 2 at High
+#   Caution: >= 1 at High or >= 2 at Caution       Normal: otherwise
+severe_stress_if_severe = 2
+high_risk_if_severe = 1
+high_risk_if_high = 2
+caution_if_high = 1
+caution_if_caution = 2
+rationale = "Counting signals stops one noisy series from raising the level alone; missing signals do not count and are listed."
+alert_min_level = "HIGH_RISK"  # CAUTION is shown in the daily summary but does not raise an alert
+
+[decline]
+# Market-wide vs asset-specific (F2): ratio = benchmark fall / asset fall over the same dates.
+market_wide_ratio = 0.6      # the benchmark fell at least 60% as much as the asset: market-wide
+asset_specific_ratio = 0.3   # the benchmark fell less than 30% as much (or rose): asset-specific
+min_correlation = 0.5        # below this the benchmark is not a fair yardstick: uncertain
+rationale = "Between the two ratios, or without a benchmark, the answer is uncertain (an allowed answer). Fundamentals and filings are not available before Phase 7."
+
+[signal.idx_drawdown]
+unit = "fall from the running peak, as a fraction (365-day window)"
+direction = "above"
+caution = 0.10
+high = 0.20
+severe = 0.30
+rationale = "10% / 20% / 30% are the conventional correction, bear-market and crash labels for broad indices."
+backtested = false
+
+[signal.idx_vol]
+unit = "annualised volatility of daily returns (365-day window)"
+direction = "above"
+caution = 0.20
+high = 0.30
+severe = 0.40
+rationale = "Broad equity index volatility is typically around 15-18%; 20/30/40% are clearly elevated regimes (VIX-style bands)."
+backtested = false
+
+[signal.usdinr_move]
+unit = "absolute change of USD/INR over 30 days, as a fraction"
+direction = "above"
+caution = 0.02
+high = 0.04
+severe = 0.06
+rationale = "A 30-day move above 2% is unusual for USD/INR; 4% and 6% are rare."
+backtested = false
+
+[signal.holding_drawdown]
+unit = "fall of one holding from its running peak, as a fraction (365-day window)"
+direction = "above"
+caution = 0.15
+high = 0.25
+severe = 0.40
+rationale = "Single holdings are more volatile than an index, so the bands are wider than for indices."
+backtested = false
+
+[signal.top3_weight]
+unit = "share of the portfolio in its three largest holdings"
+direction = "above"
+caution = 0.60
+high = 0.75
+severe = 0.90
+rationale = "The portfolio has roughly 5-10 stocks and 3-6 funds, so three holdings above 60% means few real bets."
+backtested = false
+
+[signal.band_breach]
+unit = "how far a class, country or currency weight is outside its IPS band (fraction points)"
+direction = "above"
+caution = 0.0001
+high = 0.05
+severe = 0.10
+rationale = "Any breach is worth a look; 5 points matches the IPS default rebalance margin."
+backtested = false
+
+[signal.correlation_rise]
+unit = "short-window (60-day) minus long-window average pairwise correlation"
+direction = "above"
+caution = 0.20
+high = 0.35
+severe = 0.50
+rationale = "Holdings that start moving together lose their diversification; a rise of 0.2 or more is clearly above sampling noise."
+backtested = false
+
+[signal.foreign_share]
+unit = "share of the portfolio held in a currency other than INR"
+direction = "above"
+caution = 0.40
+high = 0.50
+severe = 0.60
+rationale = "A moderate-risk Indian investor with INR liabilities should not be majority foreign-currency; the IPS currency band, when set, is checked separately."
+backtested = false
+
+[signal.emergency_months]
+unit = "months of essential expenses held as an emergency fund"
+direction = "below"
+caution = 6
+high = 3
+severe = 1
+rationale = "Six months is the common rule of thumb; below three the investor may be forced to sell at a bad time."
+backtested = false
