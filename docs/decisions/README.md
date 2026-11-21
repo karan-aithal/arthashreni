@@ -33,3 +33,4 @@ Changing a Part A invariant requires a `Proposed` ADR and investor approval befo
 | 0026 | Risk engine conventions and provisional thresholds (Phase 5) | Accepted |
 | 0027 | PostgreSQL 18 on port 5433 is the project server | Accepted |
 | 0028 | Read-only web UI (Phase 6) | Accepted |
+| 0029 | Phase 5 follow-ups: notifications, holidays, fund category and theme, wider mutation testing | Accepted |

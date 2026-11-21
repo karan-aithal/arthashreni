@@ -11,6 +11,7 @@ import re
 import subprocess
 import time
 from collections.abc import Iterator
+from pathlib import Path
 
 import pytest
 from sqlalchemy.engine import make_url
@@ -19,6 +20,7 @@ from arthashreni.backup import PgTarget, _recreate_db, drop_db
 from arthashreni.core.config import get_settings
 from arthashreni.db.session import dispose_engines
 
+os.environ.setdefault("ARTHA_NOTIFY", "off")  # tests never pop up real desktop notifications
 URL_VARS = ("ARTHA_DB_OWNER_URL", "ARTHA_DB_DEMO_URL", "ARTHA_DB_REAL_URL")
 
 
@@ -89,15 +91,24 @@ NO_DB_MODULES = frozenset(
         "test_policy_rules",
         "test_policy_decision",
         "test_risk",
+        "test_reports",
+        "test_risk_exact",
+        "test_classify",
     }
 )
 
 
+def _unique(name: str) -> str:
+    """Inside mutmut's copy (`mutants/`) workers run in parallel, so each process gets its own database."""
+    return f"{name}_{os.getpid()}"[:63] if "mutants" in Path(__file__).parts else name
+
+
 @pytest.fixture(scope="session")
 def test_database() -> Iterator[None]:
-    old = _use_database("arthashreni_test")
+    name = _unique("arthashreni_test")
+    old = _use_database(name)
     yield
-    _release_database("arthashreni_test", old)
+    _release_database(name, old)
 
 
 @pytest.fixture(autouse=True)
@@ -109,7 +120,7 @@ def _database_unless_pure(request: pytest.FixtureRequest) -> None:
 @pytest.fixture(scope="module")
 def ledger_db(request: pytest.FixtureRequest, test_database: None) -> Iterator[str]:
     """A fresh migrated database for one test module."""
-    name = "arthashreni_t_" + re.sub(r"\W", "", request.module.__name__.rsplit(".", 1)[-1])[:30]
+    name = _unique("arthashreni_t_" + re.sub(r"\W", "", request.module.__name__.rsplit(".", 1)[-1])[:30])
     old = _use_database(name)
     yield name
     _release_database(name, old)

@@ -169,7 +169,11 @@ arthashreni review decide <recommendation id> --decision APPROVE --reason "..." 
 arthashreni review close 2026-11-01                    # unallocated money moves to the cash reserve
 ```
 
-Costs: put your platforms' real fees in `config/costs.toml` (`[[schedule]]` tables: platform, asset_class, brokerage_pct, brokerage_flat_inr, fx_markup_pct, transfer_fee_flat_inr, stamp_duty_pct, gst_pct, min_ticket_inr). Without it every investment is "cost unknown" and goes to the cash reserve. `arthashreni demo policy` sets up DEMO budget, SIP, IPS and context (DEMO only). Mainboard IPOs: `ipo add REF --board MAINBOARD --min-lot <from the RHP>`, then `ipo block` / `ipo settle` to record what you did at your broker. The scheduler also runs the daily risk step after the ingest and a draft monthly review on the first weekday of the month; it never approves anything.
+Costs: put your platforms' real fees in `config/costs.toml` (`[[schedule]]` tables: platform, asset_class, brokerage_pct, brokerage_flat_inr, fx_markup_pct, transfer_fee_flat_inr, stamp_duty_pct, gst_pct, min_ticket_inr). Without it every investment is "cost unknown" and goes to the cash reserve. `arthashreni demo policy` sets up DEMO budget, SIP, IPS and context (DEMO only). Mainboard IPOs: `ipo add REF --board MAINBOARD --min-lot <from the RHP>`, then `ipo block` / `ipo settle` to record what you did at your broker. The scheduler also runs the daily risk step after the ingest and a draft monthly review from the first BSE trading day of the month (market holidays are skipped); it never approves anything.
+
+Asset attributes the limits need: `arthashreni asset set AMFI:123456 --category DEBT` (EQUITY, HYBRID or DEBT; a debt fund is then not shocked like equity and is not risk money) and `asset set TICKER:XNSE:ABC --theme "Banking"` (the IPS `max_theme` limit applies only to assets that have a theme). Both can also be columns `theme` and `fund_category` in the assets CSV. Unknown means equity, the cautious reading.
+
+Alerts: new, de-duplicated risk alerts raise a desktop notification (`notify-send`, local only). `ARTHA_NOTIFY=off` silences it; `arthashreni scheduler notify-test` sends a test. Email and Telegram are not built: they would send portfolio-derived text off this machine and need your logged consent first.
 
 ## Web UI (Phase 6, read-only)
 

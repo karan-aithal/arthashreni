@@ -45,6 +45,8 @@ def add_asset(
     mf_option: str | None = None,
     fund_house: str | None = None,
     sector: str | None = None,
+    theme: str | None = None,
+    fund_category: str | None = None,
     maturity_date: date | None = None,
     coupon_rate: Decimal | None = None,
     coupon_frequency_months: int | None = None,
@@ -55,11 +57,11 @@ def add_asset(
         db.execute(
             text(
                 """INSERT INTO ref.assets (asset_class, name, currency, country, isin, amfi_code, ticker,
-                       exchange_mic, regulated, mf_plan, mf_option, fund_house, sector, maturity_date,
-                       coupon_rate, coupon_frequency_months, is_demo)
+                       exchange_mic, regulated, mf_plan, mf_option, fund_house, sector, theme,
+                       fund_category, maturity_date, coupon_rate, coupon_frequency_months, is_demo)
                    VALUES (:asset_class, :name, :currency, :country, :isin, :amfi_code, :ticker,
-                       :exchange_mic, :regulated, :mf_plan, :mf_option, :fund_house, :sector,
-                       :maturity_date, :coupon_rate, :coupon_frequency_months, :is_demo)
+                       :exchange_mic, :regulated, :mf_plan, :mf_option, :fund_house, :sector, :theme,
+                       :fund_category, :maturity_date, :coupon_rate, :coupon_frequency_months, :is_demo)
                    RETURNING id"""
             ),
             {
@@ -76,6 +78,8 @@ def add_asset(
                 "mf_option": mf_option,
                 "fund_house": fund_house,
                 "sector": sector,
+                "theme": theme,
+                "fund_category": fund_category,
                 "maturity_date": maturity_date,
                 "coupon_rate": coupon_rate,
                 "coupon_frequency_months": coupon_frequency_months,

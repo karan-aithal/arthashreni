@@ -17,6 +17,7 @@ from datetime import date
 from decimal import ROUND_DOWN, Decimal
 from typing import Any
 
+from arthashreni.core.classify import is_risk_money
 from arthashreni.dq.confidence import ConfidenceLevel
 from arthashreni.dq.measured import QualityStatus, exact
 from arthashreni.policy.context import Context, Liquidity, Verdict, liquidity
@@ -28,9 +29,6 @@ from arthashreni.policy.score import advisory_score
 from arthashreni.risk.thresholds import Level
 
 ZERO, INF = Decimal(0), Decimal("Infinity")
-RISKY = frozenset(
-    {"EQUITY_IN", "EQUITY_US", "ETF_IN", "ETF_US", "MF", "SILVER_ETF"}
-)  # MF assumed equity (V32)
 BAD_DATA = frozenset(
     {QualityStatus.STALE, QualityStatus.MISSING, QualityStatus.CONFLICTING, QualityStatus.QUARANTINED}
 )
@@ -64,6 +62,12 @@ class Holding:
     components: dict[str, Decimal | None] = field(
         default_factory=dict
     )  # advisory inputs (quality, valuation)
+    theme: str | None = None
+    fund_category: str | None = None  # MF only: EQUITY, HYBRID, DEBT; None = unknown, counted as equity
+
+
+def _risky(h: Holding) -> bool:
+    return is_risk_money(h.asset_class, h.fund_category)
 
 
 @dataclass(frozen=True)
@@ -224,10 +228,14 @@ class _Plan:
             limits.append(
                 (_cap_room(self.group(lambda g: g.sector == h.sector), ips.max_sector, total), "sector limit")
             )
-        if liq.income_unstable and h.asset_class in RISKY:
+        if ips.max_theme is not None and h.theme:
+            limits.append(
+                (_cap_room(self.group(lambda g: g.theme == h.theme), ips.max_theme, total), "theme limit")
+            )
+        if liq.income_unstable and _risky(h):
             limits.append(
                 (
-                    _cap_room(self.group(lambda g: g.asset_class in RISKY), risky0, total),
+                    _cap_room(self.group(_risky), risky0, total),
                     "risk level may not rise",
                 )
             )
@@ -263,7 +271,7 @@ def _exclusions(h: Holding, inp: DecisionInput, ips: IPS, liq: Liquidity) -> lis
             out.append(
                 f"cooldown: {h.asset_class} was reduced in {m.period:%Y-%m}, less than {ips.cooldown_months} months ago"
             )
-    if liq.expense_window is Verdict.FAIL and h.asset_class in RISKY:
+    if liq.expense_window is Verdict.FAIL and _risky(h):
         out.append("a large planned expense is near: no new risk money")
     return out
 
@@ -383,11 +391,7 @@ def decide(inp: DecisionInput) -> Recommendation:
         for s in inp.sip_lines:  # SIPs are already moving into their assets this month
             if s.asset_id is not None:
                 plan.put(s.asset_id, s.amount_inr)
-        risky0 = (
-            sum((h.value_inr for h in inp.holdings if h.asset_class in RISKY), ZERO) / plan.v0
-            if plan.v0
-            else ZERO
-        )
+        risky0 = sum((h.value_inr for h in inp.holdings if _risky(h)), ZERO) / plan.v0 if plan.v0 else ZERO
         env_lines: list[EnvelopeLine] = []
 
         def to_reserve(r: Reserve | None, x: Decimal, why: list[str], subject: str | None = None) -> Decimal:

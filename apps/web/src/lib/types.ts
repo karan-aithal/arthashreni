@@ -13,7 +13,10 @@ export interface Measured<T = string> {
 
 export type M = Measured<string>;
 
-export interface AssetInfo { id: number; name: string; asset_class: string; country: string; currency: string }
+export interface AssetInfo {
+  id: number; name: string; asset_class: string; country: string; currency: string;
+  theme: string | null; fund_category: string | null;
+}
 export interface Holding {
   position: { asset: AssetInfo; units: string };
   units: M; price: M; value_inr: M; cost_inr: M; unrealised_inr: M; unrealised_pct: M;

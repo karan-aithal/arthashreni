@@ -1116,11 +1116,13 @@
           "asset_class": "MF",
           "country": "IN",
           "currency": "INR",
+          "fund_category": null,
           "fund_house": "Demo AMC",
           "id": 1,
           "market_cap": null,
           "name": "Demo Growth Equity Fund - Direct Growth",
-          "sector": null
+          "sector": null,
+          "theme": null
         },
         "cost_inr": "757.4035",
         "cost_orig": "757.4035",
@@ -1203,11 +1205,13 @@
           "asset_class": "ETF_IN",
           "country": "IN",
           "currency": "INR",
+          "fund_category": null,
           "fund_house": null,
           "id": 2,
           "market_cap": null,
           "name": "Demo India ETF",
-          "sector": null
+          "sector": null,
+          "theme": null
         },
         "cost_inr": "3108.0000",
         "cost_orig": "3108.0000",
@@ -1290,11 +1294,13 @@
           "asset_class": "EQUITY_IN",
           "country": "IN",
           "currency": "INR",
+          "fund_category": null,
           "fund_house": null,
           "id": 4,
           "market_cap": null,
           "name": "Demo IPO Ltd",
-          "sector": "Technology"
+          "sector": "Technology",
+          "theme": null
         },
         "cost_inr": "6000.0000",
         "cost_orig": "6000.0000",
@@ -1377,11 +1383,13 @@
           "asset_class": "EQUITY_IN",
           "country": "IN",
           "currency": "INR",
+          "fund_category": null,
           "fund_house": null,
           "id": 6,
           "market_cap": null,
           "name": "Demo New Co",
-          "sector": "Materials"
+          "sector": "Materials",
+          "theme": null
         },
         "cost_inr": "3750.0000",
         "cost_orig": "3750.0000",
@@ -1472,11 +1480,13 @@
           "asset_class": "EQUITY_US",
           "country": "US",
           "currency": "USD",
+          "fund_category": null,
           "fund_house": null,
           "id": 7,
           "market_cap": null,
           "name": "Demo Tech Inc",
-          "sector": "Technology"
+          "sector": "Technology",
+          "theme": null
         },
         "cost_inr": "9262.4000",
         "cost_orig": "110.2666666666666666666666666666666666667",
@@ -1777,11 +1787,13 @@
         "asset_class": "MF",
         "country": "IN",
         "currency": "INR",
+        "fund_category": null,
         "fund_house": "Demo AMC",
         "id": 1,
         "market_cap": null,
         "name": "Demo Growth Equity Fund - Direct Growth",
-        "sector": null
+        "sector": null,
+        "theme": null
       },
       "drawdown": {
         "current_depth": {
@@ -1831,11 +1843,13 @@
         "asset_class": "EQUITY_IN",
         "country": "IN",
         "currency": "INR",
+        "fund_category": null,
         "fund_house": null,
         "id": 4,
         "market_cap": null,
         "name": "Demo IPO Ltd",
-        "sector": "Technology"
+        "sector": "Technology",
+        "theme": null
       },
       "drawdown": {
         "current_depth": {
@@ -1882,11 +1896,13 @@
         "asset_class": "ETF_IN",
         "country": "IN",
         "currency": "INR",
+        "fund_category": null,
         "fund_house": null,
         "id": 2,
         "market_cap": null,
         "name": "Demo India ETF",
-        "sector": null
+        "sector": null,
+        "theme": null
       },
       "drawdown": {
         "current_depth": {
@@ -1933,11 +1949,13 @@
         "asset_class": "EQUITY_IN",
         "country": "IN",
         "currency": "INR",
+        "fund_category": null,
         "fund_house": null,
         "id": 6,
         "market_cap": null,
         "name": "Demo New Co",
-        "sector": "Materials"
+        "sector": "Materials",
+        "theme": null
       },
       "drawdown": {
         "current_depth": {
@@ -1984,11 +2002,13 @@
         "asset_class": "EQUITY_US",
         "country": "US",
         "currency": "USD",
+        "fund_category": null,
         "fund_house": null,
         "id": 7,
         "market_cap": null,
         "name": "Demo Tech Inc",
-        "sector": "Technology"
+        "sector": "Technology",
+        "theme": null
       },
       "drawdown": {
         "current_depth": {

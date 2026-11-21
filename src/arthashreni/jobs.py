@@ -15,6 +15,7 @@ from sqlalchemy import text
 
 from arthashreni.core.config import Dataset, get_settings
 from arthashreni.db.session import get_engine, session_scope
+from arthashreni.dq.calendars import first_session_of_month
 from arthashreni.ingestion.sources.ingest import run_daily
 
 log = logging.getLogger(__name__)
@@ -83,8 +84,10 @@ def _daily_risk(dataset: Dataset, day: date) -> dict[str, Any]:
     except Exception as exc:  # the ingest result must still be recorded
         log.exception("daily risk run failed")
         return {"error": str(exc)[:200]}
+    from arthashreni.notify import notify_alerts
+
     return {"level": r.level.level.name, "new_alerts": len(r.diff.new), "silent": len(r.diff.unchanged),
-            "cleared": len(r.diff.cleared)}  # fmt: skip
+            "cleared": len(r.diff.cleared), "notified": notify_alerts(dataset, r.diff.new)}  # fmt: skip
 
 
 def monthly_name(dataset: Dataset) -> str:
@@ -94,12 +97,15 @@ def monthly_name(dataset: Dataset) -> str:
 def run_monthly(dataset: Dataset, now: datetime | None = None) -> str:
     """The monthly review (G3): reconcile, run risk and policy, write the draft report and wait for the
     investor. Idempotent per month. It stores no allocation and approves nothing; `review run --commit` is the
-    investor's step. Holidays are not modelled: the first weekday fires it, later days find it done."""
+    investor's step. It runs from the month's first BSE trading day (holidays skipped); later days find it
+    done."""
     from arthashreni.reports.monthly import monthly_markdown
     from arthashreni.review import monthly_review
 
     now = (now or datetime.now(UTC)).astimezone(IST)
     period = now.date().replace(day=1)
+    if now.date() < first_session_of_month("XBOM", period):
+        return "SKIPPED"  # a holiday or weekend at the start of the month: wait for the first working day
     slot = datetime.combine(period, time(9, 0), tzinfo=IST)
     claimed = _claim(dataset, monthly_name(dataset), slot)
     if claimed is None:
@@ -181,7 +187,7 @@ def build_scheduler(dataset: Dataset) -> BackgroundScheduler:
         id=job_name(dataset), replace_existing=True,
     )  # fmt: skip
     sched.add_job(
-        "arthashreni.jobs:scheduled_monthly", "cron", day="1-3", day_of_week="mon-fri", hour=9, minute=0,
+        "arthashreni.jobs:scheduled_monthly", "cron", day="1-7", day_of_week="mon-fri", hour=9, minute=0,
         args=[dataset], id=monthly_name(dataset), replace_existing=True,
     )  # fmt: skip
     return sched

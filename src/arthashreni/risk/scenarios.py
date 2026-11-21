@@ -1,6 +1,6 @@
 """Stress scenarios (F2). Labelled scenarios, never predictions: each applies fixed, illustrative shocks to the
-current holdings and reports the INR impact per holding and in total. Mutual funds are treated as equity-oriented
-because no scheme category is stored (V32); a debt fund would be overstated.
+current holdings and reports the INR impact per holding and in total. A mutual fund is treated as equity-oriented
+unless its category is DEBT (see `core.classify`); an unknown category counts as equity, the cautious reading.
 
 Shocks (fractions): equity -10/-20/-30%; the largest held sector -30% on top of nothing else; USD/INR +10% and -10%
 (only foreign-currency holdings move); joint India + US stress = equity -20% in local terms with INR 5% weaker, so a
@@ -11,9 +11,9 @@ from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
 
+from arthashreni.core.classify import is_equity_oriented
 from arthashreni.dq.measured import Measured, QualityStatus, day_stamp, m_div, m_mul, m_sum, with_status
 
-EQUITY = frozenset({"EQUITY_IN", "EQUITY_US", "ETF_IN", "ETF_US", "MF"})
 COMMODITY = frozenset({"GOLD_ETF", "SILVER_ETF", "SGB", "DIGITAL_GOLD"})
 D = Decimal
 SECTOR_SHOCK = D("-0.30")
@@ -30,6 +30,7 @@ class Exposure:
     currency: str
     sector: str | None
     value_inr: Measured[Decimal]
+    fund_category: str | None = None
 
 
 @dataclass(frozen=True)
@@ -47,7 +48,7 @@ Shock = Callable[[Exposure], Decimal]
 
 
 def _equity(pct: Decimal) -> Shock:
-    return lambda e: pct if e.asset_class in EQUITY else D(0)
+    return lambda e: pct if is_equity_oriented(e.asset_class, e.fund_category) else D(0)
 
 
 def _fx_shock(pct: Decimal) -> Shock:
@@ -90,7 +91,7 @@ def run_scenarios(exposures: list[Exposure], day: date) -> list[ScenarioResult]:
     ]
     by_sector: dict[str, Decimal] = {}
     for e in exposures:
-        if e.sector and e.asset_class in EQUITY and e.value_inr.value is not None:
+        if e.sector and is_equity_oriented(e.asset_class, e.fund_category) and e.value_inr.value is not None:
             by_sector[e.sector] = by_sector.get(e.sector, D(0)) + e.value_inr.value
     if by_sector:
         top = max(by_sector, key=lambda s: (by_sector[s], s))
@@ -100,7 +101,11 @@ def run_scenarios(exposures: list[Exposure], day: date) -> list[ScenarioResult]:
                 f"Sector shock: {top} {SECTOR_SHOCK:.0%}",
                 f"The largest held sector ({top}) falls {abs(SECTOR_SHOCK):.0%}.",
                 exposures,
-                lambda e: SECTOR_SHOCK if e.sector == top and e.asset_class in EQUITY else D(0),
+                lambda e: (
+                    SECTOR_SHOCK
+                    if e.sector == top and is_equity_oriented(e.asset_class, e.fund_category)
+                    else D(0)
+                ),
                 day,
             )
         )
@@ -122,7 +127,11 @@ def run_scenarios(exposures: list[Exposure], day: date) -> list[ScenarioResult]:
             "Joint India + US stress",
             "Indian and US equity both fall 20% (US in dollars) while the rupee weakens 5%.",
             exposures,
-            lambda e: (us if e.currency != "INR" else JOINT_EQUITY) if e.asset_class in EQUITY else D(0),
+            lambda e: (
+                (us if e.currency != "INR" else JOINT_EQUITY)
+                if is_equity_oriented(e.asset_class, e.fund_category)
+                else D(0)
+            ),
             day,
         )
     )

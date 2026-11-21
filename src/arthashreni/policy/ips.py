@@ -56,7 +56,7 @@ class IPS(BaseModel):
     max_holding: Decimal | None = Field(default=None, gt=0, le=1)  # one stock, fund or ETF
     max_fund_house: Decimal | None = Field(default=None, gt=0, le=1)
     max_sector: Decimal | None = Field(default=None, gt=0, le=1)
-    max_theme: Decimal | None = Field(default=None, gt=0, le=1)  # no theme data exists: not enforceable yet
+    max_theme: Decimal | None = Field(default=None, gt=0, le=1)  # enforced for assets with a theme
     emergency_fund_min_months: Decimal = Field(default=Decimal(6), ge=0)
     planned_expense_window_days: int = Field(default=180, ge=0)
     leftover_rule: Literal["RESERVE_NO_INFLATE"] = "RESERVE_NO_INFLATE"

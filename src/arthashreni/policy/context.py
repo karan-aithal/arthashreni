@@ -14,6 +14,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
+from arthashreni.core.classify import RISK_CLASSES
 from arthashreni.policy.ips import IPS
 
 FIELDS = (
@@ -29,8 +30,8 @@ FIELDS = (
 )
 
 
-# Classes that count as risk money. Mutual funds are assumed equity-oriented because no scheme category is stored (V32).
-RISKY_CLASSES = frozenset({"EQUITY_IN", "EQUITY_US", "ETF_IN", "ETF_US", "MF", "SILVER_ETF"})
+# Classes that count as risk money (a DEBT-category mutual fund does not: see core.classify).
+RISKY_CLASSES = RISK_CLASSES
 
 
 class Certainty(StrEnum):

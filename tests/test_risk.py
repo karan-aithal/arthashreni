@@ -314,9 +314,11 @@ def test_only_severe_asset_specific_declines_veto() -> None:
 # ---- scenarios -----------------------------------------------------------------------------------------
 
 
-def ex(i: int, cls: str, cur: str, value: str | None, sector: str | None = None) -> Exposure:
+def ex(
+    i: int, cls: str, cur: str, value: str | None, sector: str | None = None, category: str | None = None
+) -> Exposure:
     return Exposure(
-        i, f"A{i}", cls, cur, sector, m(value, QualityStatus.OK if value else QualityStatus.MISSING)
+        i, f"A{i}", cls, cur, sector, m(value, QualityStatus.OK if value else QualityStatus.MISSING), category
     )
 
 
@@ -360,6 +362,27 @@ def test_unvalued_holdings_are_left_out_and_said() -> None:
     r = by_id(run_scenarios([*BOOK, ex(6, "EQUITY_IN", "INR", None)], DAY))["equity_-10"]
     assert r.total_inr.value == D(-500) and r.total_inr.status is QualityStatus.ESTIMATED
     assert "A6" in r.total_inr.notes[-1] and r.total_pct.status is QualityStatus.ESTIMATED
+
+
+def test_a_debt_fund_is_not_shocked_like_equity_but_an_unknown_fund_is() -> None:
+    book = [
+        ex(1, "MF", "INR", "1000", None, "DEBT"),
+        ex(2, "MF", "INR", "1000", "Tech", "EQUITY"),
+        ex(3, "MF", "INR", "1000"),
+    ]
+    r = by_id(run_scenarios(book, DAY))
+    assert r["equity_-10"].total_inr.value == D(-200)  # the debt fund is untouched; unknown counts as equity
+    assert dict(r["equity_-10"].per_holding)["A1"].value == 0
+    assert dict(r["equity_-10"].per_holding)["A3"].value == D(-100)
+    assert r["joint_india_us"].total_inr.value == D(-400)
+    assert dict(r["commodity_reversal"].per_holding)["A1"].value == 0
+
+
+def test_a_debt_fund_with_a_sector_does_not_make_a_sector_shock() -> None:
+    r = by_id(
+        run_scenarios([ex(1, "MF", "INR", "1000", "Banks", "DEBT"), ex(2, "EQUITY_IN", "INR", "500")], DAY)
+    )
+    assert "sector_shock" not in r  # no equity-oriented holding has a sector
 
 
 def test_no_sector_means_no_sector_scenario() -> None:
