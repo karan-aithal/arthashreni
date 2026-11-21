@@ -8,6 +8,7 @@ from sqlalchemy import text
 
 from arthashreni import __version__
 from arthashreni.api.auth import router as auth_router
+from arthashreni.api.ledger import router as ledger_router
 from arthashreni.api.portfolio import router as portfolio_router
 from arthashreni.api.review import router as review_router
 from arthashreni.api.sources import router as sources_router
@@ -20,6 +21,7 @@ app = FastAPI(title="ArthaShreni API", version=__version__)
 app.include_router(auth_router)
 app.include_router(sources_router)
 app.include_router(portfolio_router)
+app.include_router(ledger_router)
 app.include_router(review_router)
 
 

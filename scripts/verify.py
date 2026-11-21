@@ -45,6 +45,14 @@ def steps(fast: bool) -> list[Step]:
         ("secret scan", [sys.executable, "scripts/secret_scan.py"], {}),
         ("tests", pytest, {}),
     ]
+    if (ROOT / "apps" / "web" / "package.json").is_file():
+        npm = ["npm", "--prefix", "apps/web", "--silent"]
+        s += [
+            ("web: lint", [*npm, "run", "lint"], {}),
+            ("web: typecheck", [*npm, "run", "typecheck"], {}),
+            ("web: contract, accessibility and read-only tests", [*npm, "run", "test"], {}),
+            ("web: build", [*npm, "run", "build"], {}),
+        ]
     if fast:
         return s
     s += [
@@ -83,6 +91,8 @@ def steps(fast: bool) -> list[Step]:
         ),
         ("dependency audit", ["pip-audit", "--progress-spinner=off", "--skip-editable"], {}),
     ]
+    if (ROOT / "apps" / "web" / "package.json").is_file():
+        s.append(("web: dependency audit", ["npm", "--prefix", "apps/web", "audit", "--omit=dev"], {}))
     # Slow, so not in --fast. Only DB-free test modules are selected, so parallel workers cannot collide.
     s += [
         (

@@ -57,6 +57,7 @@ Single Python distribution `arthashreni`, source in `src/arthashreni/`. Each sub
 | `review` (module) | loads one dataset and runs `risk` and `policy` (`run_risk`, `monthly_review`); used by `api`, `cli`, `jobs` | `analytics`, `risk`, `policy`, `portfolio`, `db` | — | 5 |
 | `reports` | template-based monthly report (Markdown/PDF) | `core`, `policy`, `risk`, `analytics` | `ai` | 5 |
 | `api` | FastAPI app, auth, routers; thin layer over the packages above | all except `ai` internals | broker execution (none exists) | 1+ |
+| `apps/web` (Next.js, not a Python package) | read-only UI over the API: six pages, every number with status and as-of; talks only to `/api/*` proxied to FastAPI; sends no write request except login | the API over HTTP | anything that writes, chat, charts (until an ADR) | 6 |
 | `jobs` | APScheduler definitions, run history, missed-run recovery | `ingestion`, `dq`, `risk`, `policy`, `reports` | — | 3+ |
 | `backtest` | SIP timing study (F4), walk-forward harness | `core`, `analytics`, `db.as_of` | market-data repositories/tables directly | 10 |
 | `research` | fundamentals, overlap, IPO tracker, news, claims | `core`, `db.as_of`, `analytics` | market-data repositories/tables directly | 7 |
@@ -108,6 +109,6 @@ A session is bound to exactly one dataset schema via `search_path` at connection
 | LibreOffice | 7.3.7.2 (`soffice`) | XIRR oracle, headless |
 | make | present | `make verify` wraps `scripts/verify.py` (ADR-0013) |
 | Docker | 29.9.2 | Optional |
-| Node | 24.20.0 | Not used before Phase 6 |
+| Node | 24.20.0 | Phase 6 web UI (`apps/web`, ADR-0028) |
 | Ollama | client 0.24.0, server not running | Not used before Phase 8 |
 | Repository | empty, branch `main`, no commits | Phase 0 adds documents only |

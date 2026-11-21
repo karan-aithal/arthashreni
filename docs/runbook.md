@@ -175,6 +175,19 @@ Asset attributes the limits need: `arthashreni asset set AMFI:123456 --category 
 
 Alerts: new, de-duplicated risk alerts raise a desktop notification (`notify-send`, local only). `ARTHA_NOTIFY=off` silences it; `arthashreni scheduler notify-test` sends a test. Email and Telegram are not built: they would send portfolio-derived text off this machine and need your logged consent first.
 
+## Web UI (Phase 6, read-only)
+
+Needs Node 24 and the API running (`make run`). Pages: Overview, Portfolio, Transactions & Imports, Data Quality & Sources, Risk Monitor, Monthly Report. Nothing in the UI changes data.
+
+```
+cd apps/web && npm ci
+ARTHA_API_URL=http://127.0.0.1:8000 npm run build      # the proxy target is fixed at build time
+ARTHA_API_URL=http://127.0.0.1:8000 npm run start      # http://127.0.0.1:3100, sign in with `make user` credentials
+npm run dev                                            # development server, same port
+npm test                                               # contract, accessibility and read-only tests
+UPDATE_UI_FIXTURES=1 uv run pytest tests/test_phase6_contract.py   # regenerate fixtures after an API change
+```
+
 ## Datasets
 
 `ARTHA_DATASET=demo` (default) or `real`. `real` is refused until `docs/gates/phase-4.approved` exists.

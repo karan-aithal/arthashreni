@@ -1,0 +1,1917 @@
+{
+  "dataset": "DEMO",
+  "items": [
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo New Co",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 13,
+      "net_cash_inr": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "1500.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "1500.0000"
+      },
+      "price": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "300.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "5.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-11-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:13"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DNEW",
+      "trade_date": "2025-11-03",
+      "type": "SELL"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo Stock Co",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "20.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 11,
+      "net_cash_inr": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "26980.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "26980.0000"
+      },
+      "price": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "300.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "90.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-10-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:11"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DSTK",
+      "trade_date": "2025-10-01",
+      "type": "SELL"
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "Demo Tech Inc",
+      "corrects_id": null,
+      "currency": "USD",
+      "fees": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "0.6000"
+      },
+      "fx_rate": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "86.00000000"
+      },
+      "fx_rate_type": "BROKER_ACTUAL",
+      "id": 23,
+      "net_cash_inr": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "27898.4000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "324.4000"
+      },
+      "price": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "130.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "2.50000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-09-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:23"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DTECH",
+      "trade_date": "2025-09-15",
+      "type": "SELL"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo Stock Co",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "15.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 10,
+      "net_cash_inr": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "14985.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "14985.0000"
+      },
+      "price": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "250.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "60.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-08-12T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:10"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DSTK",
+      "trade_date": "2025-08-12",
+      "type": "SELL"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo IPO Ltd",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:17"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 17,
+      "net_cash_inr": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:17"
+        ],
+        "status": "ok",
+        "value": "9000.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:17"
+        ],
+        "status": "ok",
+        "value": "9000.0000"
+      },
+      "price": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "quantity": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "stamp_duty": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:17"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:17"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DIPO",
+      "trade_date": "2025-07-14",
+      "type": "IPO_REFUND"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo IPO Ltd",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 16,
+      "net_cash_inr": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "price": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "150.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "40.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-07-14T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:16"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DIPO",
+      "trade_date": "2025-07-14",
+      "type": "IPO_ALLOTMENT"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo IPO Ltd",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:15"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 15,
+      "net_cash_inr": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:15"
+        ],
+        "status": "ok",
+        "value": "-15000.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:15"
+        ],
+        "status": "ok",
+        "value": "-15000.0000"
+      },
+      "price": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "quantity": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "stamp_duty": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:15"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:15"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DIPO",
+      "trade_date": "2025-07-07",
+      "type": "IPO_BLOCK"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo IPO Ltd",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 14,
+      "net_cash_inr": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "price": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "150.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "100.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-07-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:14"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DIPO",
+      "trade_date": "2025-07-07",
+      "type": "IPO_APPLICATION"
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 5,
+      "net_cash_inr": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "price": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "62.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "0.20000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-07-01T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:5"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-07-01",
+      "type": "DIVIDEND_REINVESTMENT"
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "Demo Tech Inc",
+      "corrects_id": null,
+      "currency": "USD",
+      "fees": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:22"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:22"
+        ],
+        "status": "ok",
+        "value": "85.00000000"
+      },
+      "fx_rate_type": "BROKER_ACTUAL",
+      "id": 22,
+      "net_cash_inr": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:22"
+        ],
+        "status": "ok",
+        "value": "253.3000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:22"
+        ],
+        "status": "ok",
+        "value": "2.9800"
+      },
+      "price": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "quantity": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "stamp_duty": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:22"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-06-20T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:22"
+        ],
+        "status": "ok",
+        "value": "0.5200"
+      },
+      "ticker": "DTECH",
+      "trade_date": "2025-06-20",
+      "type": "DIVIDEND"
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 4,
+      "net_cash_inr": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "900.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "900.0000"
+      },
+      "price": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "60.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "15.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-06-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:4"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-06-10",
+      "type": "REDEMPTION"
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "Demo Tech Inc",
+      "corrects_id": null,
+      "currency": "USD",
+      "fees": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "0.4000"
+      },
+      "fx_rate": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "84.00000000"
+      },
+      "fx_rate_type": "BROKER_ACTUAL",
+      "id": 21,
+      "net_cash_inr": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "-13893.6000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "-165.4000"
+      },
+      "price": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "110.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "1.50000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-04-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:21"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DTECH",
+      "trade_date": "2025-04-10",
+      "type": "BUY"
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 3,
+      "net_cash_inr": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "-499.9995"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "-499.9995"
+      },
+      "price": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "47.61900000"
+      },
+      "quantity": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "10.50000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-04-07T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:3"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-04-07",
+      "type": "SIP"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo India ETF",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "3.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 7,
+      "net_cash_inr": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "-1103.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "-1103.0000"
+      },
+      "price": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "110.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "10.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-03-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:7"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DEMOETF",
+      "trade_date": "2025-03-10",
+      "type": "BUY"
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": "Demo Tech Inc",
+      "corrects_id": null,
+      "currency": "USD",
+      "fees": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "0.5000"
+      },
+      "fx_rate": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "83.20000000"
+      },
+      "fx_rate_type": "BROKER_ACTUAL",
+      "id": 20,
+      "net_cash_inr": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "-16681.6000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "-200.5000"
+      },
+      "price": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "100.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "2.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-03-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:20"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DTECH",
+      "trade_date": "2025-03-05",
+      "type": "BUY"
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": null,
+      "corrects_id": null,
+      "currency": "USD",
+      "fees": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:19"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:19"
+        ],
+        "status": "ok",
+        "value": "83.10000000"
+      },
+      "fx_rate_type": "BROKER_ACTUAL",
+      "id": 19,
+      "net_cash_inr": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:19"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:19"
+        ],
+        "status": "ok",
+        "value": "500.0000"
+      },
+      "price": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "quantity": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "stamp_duty": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:19"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-03-04T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:19"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-03-04",
+      "type": "FX_CONVERSION"
+    },
+    {
+      "account": "INDMONEY-DEMO",
+      "asset": null,
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:18"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 18,
+      "net_cash_inr": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:18"
+        ],
+        "status": "ok",
+        "value": "42000.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:18"
+        ],
+        "status": "ok",
+        "value": "42000.0000"
+      },
+      "price": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "quantity": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "stamp_duty": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:18"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-03-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:18"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-03-03",
+      "type": "DEPOSIT"
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 2,
+      "net_cash_inr": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "-500.0040"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "-500.0040"
+      },
+      "price": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "51.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "9.80400000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-02-05T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:2"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-02-05",
+      "type": "SIP"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo India ETF",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "5.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 6,
+      "net_cash_inr": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "-2005.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "-2005.0000"
+      },
+      "price": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "100.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "20.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-01-15T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:6"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DEMOETF",
+      "trade_date": "2025-01-15",
+      "type": "BUY"
+    },
+    {
+      "account": "COIN-DEMO",
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 1,
+      "net_cash_inr": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "-500.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "-500.0000"
+      },
+      "price": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "50.00000000"
+      },
+      "quantity": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "10.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2025-01-06T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:1"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": null,
+      "trade_date": "2025-01-06",
+      "type": "SIP"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo Stock Co",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "10.0000"
+      },
+      "fx_rate": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 9,
+      "net_cash_inr": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "-6010.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "-6010.0000"
+      },
+      "price": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "1200.00000000"
+      },
+      "quantity": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "5.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2024-11-18T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:9"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DSTK",
+      "trade_date": "2024-11-18",
+      "type": "BUY"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo Old Co",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "fx_rate": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 12,
+      "net_cash_inr": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "-5000.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "-5000.0000"
+      },
+      "price": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "500.00000000"
+      },
+      "quantity": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "10.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2024-09-02T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:12"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DOLD",
+      "trade_date": "2024-09-02",
+      "type": "BUY"
+    },
+    {
+      "account": "KITE-DEMO",
+      "asset": "Demo Stock Co",
+      "corrects_id": null,
+      "currency": "INR",
+      "fees": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "20.0000"
+      },
+      "fx_rate": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [
+          "not recorded"
+        ],
+        "sources": [],
+        "status": "missing",
+        "value": null
+      },
+      "fx_rate_type": null,
+      "id": 8,
+      "net_cash_inr": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "-10020.0000"
+      },
+      "net_cash_orig": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "-10020.0000"
+      },
+      "price": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "1000.00000000"
+      },
+      "quantity": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "10.00000000"
+      },
+      "stamp_duty": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "taxes": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "txn:8"
+        ],
+        "status": "ok",
+        "value": "0.0000"
+      },
+      "ticker": "DSTK",
+      "trade_date": "2024-06-03",
+      "type": "BUY"
+    }
+  ],
+  "limit": 200,
+  "offset": 0,
+  "total": 23
+}

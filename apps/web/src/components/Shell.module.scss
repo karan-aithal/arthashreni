@@ -1,0 +1,9 @@
+.skip { position: absolute; left: -999px; &:focus { left: 0.5rem; top: 0.5rem; background: var(--bg); padding: 0.5rem; z-index: 10; } }
+.header { display: flex; flex-wrap: wrap; gap: 1rem; align-items: baseline; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--line); }
+.dataset { font-weight: 700; padding: 0.1rem 0.5rem; border: 2px solid var(--warn); color: var(--warn); border-radius: 0.3rem; }
+.ro { color: var(--muted); font-size: 0.85rem; }
+.nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; list-style: none; margin: 0; padding: 0.5rem 1.25rem; border-bottom: 1px solid var(--line); }
+.nav a { color: var(--fg); padding: 0.25rem 0; text-decoration: none; border-bottom: 2px solid transparent; }
+.nav a[aria-current="page"] { border-bottom-color: var(--accent); font-weight: 700; }
+.nav a:hover, .nav a:focus-visible { border-bottom-color: var(--fg); }
+.main { padding: 1.25rem; max-width: 80rem; margin: 0 auto; }
