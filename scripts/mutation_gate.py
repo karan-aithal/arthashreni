@@ -9,7 +9,7 @@ import subprocess
 import sys
 from collections import Counter
 
-PACKAGES = ("analytics", "ledger", "policy")
+PACKAGES = ("analytics", "ledger", "policy", "risk", "reports")
 THRESHOLD = 0.10
 NOT_KILLED = {"survived", "no tests", "suspicious", "timeout", "segfault", "not checked"}
 

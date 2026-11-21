@@ -346,3 +346,38 @@ def test_thresholds_and_decisions_are_documented() -> None:
     adr = PROJECT_ROOT / "docs" / "decisions"
     assert list(adr.glob("0025-*.md")) and list(adr.glob("0026-*.md"))
     assert "PROVISIONAL" in (PROJECT_ROOT / "config" / "risk_thresholds.toml").read_text()
+
+
+def test_monthly_job_waits_for_the_first_trading_day() -> None:
+    from datetime import UTC, datetime
+
+    from arthashreni.dq.calendars import first_session_of_month
+
+    assert first_session_of_month("XBOM", date(2026, 5, 20)) == date(
+        2026, 5, 4
+    )  # 1 May is a holiday, then a weekend
+    assert run_monthly("demo", datetime(2026, 5, 1, 4, 0, tzinfo=UTC)) == "SKIPPED"  # Labour Day: market shut
+    assert owner_scalar("SELECT count(*) FROM ref.job_runs WHERE scheduled_for::date = '2026-05-01'") == 0
+    assert run_monthly("demo", datetime(2026, 5, 4, 4, 0, tzinfo=UTC)) == "OK"
+    assert run_monthly("demo", datetime(2026, 5, 5, 4, 0, tzinfo=UTC)) == "SKIPPED"  # already done
+
+
+def test_new_alerts_notify_once_and_an_unchanged_condition_stays_silent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from datetime import timedelta
+
+    from arthashreni import notify
+
+    sent: list[str] = []
+    monkeypatch.setenv("ARTHA_NOTIFY", "desktop")
+    get_settings.cache_clear()
+    monkeypatch.setattr(notify, "_send", lambda title, body, *, urgent: sent.append(body) or "sent")
+    day = DEMO_TODAY + timedelta(days=40)  # a day no earlier test stored alerts for
+    first = _daily_risk("demo", day)
+    n = first["new_alerts"]
+    assert n >= 1 and first["notified"]["sent"] == min(n, notify.MAX_PER_RUN + (n > notify.MAX_PER_RUN))
+    count = len(sent)
+    second = _daily_risk("demo", day)
+    assert second["new_alerts"] == 0 and second["notified"]["sent"] == 0 and len(sent) == count
+    get_settings.cache_clear()

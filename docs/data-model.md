@@ -22,7 +22,7 @@ Schemas: `ref` (shared, non-personal), `demo` and `real` (identical personal + m
 ## 1. Reference (`ref`)
 
 **assets** — one row per instrument.
-`id, asset_class (EQUITY_IN, EQUITY_US, MF, ETF_IN, ETF_US, GOLD_ETF, SILVER_ETF, SGB, DIGITAL_GOLD, CASH), name, isin NULL, amfi_code NULL, ticker NULL, exchange_mic NULL (XNYS, XNAS, XBOM, XNSE), currency, country, mf_plan (DIRECT, REGULAR) NULL, mf_option (GROWTH, IDCW) NULL, fund_house NULL, sector NULL, market_cap_bucket NULL, is_sme BOOLEAN DEFAULT false (always false: SME assets are refused), is_demo BOOLEAN NOT NULL (DEMO sees only DEMO assets), regulated BOOLEAN, maturity_date DATE NULL, coupon_rate NUMERIC(12,8) NULL, coupon_frequency_months INT NULL, created_at`.
+`id, asset_class (EQUITY_IN, EQUITY_US, MF, ETF_IN, ETF_US, GOLD_ETF, SILVER_ETF, SGB, DIGITAL_GOLD, CASH), name, isin NULL, amfi_code NULL, ticker NULL, exchange_mic NULL (XNYS, XNAS, XBOM, XNSE), currency, country, mf_plan (DIRECT, REGULAR) NULL, mf_option (GROWTH, IDCW) NULL, fund_house NULL, sector NULL, theme NULL, fund_category NULL (MF only: EQUITY, HYBRID, DEBT; NULL = unknown, counted as equity; migration 0005), market_cap_bucket NULL, is_sme BOOLEAN DEFAULT false (always false: SME assets are refused), is_demo BOOLEAN NOT NULL (DEMO sees only DEMO assets), regulated BOOLEAN, maturity_date DATE NULL, coupon_rate NUMERIC(12,8) NULL, coupon_frequency_months INT NULL, created_at`.
 SME assets (`is_sme = true`) are outside the investment universe: policy never allocates to them and IPO eligibility is always false (ADR-0021). SGB rows use the maturity/coupon fields (ADR-0020).
 Unique: `isin`, `amfi_code`, `(ticker, exchange_mic)` where not null.
 
@@ -84,6 +84,7 @@ All carry `valid_at DATE` (the fact's date), `recorded_at TIMESTAMPTZ`, `source_
 - **job_runs** — `id, job_name ('ingest:<dataset>'), scheduled_for, started_at, finished_at, status (RUNNING, OK, PARTIAL, FAILED), summary JSONB`, unique `(job_name, scheduled_for)`.
 - **apscheduler_jobs** — APScheduler's job store (ADR-0019).
 - **assets.cik** — SEC CIK of a US stock, set with `asset cik`.
+- **assets.theme, assets.fund_category** — set with `asset set` or the asset CSV; the only columns of an asset the application roles may update besides `cik` (ADR-0029).
 
 ## 4. Budget, reserves, IPS (Phase 5, migration 0004; built)
 

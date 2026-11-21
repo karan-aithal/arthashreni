@@ -9,9 +9,10 @@ import pytest
 from hypothesis import assume, given
 from hypothesis import strategies as st
 
+from arthashreni.core.classify import is_risk_money
 from arthashreni.dq.confidence import ConfidenceLevel
 from arthashreni.dq.measured import QualityStatus as Q
-from arthashreni.policy.context import RISKY_CLASSES, Certainty, ContextField, Verdict, liquidity
+from arthashreni.policy.context import Certainty, ContextField, Verdict, liquidity
 from arthashreni.policy.cost import CostSchedule, CostVerdict, check_cost
 from arthashreni.policy.decision import (
     INF,
@@ -34,6 +35,10 @@ from arthashreni.risk.thresholds import Level
 
 D = Decimal
 PERIOD, TODAY = date(2026, 11, 1), date(2026, 11, 12)
+
+
+def risky(h: Holding) -> bool:
+    return is_risk_money(h.asset_class, h.fund_category)
 
 
 def band(lo: str, hi: str) -> Band:
@@ -362,6 +367,62 @@ def test_holding_fund_house_and_sector_limits() -> None:
     assert (D(5000) + tech) / (D(85000) + rec.envelope.new_allocations_inr) <= D("0.08")
 
 
+def test_theme_limit_caps_a_theme() -> None:
+    held = (
+        hold(1, "MF", "5000", theme="AI"),
+        hold(2, "MF", "5000", theme="AI"),
+        hold(3, "EQUITY_US", "90000"),
+    )
+    bands = {"MF": band("0.5", "0.9"), "EQUITY_US": band("0", "0.9")}
+    capped = IPS(asset_class_bands=bands, max_theme=D("0.12"), max_monthly_mix_change=D(1))
+    free = IPS(asset_class_bands=bands, max_monthly_mix_change=D(1))
+
+    def ai_added(ips: IPS) -> tuple[Decimal, Decimal]:
+        rec = decide(inp(holdings=held, ips=ips, opening_budget_inr=D(50000), costs=costs("MF", "EQUITY_US")))
+        got = sum((ln.amount_inr for ln in lines(rec, Action.ACCUMULATE) if ln.subject in ("A1", "A2")), D(0))
+        return got, D(100000) + rec.envelope.new_allocations_inr
+
+    got, total = ai_added(capped)
+    assert (D(10000) + got) / total <= D("0.12") + D("1e-9")
+    assert ai_added(free)[0] > got  # the limit, not the band, is what held it back
+
+
+def test_an_asset_without_a_theme_is_not_held_to_the_theme_limit() -> None:
+    held = (
+        hold(1, "MF", "5000"),
+        hold(2, "MF", "5000", theme="X"),
+        hold(3, "EQUITY_US", "90000"),
+    )
+    ips = IPS(
+        asset_class_bands={"MF": band("0.5", "0.9"), "EQUITY_US": band("0", "0.9")},
+        max_theme=D("0.01"),
+        max_monthly_mix_change=D(1),
+    )
+    rec = decide(inp(holdings=held, ips=ips, opening_budget_inr=D(50000), costs=costs("MF", "EQUITY_US")))
+    by = {ln.subject: ln.amount_inr for ln in lines(rec, Action.ACCUMULATE)}
+    assert by.get("A1", D(0)) > 0 and by.get("A2", D(0)) == 0  # theme X already exceeds 1%
+
+
+def test_a_debt_fund_is_not_risk_money_when_income_is_unstable() -> None:
+    held = (hold(1, "MF", "6000", fund_category="DEBT"), hold(2, "GOLD_ETF", "4000"))
+    ips = IPS(
+        asset_class_bands={"MF": band("0", "1"), "GOLD_ETF": band("0", "1")}, max_monthly_mix_change=D(1)
+    )
+    plan = _Plan(inp(holdings=held, ips=ips, context=ctx(stable=False)), ips)
+    _x, why = plan.room(
+        held[0], ips.asset_class_bands["MF"], liq_ok(ips, stable=False), D("0.0"), D(10**6), to_target=False
+    )
+    assert why != "risk level may not rise"  # the same fund as an equity fund would be capped
+    eq = (hold(1, "MF", "6000", fund_category="EQUITY"), hold(2, "GOLD_ETF", "4000"))
+    capped = _Plan(inp(holdings=eq, ips=ips, context=ctx(stable=False)), ips)
+    assert (
+        capped.room(
+            eq[0], ips.asset_class_bands["MF"], liq_ok(ips, stable=False), D("0.6"), D(10**6), to_target=False
+        )[1]
+        == "risk level may not rise"
+    )
+
+
 def test_country_and_currency_bands_limit_new_money() -> None:
     held = (hold(1, "MF", "70000"), hold(2, "EQUITY_US", "29000"))
     ips = IPS(
@@ -596,6 +657,8 @@ def decision_inputs(draw: st.DrawFn) -> DecisionInput:
             hold(i, cls, str(draw(paise)),
                  price_status=draw(st.sampled_from([Q.OK, Q.OK, Q.OK, Q.ESTIMATED, Q.STALE, Q.CONFLICTING])),
                  fund_house=draw(st.sampled_from([None, "H1", "H2"])), sector=draw(st.sampled_from([None, "S1", "S2"])),
+                 theme=draw(st.sampled_from([None, "T1", "T2"])),
+                 fund_category=draw(st.sampled_from([None, "EQUITY", "HYBRID", "DEBT"])) if cls == "MF" else None,
                  thesis_failed=draw(st.booleans()) and draw(st.booleans()),
                  risk_veto=("v",) if draw(st.integers(0, 9)) == 0 else ())
         )  # fmt: skip
@@ -609,6 +672,7 @@ def decision_inputs(draw: st.DrawFn) -> DecisionInput:
         asset_class_bands=bands, country_bands=country,
         max_monthly_mix_change=draw(st.decimals(min_value="0.01", max_value="0.6", places=2)),
         max_holding=draw(st.sampled_from([None, D("0.3"), D("0.6")])), max_sector=draw(st.sampled_from([None, D("0.5")])),
+        max_theme=draw(st.sampled_from([None, D("0.5")])),
         max_fund_house=draw(st.sampled_from([None, D("0.5")])), cooldown_months=draw(st.integers(0, 6)),
         ipo_monthly_sinking_inr=draw(st.sampled_from([D(0), D(0), D(500)])),
         cost_threshold_pct=draw(st.sampled_from([D("0.005"), D("0.01"), D("0.05")])),
@@ -732,6 +796,8 @@ def test_property_every_allocation_obeys_the_ips(i: DecisionInput) -> None:
             assert final[h.asset_id] / total <= ips.max_holding + tol
         if ips.max_sector is not None and h.sector:
             assert weight(lambda g, h=h: g.sector == h.sector) <= ips.max_sector + tol
+        if ips.max_theme is not None and h.theme:
+            assert weight(lambda g, h=h: g.theme == h.theme) <= ips.max_theme + tol
         if ips.max_fund_house is not None and h.fund_house:
             assert weight(lambda g, h=h: g.fund_house == h.fund_house) <= ips.max_fund_house + tol
         assert not any(
@@ -756,11 +822,11 @@ def test_property_every_allocation_obeys_the_ips(i: DecisionInput) -> None:
         assert turnover <= ips.max_monthly_mix_change + tol
         liq = liquidity(i.context, ips, i.today)
         if liq.income_unstable:
-            risky0 = sum((h.value_inr for h in i.holdings if h.asset_class in RISKY_CLASSES), D(0)) / v0
-            if any(by_id[x.asset_id or 0].asset_class in RISKY_CLASSES for x in new_only):
-                assert weight(lambda g: g.asset_class in RISKY_CLASSES) <= risky0 + tol
+            risky0 = sum((h.value_inr for h in i.holdings if risky(h)), D(0)) / v0
+            if any(risky(by_id[x.asset_id or 0]) for x in new_only):
+                assert weight(risky) <= risky0 + tol
         if liq.expense_window is Verdict.FAIL:
-            assert all(by_id[x.asset_id or 0].asset_class not in RISKY_CLASSES for x in new_only)
+            assert not any(risky(by_id[x.asset_id or 0]) for x in new_only)
 
 
 @pytest.mark.property

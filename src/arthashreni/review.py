@@ -190,7 +190,8 @@ def run_risk(
     signals += _context_signals(db, report, day)
 
     exposures = [
-        Exposure(a.id, a.name, a.asset_class, a.currency, a.sector, values[a.id]) for a in assets.values()
+        Exposure(a.id, a.name, a.asset_class, a.currency, a.sector, values[a.id], a.fund_category)
+        for a in assets.values()
     ]
     scenarios = run_scenarios(exposures, day)
     level = overall_level(signals, cfg.rules)
@@ -238,7 +239,7 @@ def _holdings(db: Session, report: PortfolioReport, risk: RiskRun, failed: set[i
         seen[a.id] = Holding(
             a.id, a.name, a.asset_class, a.country, a.currency, platforms.get(hv.position.account_id, "OTHER"),
             value, hv.price.status, hv.price.as_of.date(), a.sector, a.fund_house, a.id in failed,
-            risk.vetoes.get(a.id, ()),
+            risk.vetoes.get(a.id, ()), theme=a.theme, fund_category=a.fund_category,
         )  # fmt: skip
     return list(seen.values())
 

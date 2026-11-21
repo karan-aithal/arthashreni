@@ -118,7 +118,8 @@ def load_assets(db: Session, ids: set[int]) -> dict[int, AssetInfo]:
         return {}
     rows = db.execute(
         text(
-            """SELECT id, name, asset_class, currency, country, sector, market_cap_bucket, fund_house
+            """SELECT id, name, asset_class, currency, country, sector, market_cap_bucket, fund_house,
+                      theme, fund_category
                FROM ref.assets WHERE id = ANY(:ids)"""
         ),
         {"ids": sorted(ids)},

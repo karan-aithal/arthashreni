@@ -42,6 +42,8 @@ class AssetInfo:
     sector: str | None = None
     market_cap: str | None = None
     fund_house: str | None = None
+    theme: str | None = None
+    fund_category: str | None = None
 
 
 @dataclass(frozen=True)

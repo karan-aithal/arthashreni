@@ -575,6 +575,31 @@ def market_fx(rate_type: str, on: Annotated[str | None, typer.Option("--date")] 
     typer.echo(f"{m.value}  [{m.status}]  as of {m.as_of.date()}  {'; '.join(m.notes)}")
 
 
+@asset_app.command("set")
+def asset_set(asset_ref: str, theme: str | None = None, category: str | None = None) -> None:
+    """Set an asset's theme (IPS theme limit) or a mutual fund's category EQUITY, HYBRID or DEBT (V32)."""
+    from sqlalchemy import text as sql
+
+    from arthashreni.ledger.assets import resolve_asset
+
+    cat = category.upper() if category else None
+    if cat not in (None, "EQUITY", "HYBRID", "DEBT"):
+        raise typer.BadParameter("category must be EQUITY, HYBRID or DEBT")
+    if theme is None and cat is None:
+        raise typer.BadParameter("give --theme and/or --category")
+    with session_scope() as db:
+        a = resolve_asset(db, get_settings().dataset, asset_ref)
+        if cat and a.asset_class != "MF":
+            raise typer.BadParameter("category applies to mutual funds only")
+        if theme is not None:
+            db.execute(sql("UPDATE ref.assets SET theme = :t WHERE id = :i"), {"t": theme or None, "i": a.id})
+        if cat:
+            db.execute(sql("UPDATE ref.assets SET fund_category = :c WHERE id = :i"), {"c": cat, "i": a.id})
+    typer.echo(
+        f"{asset_ref}: theme={theme if theme is not None else '(unchanged)'} category={cat or '(unchanged)'}"
+    )
+
+
 @asset_app.command("cik")
 def asset_cik(asset_ref: str, cik: str) -> None:
     """Set the SEC CIK of a US stock (needed for fundamentals)."""
@@ -645,6 +670,14 @@ def scheduler_catch_up() -> None:
 
     for slot, status in catch_up(get_settings().dataset):
         typer.echo(f"{slot:%Y-%m-%d %H:%M} IST  {status}")
+
+
+@scheduler_app.command("notify-test")
+def scheduler_notify_test() -> None:
+    """Send one desktop notification to check that alerts will reach you."""
+    from arthashreni.notify import send_test
+
+    typer.echo(send_test(get_settings().dataset))
 
 
 @scheduler_app.command("run")
