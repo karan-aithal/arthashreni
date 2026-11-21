@@ -40,6 +40,8 @@ class Settings(BaseSettings):
     sec_user_agent: str | None = None  # "Name contact@example.com"; sent to the SEC only (D1)
     raw_dir: Path = PROJECT_ROOT / "data" / "raw"
     ingest_time: str = "20:00"  # Asia/Kolkata, daily ingest (G3)
+    # Local desktop notification for new risk alerts (G3). "off" silences it; alerts are stored either way.
+    notify: Literal["desktop", "off"] = "desktop"
 
     def consented(self) -> set[str]:
         return {x.strip() for x in self.consented_sources.split(",") if x.strip()}

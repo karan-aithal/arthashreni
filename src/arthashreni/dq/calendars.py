@@ -68,3 +68,13 @@ def last_session_on_or_before(market: Market, d: date, observed: Collection[date
 def expected_latest(market: Market, today: date, delay_days: int, observed: Collection[date] = ()) -> date:
     """Newest session a healthy source should already have published by `today`."""
     return last_session_on_or_before(market, today - timedelta(days=delay_days), observed)
+
+
+def first_session_of_month(market: Market, period: date, observed: Collection[date] = ()) -> date:
+    """First day of `period`'s month on which the market is open (the monthly review's earliest day)."""
+    day = period.replace(day=1)
+    for _ in range(15):  # no market is shut for 15 days running
+        if is_session(market, day, observed):
+            return day
+        day += timedelta(days=1)
+    return period.replace(day=1)

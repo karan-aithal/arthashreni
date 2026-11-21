@@ -14,7 +14,7 @@ from arthashreni.ledger.repository import account_ids, add_account
 
 ASSET_COLUMNS = (
     "asset_class,name,currency,country,isin,amfi_code,ticker,exchange_mic,mf_plan,mf_option,"
-    "fund_house,sector,maturity_date,coupon_rate,coupon_frequency_months"
+    "fund_house,sector,maturity_date,coupon_rate,coupon_frequency_months,theme,fund_category"
 )
 ACCOUNT_COLUMNS = "label,platform,account_kind,currency,folio_or_ref_masked"
 
@@ -71,6 +71,8 @@ def load_assets(db: Session, dataset: Dataset, path: Path) -> int:
             mf_option=r.get("mf_option") or None,
             fund_house=r.get("fund_house") or None,
             sector=r.get("sector") or None,
+            theme=r.get("theme") or None,
+            fund_category=(r.get("fund_category") or "").upper() or None,
             maturity_date=date.fromisoformat(r["maturity_date"]) if r.get("maturity_date") else None,
             coupon_rate=Decimal(r["coupon_rate"]) if r.get("coupon_rate") else None,
             coupon_frequency_months=int(r["coupon_frequency_months"])
