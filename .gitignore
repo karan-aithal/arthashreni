@@ -39,3 +39,9 @@ pr/
 # mutmut working copy and its run log
 mutants/
 .mutmut-run.log
+
+# graphify output
+graphify-out/
+
+# node
+node_modules/
