@@ -110,7 +110,7 @@ def test_demo_values_read_back_with_status(ledger_db: str) -> None:
         )
         # DTECH's newest close is 9 Nov: current for 9 Nov, stale a few days later.
         assert price_as_of(db, aid, date(2026, 11, 9)).status is QualityStatus.OK
-        late = price_as_of(db, aid, date(2026, 11, 13), datetime(2026, 11, 14, tzinfo=UTC))
+        late = price_as_of(db, aid, date(2026, 11, 13), datetime.now(UTC))
         assert late.status is QualityStatus.STALE and any("behind" in n for n in late.notes)
         fb = fx_as_of(db, "FBIL_REF", DEMO_TODAY)
         assert fb.status is QualityStatus.OK and fb.value is not None and fb.value > D("80")

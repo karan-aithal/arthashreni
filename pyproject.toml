@@ -58,10 +58,16 @@ select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
 ignore = ["S101", "S603", "S607"]  # asserts in tests; subprocess calls use fixed argv lists
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S105", "S106", "E501"]
+"tests/**" = ["S105", "S106", "E501", "RUF043", "SIM117", "B023"]
 "migrations/**" = ["SIM905", "E501", "S608"]  # SQL assembled from fixed constants
 "src/arthashreni/dq/store.py" = ["E501"]
 "src/arthashreni/db/as_of.py" = ["E501"]  # long SQL strings
+"src/arthashreni/policy/*.py" = ["E501"]  # long prose in docstrings and report text
+"src/arthashreni/risk/*.py" = ["E501"]
+"src/arthashreni/review.py" = ["E501"]
+"src/arthashreni/reports/*.py" = ["E501"]
+"src/arthashreni/cli_policy.py" = ["E501"]
+"src/arthashreni/dq/confidence.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -103,27 +109,57 @@ forbidden_modules = ["arthashreni.api", "arthashreni.cli", "arthashreni.ingestio
 name = "ledger is pure: no ingestion, api, cli or web frameworks (add ai/research when they exist)"
 type = "forbidden"
 source_modules = ["arthashreni.ledger"]
-forbidden_modules = ["arthashreni.ingestion", "arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
+forbidden_modules = ["arthashreni.ingestion", "arthashreni.api", "arthashreni.cli", "arthashreni.policy",
+                     "arthashreni.risk", "arthashreni.reports", "fastapi", "starlette"]
 
 [[tool.importlinter.contracts]]
-name = "ingestion does not reach api, cli or web frameworks (add policy/risk/ai when they exist)"
+name = "ingestion does not reach api, cli, policy, risk or web frameworks (add ai when it exists)"
 type = "forbidden"
 source_modules = ["arthashreni.ingestion"]
-forbidden_modules = ["arthashreni.api", "arthashreni.cli", "fastapi", "starlette"]
+forbidden_modules = ["arthashreni.api", "arthashreni.cli", "arthashreni.policy", "arthashreni.risk",
+                     "arthashreni.reports", "fastapi", "starlette"]
 
 [[tool.importlinter.contracts]]
 name = "dq is pure: no db, ingestion adapters, api, cli or web frameworks (add ai/research when they exist)"
 type = "forbidden"
 source_modules = ["arthashreni.dq"]
 forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
-                     "fastapi", "starlette"]
+                     "arthashreni.policy", "arthashreni.risk", "arthashreni.reports", "fastapi", "starlette"]
 
 [[tool.importlinter.contracts]]
 name = "analytics is pure: no db, ingestion, api, cli, sqlalchemy or web frameworks (add ai/research when they exist)"
 type = "forbidden"
 source_modules = ["arthashreni.analytics"]
 forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
-                     "arthashreni.portfolio", "sqlalchemy", "fastapi", "starlette", "flask"]
+                     "arthashreni.portfolio", "arthashreni.policy", "arthashreni.risk", "arthashreni.reports",
+                     "sqlalchemy", "fastapi", "starlette", "flask"]
+
+[[tool.importlinter.contracts]]
+name = "policy and risk: no ingestion, api, cli, arthashreni.db, service layers or web frameworks (add ai/research when they exist)"
+type = "forbidden"
+source_modules = ["arthashreni.policy", "arthashreni.risk"]
+forbidden_modules = ["arthashreni.ingestion", "arthashreni.api", "arthashreni.cli", "arthashreni.cli_policy",
+                     "arthashreni.db", "arthashreni.review", "arthashreni.portfolio", "arthashreni.demo",
+                     "fastapi", "starlette", "flask"]
+
+[[tool.importlinter.contracts]]
+name = "risk sits below policy: risk never imports policy"
+type = "forbidden"
+source_modules = ["arthashreni.risk"]
+forbidden_modules = ["arthashreni.policy", "arthashreni.reports"]
+
+[[tool.importlinter.contracts]]
+name = "reports are templates over results: no db, ingestion, api, cli, sqlalchemy or web frameworks"
+type = "forbidden"
+source_modules = ["arthashreni.reports"]
+forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
+                     "arthashreni.review", "sqlalchemy", "fastapi", "starlette", "flask"]
+
+[[tool.importlinter.contracts]]
+name = "policy decisions are computed by tested code: policy and risk never import an LLM or network client"
+type = "forbidden"
+source_modules = ["arthashreni.policy", "arthashreni.risk", "arthashreni.reports"]
+forbidden_modules = ["httpx", "requests", "urllib3", "ollama"]
 
 [tool.mutmut]
 source_paths = ["src/arthashreni/"]
@@ -134,10 +170,13 @@ do_not_mutate = [
     "src/arthashreni/portfolio.py", "src/arthashreni/__init__.py",
     "src/arthashreni/ledger/assets.py", "src/arthashreni/ledger/reconciliation.py",
     "src/arthashreni/ledger/repository.py", "src/arthashreni/ledger/models.py",
+    "src/arthashreni/risk/*", "src/arthashreni/reports/*", "src/arthashreni/policy/store.py",
+    "src/arthashreni/review.py", "src/arthashreni/cli_policy.py",
 ]
 also_copy = ["tests/", "demo/", "config/", "alembic.ini", "migrations/", "docs/", "scripts/"]
 pytest_add_cli_args = ["-p", "no:cacheprovider", "--no-cov", "--allow-hosts=127.0.0.1,::1"]
 pytest_add_cli_args_test_selection = [
     "tests/test_analytics.py", "tests/test_analytics_exact.py", "tests/test_analytics_properties.py",
     "tests/test_xirr.py", "tests/test_lots.py", "tests/test_ledger_exact.py", "tests/test_ledger_properties.py",
+    "tests/test_policy_envelope.py", "tests/test_policy_rules.py", "tests/test_policy_decision.py",
 ]

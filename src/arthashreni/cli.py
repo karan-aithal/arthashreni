@@ -9,6 +9,7 @@ from typing import Annotated, Any
 import typer
 from sqlalchemy import create_engine, text
 
+from arthashreni.cli_policy import APPS
 from arthashreni.core.config import get_settings
 from arthashreni.core.logging import configure_logging
 from arthashreni.db.session import session_scope
@@ -34,6 +35,8 @@ for _name, _sub in (
     ("market", market_app), ("quarantine", quarantine_app), ("scheduler", scheduler_app),
     ("portfolio", portfolio_app),
 ):  # fmt: skip
+    app.add_typer(_sub, name=_name)
+for _name, _sub in APPS:
     app.add_typer(_sub, name=_name)
 
 log = logging.getLogger("arthashreni.cli")
@@ -454,6 +457,16 @@ def demo_seed() -> None:
         typer.echo(f"{step.outcome:<17} {step.name}  {step.detail}")
 
 
+@demo_app.command("policy")
+def demo_policy() -> None:
+    """Set up the DEMO budget, SIP, reserves, DEMO IPS, context and demo IPOs (safe to re-run)."""
+    from arthashreni.demo import seed_demo_policy
+
+    if get_settings().dataset != "demo":
+        raise typer.BadParameter("set ARTHA_DATASET=demo; the DEMO policy never goes into REAL")
+    typer.echo(seed_demo_policy())
+
+
 @demo_app.command("market")
 def demo_market() -> None:
     """Load synthetic DEMO prices, NAVs, FX and fundamentals through the real adapters (no network)."""
@@ -640,10 +653,11 @@ def scheduler_run() -> None:
     import signal
     import threading
 
-    from arthashreni.jobs import build_scheduler, catch_up
+    from arthashreni.jobs import build_scheduler, catch_up, run_monthly
 
     ds = get_settings().dataset
     catch_up(ds)
+    run_monthly(ds)  # a month that started while the machine was off
     sched = build_scheduler(ds)
     sched.start()
     typer.echo(f"scheduler running ({ds}); ingest at {get_settings().ingest_time} IST. Ctrl+C to stop.")

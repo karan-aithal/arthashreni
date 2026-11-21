@@ -1,6 +1,6 @@
 # ArthaShreni — Architecture
 
-Status: Phase 0 draft, 2026-11-11. Binding rules live in `CLAUDE.md`; this document describes how the code will satisfy them.
+Status: Phase 0 draft, 2026-11-11; Phase 5 rows updated 2026-11-12. Binding rules live in `CLAUDE.md`; this document describes how the code will satisfy them.
 
 ## 1. Shape of the system
 
@@ -52,8 +52,9 @@ Single Python distribution `arthashreni`, source in `src/arthashreni/`. Each sub
 | `dq` | E3 checks, quarantine queue, confidence calculation | `core`, `db` | `ai`, `research`, `ingestion.social`, web frameworks | 3 |
 | `analytics` | F1 calculations, all pure functions returning `Measured` | `core`, `dq.measured`, `ledger` types | `db`, `ai`, `research`, `ingestion`, `api`, `cli`, sqlalchemy, web frameworks | 4 |
 | `portfolio` (module) | loads ledger, prices and FX for one dataset and calls `analytics` (`build_report`); used by `api` and `cli` | `analytics`, `db`, `ledger` | — | 4 |
-| `risk` | F2 signals, levels, scenarios, alerts | `core`, `db`, `analytics` | `ai`, `research`, `ingestion.social`, web frameworks | 5 |
-| `policy` | budget envelope, reserves, IPS, personal context, decision engine | `core`, `db`, `analytics`, `risk` | `ai`, `research`, `ingestion.social`, web frameworks | 5 |
+| `risk` | F2 signals, levels, scenarios, alerts (`store.py` is its only database module) | `core`, `analytics`, `dq` | `policy`, `db`, `ai`, `research`, web frameworks | 5 |
+| `policy` | budget envelope, reserves, IPS, personal context, cost rule, decision engine (`store.py` is its only database module) | `core`, `analytics`, `risk` | `db`, `ai`, `research`, web frameworks | 5 |
+| `review` (module) | loads one dataset and runs `risk` and `policy` (`run_risk`, `monthly_review`); used by `api`, `cli`, `jobs` | `analytics`, `risk`, `policy`, `portfolio`, `db` | — | 5 |
 | `reports` | template-based monthly report (Markdown/PDF) | `core`, `policy`, `risk`, `analytics` | `ai` | 5 |
 | `api` | FastAPI app, auth, routers; thin layer over the packages above | all except `ai` internals | broker execution (none exists) | 1+ |
 | `jobs` | APScheduler definitions, run history, missed-run recovery | `ingestion`, `dq`, `risk`, `policy`, `reports` | — | 3+ |
@@ -102,8 +103,8 @@ A session is bound to exactly one dataset schema via `search_path` at connection
 | Disk | `/home` 234 GB; 3.3 GB free at audit, **17 GB free at review** (2026-11-11) | Resolved; investor confirms sufficient space |
 | Python | system 3.10.12; `python3.12` 3.12.16 present | Use 3.12 via `uv` |
 | uv | 0.12.0 | Package manager and lockfile (ADR-0002) |
-| PostgreSQL | 14.24 server, cluster `14/main` online on 5432; no role for user `xlr8` yet | Sufficient (NUMERIC, CHECK, triggers, schemas). One-time role setup in Phase 1 |
-| pg_dump / psql | 14.24 | Backup tool matches server |
+| PostgreSQL | 18.7 server, cluster `18/main` on 5433 (project database `arthashreni`); a 14.25 cluster stays on 5432, unused (ADR-0027) | Sufficient (NUMERIC, CHECK, triggers, schemas). Roles and database from `scripts/db_setup.sh` |
+| pg_dump / psql | 18.7 (`/usr/lib/postgresql/18/bin`, pinned in `backup.py`) | Backup tool matches server |
 | LibreOffice | 7.3.7.2 (`soffice`) | XIRR oracle, headless |
 | make | present | `make verify` wraps `scripts/verify.py` (ADR-0013) |
 | Docker | 29.9.2 | Optional |

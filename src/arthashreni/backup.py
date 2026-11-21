@@ -68,7 +68,16 @@ class PgTarget:
         )
 
 
+# Client tools must match the server major version (ADR-0027: PG 18 on 5433).
+# Ubuntu's pg_dump wrapper picks the newest installed client, whose dump may set
+# parameters an older server rejects on restore, and pg_dump refuses a newer server.
+PG_CLIENT_BIN = Path(os.environ.get("ARTHA_PG_CLIENT_BIN", "/usr/lib/postgresql/18/bin"))
+
+
 def _run(cmd: list[str], target: PgTarget) -> None:
+    tool = PG_CLIENT_BIN / cmd[0]
+    if tool.is_file():
+        cmd = [str(tool), *cmd[1:]]
     result = subprocess.run(cmd, env=target.env(), capture_output=True, text=True, check=False)
     if result.returncode != 0:
         raise BackupError(f"{cmd[0]} failed: {result.stderr.strip()[:500]}")

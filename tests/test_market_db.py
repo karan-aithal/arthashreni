@@ -625,11 +625,13 @@ def test_scheduler_is_built_with_a_persistent_store_and_kolkata_time(world: dict
     job = sched.get_job("ingest:demo")
     assert job is not None and str(sched.timezone) == "Asia/Kolkata"
     assert job.trigger.fields[5].expressions[0].first == 20  # hour field: 20:00
-    assert q("SELECT count(*) FROM ref.apscheduler_jobs")[0][0] == 1  # stored in the database (ADR-0019)
+    monthly = sched.get_job("monthly:demo")  # the monthly review, first weekday of the month (G3)
+    assert monthly is not None and monthly.trigger.fields[5].expressions[0].first == 9
+    assert q("SELECT count(*) FROM ref.apscheduler_jobs")[0][0] == 2  # stored in the database (ADR-0019)
     sched2 = jobs.build_scheduler("demo")  # restarting replaces, never duplicates
     assert (
         sched2.get_job("ingest:demo") is not None
-        and q("SELECT count(*) FROM ref.apscheduler_jobs")[0][0] == 1
+        and q("SELECT count(*) FROM ref.apscheduler_jobs")[0][0] == 2
     )
 
 

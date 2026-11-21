@@ -85,7 +85,7 @@ All carry `valid_at DATE` (the fact's date), `recorded_at TIMESTAMPTZ`, `source_
 - **apscheduler_jobs** — APScheduler's job store (ADR-0019).
 - **assets.cik** — SEC CIK of a US stock, set with `asset cik`.
 
-## 4. Budget, reserves, IPS (Phase 5)
+## 4. Budget, reserves, IPS (Phase 5, migration 0004; built)
 
 **budget_settings** (append-only) — `id, monthly_budget_inr, effective_from, recorded_at`.
 
@@ -95,23 +95,23 @@ All carry `valid_at DATE` (the fact's date), `recorded_at TIMESTAMPTZ`, `source_
 `period (DATE, first of month) PK, opening_budget_inr, committed_sip_inr, new_allocations_inr, reserve_transfers_inr, unallocated_inr`.
 `CHECK (committed_sip_inr + new_allocations_inr + reserve_transfers_inr + unallocated_inr = opening_budget_inr)` and every component `>= 0`.
 
-**envelope_lines** — `id, period, kind (SIP, NEW_ALLOCATION, RESERVE_TRANSFER, UNALLOCATED), amount_inr CHECK (amount_inr >= 0), asset_id NULL, reserve_id NULL`.
-Deferred constraint trigger: per period, sum of lines by kind equals the matching `budget_periods` column.
+**envelope_lines** (append-only) — `id, period, kind (SIP, NEW_ALLOCATION, RESERVE_TRANSFER, RESERVE_USE), amount_inr CHECK (amount_inr > 0), asset_id NULL, reserve_id NULL, sip_mandate_id NULL`. No UNALLOCATED line: the remainder is the `unallocated_inr` column (ADR-0025). `RESERVE_USE` sits outside the budget identity.
+Deferred constraint trigger: per period, sums of SIP, NEW_ALLOCATION and RESERVE_TRANSFER lines equal the matching `budget_periods` columns. `budget_periods` also has `status (OPEN, ALLOCATED)`, `budget_setting_id`, `allocated_at`; an allocated period is frozen by trigger.
 
-**recommendation_lines** — `id, recommendation_id, envelope_line_id UNIQUE REFERENCES envelope_lines, action, amount_inr, ...`. `UNIQUE(envelope_line_id)` makes double allocation impossible.
+**recommendation_lines** — `id, recommendation_id, envelope_line_id NULL UNIQUE REFERENCES envelope_lines, action, amount_inr, asset_id, detail`; money needs an envelope line (CHECK) and equals its amount (trigger); lines without money (hold, avoid, review) have none. `UNIQUE(envelope_line_id)` makes double allocation impossible.
 
 **reserves** — `id, name, kind (CASH_RESERVE, IPO_SINKING_FUND), target_inr NULL`.
-**reserve_ledger** (append-only) — `id, reserve_id, entry_date, kind (TRANSFER_IN, USE, DIVIDEND_IN, SALE_PROCEEDS_IN, IPO_BLOCK, IPO_RELEASE), amount_inr, approved_line_id NULL`. Balance (sum) must never go negative: enforced by a constraint trigger that rejects the insert.
+**reserve_ledger** (append-only) — `id, reserve_id, entry_date, kind (TRANSFER_IN, USE, DIVIDEND_IN, SALE_PROCEEDS_IN, IPO_BLOCK, IPO_RELEASE, IPO_ALLOT), amount_inr > 0, approved_line_id NULL (required for USE), sweep_period NULL (unique per reserve: the month-close sweep is idempotent), note`. Balance (sum) must never go negative: enforced by a constraint trigger that rejects the insert.
 
 **ips_versions** — `id, version INT, status (DRAFT, APPROVED, SUPERSEDED), body JSONB (validated by Pydantic schema), approved_at NULL, approved_note NULL`. Unique partial index: at most one `APPROVED`.
 
 **personal_context** — `field, value JSONB, certainty (KNOWN, ASSUMED, UNKNOWN), updated_at`. History via new rows.
 
-**ipo_applications** — `id, ipo_ref, rhp_document, min_lot_value_inr, applied_on, status`; money movements live in `transactions` (IPO_APPLICATION, IPO_BLOCK, IPO_ALLOTMENT, IPO_REFUND) and `reserve_ledger`.
+**ipo_applications** — `id, ipo_ref, board (MAINBOARD, SME), rhp_document, min_lot_value_inr, research_class (UNRATED, ALLOWED, NOT_ALLOWED), applied_on, status (PLANNED, EXCLUDED, APPLIED, ALLOTTED, PARTIAL, REFUNDED, NOT_ALLOTTED)`; an SME row can only be EXCLUDED (CHECK); money movements live in `transactions` (IPO_APPLICATION, IPO_BLOCK, IPO_ALLOTMENT, IPO_REFUND) and `reserve_ledger`.
 
 ## 5. Risk and decisions (Phase 5, 9)
 
-- **risk_signals** — `id, as_of, signal_id, scope (MARKET, PORTFOLIO, ASSET), asset_id NULL, value, status, threshold_ref`.
+- **risk_signals** (append-only) — `id, as_of, signal_id, scope (MARKET, PORTFOLIO, ASSET), asset_id NULL, value NULL, level NULL, status, threshold_ref, notes`.
 - **risk_levels** — `as_of, level (NORMAL, CAUTION, HIGH_RISK, SEVERE_STRESS), drivers JSONB`.
 - **alerts** — `id, dedupe_key UNIQUE, first_raised_at, last_seen_at, body JSONB (F2 fields), state (OPEN, ACKNOWLEDGED, CLOSED)`.
 - **recommendations** — `id, period, schema_version, payload JSONB, confidence (HIGH, MEDIUM, LOW), created_at, human_approval_required BOOLEAN CHECK (human_approval_required)`.
