@@ -13,7 +13,7 @@ cd "$(dirname "$0")/.."
 ENV_FILE=.env
 DB=arthashreni
 HOST=127.0.0.1
-PORT=5432
+PORT=5433
 
 if [ -f "$ENV_FILE" ] && grep -q '^ARTHA_DB_OWNER_URL=' "$ENV_FILE"; then
   echo "$ENV_FILE already has database settings; refusing to overwrite. Remove those lines to re-run." >&2
@@ -25,7 +25,7 @@ pw_demo=$(openssl rand -hex 24)
 pw_real=$(openssl rand -hex 24)
 
 # SQL goes through stdin so passwords never appear in the process list.
-sudo -u postgres psql -v ON_ERROR_STOP=1 -q -d postgres <<SQL
+sudo -u postgres psql -p "$PORT" -v ON_ERROR_STOP=1 -q -d postgres <<SQL
 -- pragma: allowlist nextline secret
 SET password_encryption = 'scram-sha-256';
 SELECT format('CREATE ROLE artha_owner LOGIN CREATEDB PASSWORD %L', '$pw_owner')

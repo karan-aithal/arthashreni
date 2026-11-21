@@ -103,8 +103,8 @@ A session is bound to exactly one dataset schema via `search_path` at connection
 | Disk | `/home` 234 GB; 3.3 GB free at audit, **17 GB free at review** (2026-11-11) | Resolved; investor confirms sufficient space |
 | Python | system 3.10.12; `python3.12` 3.12.16 present | Use 3.12 via `uv` |
 | uv | 0.12.0 | Package manager and lockfile (ADR-0002) |
-| PostgreSQL | 14.24 server, cluster `14/main` online on 5432; no role for user `xlr8` yet | Sufficient (NUMERIC, CHECK, triggers, schemas). One-time role setup in Phase 1 |
-| pg_dump / psql | 14.24 | Backup tool matches server |
+| PostgreSQL | 18.7 server, cluster `18/main` on 5433 (project database `arthashreni`); a 14.25 cluster stays on 5432, unused (ADR-0027) | Sufficient (NUMERIC, CHECK, triggers, schemas). Roles and database from `scripts/db_setup.sh` |
+| pg_dump / psql | 18.7 (`/usr/lib/postgresql/18/bin`, pinned in `backup.py`) | Backup tool matches server |
 | LibreOffice | 7.3.7.2 (`soffice`) | XIRR oracle, headless |
 | make | present | `make verify` wraps `scripts/verify.py` (ADR-0013) |
 | Docker | 29.9.2 | Optional |
