@@ -1,0 +1,53 @@
+{
+  "dataset": "DEMO",
+  "items": [
+    {
+      "approved_at": "2026-11-21T00:00:00+00:00",
+      "file_name": "holdings.csv",
+      "id": 3,
+      "period_end": null,
+      "period_start": null,
+      "received_at": "2026-11-21T00:00:00+00:00",
+      "rows": {
+        "ambiguous": 0,
+        "duplicate": 0,
+        "new": 7,
+        "rejected": 0
+      },
+      "source_kind": "CSV_HOLDINGS",
+      "status": "COMMITTED"
+    },
+    {
+      "approved_at": "2026-11-21T00:00:00+00:00",
+      "file_name": "transactions.csv",
+      "id": 2,
+      "period_end": null,
+      "period_start": null,
+      "received_at": "2026-11-21T00:00:00+00:00",
+      "rows": {
+        "ambiguous": 0,
+        "duplicate": 0,
+        "new": 23,
+        "rejected": 0
+      },
+      "source_kind": "CSV_TEMPLATE",
+      "status": "COMMITTED"
+    },
+    {
+      "approved_at": "2026-11-21T00:00:00+00:00",
+      "file_name": "corporate_actions.csv",
+      "id": 1,
+      "period_end": null,
+      "period_start": null,
+      "received_at": "2026-11-21T00:00:00+00:00",
+      "rows": {
+        "ambiguous": 0,
+        "duplicate": 0,
+        "new": 3,
+        "rejected": 0
+      },
+      "source_kind": "CSV_CORPORATE_ACTIONS",
+      "status": "COMMITTED"
+    }
+  ]
+}

@@ -171,6 +171,19 @@ arthashreni review close 2026-11-01                    # unallocated money moves
 
 Costs: put your platforms' real fees in `config/costs.toml` (`[[schedule]]` tables: platform, asset_class, brokerage_pct, brokerage_flat_inr, fx_markup_pct, transfer_fee_flat_inr, stamp_duty_pct, gst_pct, min_ticket_inr). Without it every investment is "cost unknown" and goes to the cash reserve. `arthashreni demo policy` sets up DEMO budget, SIP, IPS and context (DEMO only). Mainboard IPOs: `ipo add REF --board MAINBOARD --min-lot <from the RHP>`, then `ipo block` / `ipo settle` to record what you did at your broker. The scheduler also runs the daily risk step after the ingest and a draft monthly review on the first weekday of the month; it never approves anything.
 
+## Web UI (Phase 6, read-only)
+
+Needs Node 24 and the API running (`make run`). Pages: Overview, Portfolio, Transactions & Imports, Data Quality & Sources, Risk Monitor, Monthly Report. Nothing in the UI changes data.
+
+```
+cd apps/web && npm ci
+ARTHA_API_URL=http://127.0.0.1:8000 npm run build      # the proxy target is fixed at build time
+ARTHA_API_URL=http://127.0.0.1:8000 npm run start      # http://127.0.0.1:3100, sign in with `make user` credentials
+npm run dev                                            # development server, same port
+npm test                                               # contract, accessibility and read-only tests
+UPDATE_UI_FIXTURES=1 uv run pytest tests/test_phase6_contract.py   # regenerate fixtures after an API change
+```
+
 ## Datasets
 
 `ARTHA_DATASET=demo` (default) or `real`. `real` is refused until `docs/gates/phase-4.approved` exists.

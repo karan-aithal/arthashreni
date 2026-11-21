@@ -1,0 +1,274 @@
+{
+  "dataset": "DEMO",
+  "recommendation": {
+    "assumptions": [
+      "Leftover-cash rule: RESERVE_NO_INFLATE (IPS v1)"
+    ],
+    "budget_inr": "10000.00",
+    "confidence": "low",
+    "confidence_reasons": [
+      "nothing could be cross-checked, so agreement is 0",
+      "coverage 56% is below 95%",
+      "freshness 56% is below 95%",
+      "agreement 0% is below 95%"
+    ],
+    "dataset": "DEMO",
+    "envelope": {
+      "committed_sip_inr": "2000.00",
+      "lines": [
+        {
+          "amount_inr": "2000.00",
+          "asset_id": 1,
+          "kind": "SIP",
+          "reserve_id": null,
+          "sip_mandate_id": 1
+        },
+        {
+          "amount_inr": "1825.79",
+          "asset_id": 1,
+          "kind": "NEW_ALLOCATION",
+          "reserve_id": null,
+          "sip_mandate_id": null
+        },
+        {
+          "amount_inr": "1254.88",
+          "asset_id": 2,
+          "kind": "NEW_ALLOCATION",
+          "reserve_id": null,
+          "sip_mandate_id": null
+        }
+      ],
+      "new_allocations_inr": "3080.67",
+      "opening_budget_inr": "10000.00",
+      "period": "2026-11-01",
+      "reserve_transfers_inr": "0",
+      "unallocated_inr": "4919.33"
+    },
+    "human_approval_required": true,
+    "ips_version": 1,
+    "label": "DEMO: synthetic data, not advice; nothing is executed",
+    "lines": [
+      {
+        "action": "continue_sip",
+        "amount_inr": "2000.00",
+        "asset_id": 1,
+        "assumptions": [
+          "Leftover-cash rule: RESERVE_NO_INFLATE (IPS v1)"
+        ],
+        "confidence": "low",
+        "data_freshness": "ok",
+        "envelope_ref": 0,
+        "evidence_ids": [
+          "risk_level:2026-11-01",
+          "ips:v1",
+          "price:1:2026-11-10"
+        ],
+        "invalidation_conditions": [
+          "the price data becomes stale, conflicting or missing",
+          "the IPS or personal context changes"
+        ],
+        "reasons": [
+          "running SIP is pre-committed (B1)"
+        ],
+        "risks": [
+          "market value can fall",
+          "risk level is HIGH_RISK"
+        ],
+        "score": null,
+        "subject": "Demo Growth Equity Fund - Direct Growth"
+      },
+      {
+        "action": "accumulate",
+        "amount_inr": "1825.79",
+        "asset_id": 1,
+        "assumptions": [
+          "Leftover-cash rule: RESERVE_NO_INFLATE (IPS v1)"
+        ],
+        "confidence": "low",
+        "data_freshness": "ok",
+        "envelope_ref": 1,
+        "evidence_ids": [
+          "risk_level:2026-11-01",
+          "ips:v1",
+          "price:1:2026-11-10"
+        ],
+        "invalidation_conditions": [
+          "the price data becomes stale, conflicting or missing",
+          "the IPS or personal context changes"
+        ],
+        "reasons": [
+          "below its IPS band target; limited by monthly mix-change limit",
+          "all-in cost 0.00%"
+        ],
+        "risks": [
+          "market value can fall",
+          "risk level is HIGH_RISK"
+        ],
+        "score": {
+          "components": {
+            "context": "1",
+            "fit": "0.6882881918819495888511460105112539960683",
+            "market": "0.5",
+            "quality": null,
+            "valuation": null
+          },
+          "note": "advisory; quality, valuation had no data",
+          "total": "0.6877627306273165296170486701704179986895"
+        },
+        "subject": "Demo Growth Equity Fund - Direct Growth"
+      },
+      {
+        "action": "accumulate",
+        "amount_inr": "1254.88",
+        "asset_id": 2,
+        "assumptions": [
+          "Leftover-cash rule: RESERVE_NO_INFLATE (IPS v1)"
+        ],
+        "confidence": "low",
+        "data_freshness": "ok",
+        "envelope_ref": 2,
+        "evidence_ids": [
+          "risk_level:2026-11-01",
+          "ips:v1",
+          "price:2:2026-11-09"
+        ],
+        "invalidation_conditions": [
+          "the price data becomes stale, conflicting or missing",
+          "the IPS or personal context changes"
+        ],
+        "reasons": [
+          "below its IPS band target; limited by monthly mix-change limit",
+          "all-in cost 0.49%"
+        ],
+        "risks": [
+          "market value can fall",
+          "risk level is HIGH_RISK"
+        ],
+        "score": {
+          "components": {
+            "context": "1",
+            "fit": "0.1058404357378881998240040263555141177668",
+            "market": "0.5",
+            "quality": null,
+            "valuation": null
+          },
+          "note": "advisory; quality, valuation had no data",
+          "total": "0.4936134785792960666080013421185047059223"
+        },
+        "subject": "Demo India ETF"
+      },
+      {
+        "action": "hold",
+        "amount_inr": "0",
+        "asset_id": 7,
+        "assumptions": [
+          "Leftover-cash rule: RESERVE_NO_INFLATE (IPS v1)"
+        ],
+        "confidence": "low",
+        "data_freshness": "stale",
+        "envelope_ref": null,
+        "evidence_ids": [
+          "risk_level:2026-11-01",
+          "ips:v1",
+          "price:7:2026-11-09"
+        ],
+        "invalidation_conditions": [
+          "the price data becomes stale, conflicting or missing",
+          "the IPS or personal context changes"
+        ],
+        "reasons": [
+          "insufficient evidence: the price is stale"
+        ],
+        "risks": [
+          "market value can fall",
+          "risk level is HIGH_RISK"
+        ],
+        "score": null,
+        "subject": "Demo Tech Inc"
+      }
+    ],
+    "missing": [],
+    "overall_action": "accumulate",
+    "period": "2026-11-01",
+    "personalised": true,
+    "reserve_movements": [],
+    "review_date": "2026-11-10",
+    "risk_level": "HIGH_RISK",
+    "scenarios": [
+      {
+        "id": "equity_-10",
+        "label": "Equity -10%",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "-3408.4062336000000000000000000",
+        "total_pct": "-0.1"
+      },
+      {
+        "id": "equity_-20",
+        "label": "Equity -20%",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "-6816.8124672000000000000000000",
+        "total_pct": "-0.2"
+      },
+      {
+        "id": "equity_-30",
+        "label": "Equity -30%",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "-10225.2187008000000000000000000",
+        "total_pct": "-0.3"
+      },
+      {
+        "id": "sector_shock",
+        "label": "Sector shock: Technology -30%",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "-6487.17609600000000000000000000",
+        "total_pct": "-0.1903287240836948573758177039381412777850"
+      },
+      {
+        "id": "usdinr_up_10",
+        "label": "USD/INR +10%",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "1502.3920320000000000000000000",
+        "total_pct": "0.04407901902036939168682079011674766114358"
+      },
+      {
+        "id": "usdinr_down_10",
+        "label": "USD/INR -10%",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "-1502.3920320000000000000000000",
+        "total_pct": "-0.04407901902036939168682079011674766114358"
+      },
+      {
+        "id": "joint_india_us",
+        "label": "Joint India + US stress",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "-6215.8556544000000000000000000000",
+        "total_pct": "-0.1823683923918522433252716839533009355426"
+      },
+      {
+        "id": "commodity_reversal",
+        "label": "Commodity reversal",
+        "note": "scenario, not a prediction",
+        "status": "stale",
+        "total_inr": "0E-24",
+        "total_pct": "0"
+      }
+    ],
+    "schema_version": "1.0",
+    "sources": [
+      "amfi_nav",
+      "manual_prices",
+      "tiingo_eod"
+    ],
+    "warnings": [
+      "risk level rests on 12 of 30 signals; no data for: idx_drawdown:SP500_TRI, idx_vol:SP500_TRI, idx_drawdown:GOLD_INR, idx_vol:GOLD_INR, idx_drawdown:SILVER_INR, idx_vol:SILVER_INR, usdinr_move:USDINR, macro:rates, macro:inflation, macro:oil"
+    ]
+  },
+  "stored": false
+}

@@ -1,0 +1,2092 @@
+{
+  "allocation": {
+    "asset_class": [
+      {
+        "key": "EQUITY_US",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "15023.920320000000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref",
+            "amfi_nav",
+            "manual_prices"
+          ],
+          "status": "stale",
+          "value": "0.4407901902036939168682079011674766114358"
+        }
+      },
+      {
+        "key": "EQUITY_IN",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "11250.0000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "manual_prices",
+            "amfi_nav",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.3300662899010606949736098499312403088312"
+        }
+      },
+      {
+        "key": "ETF_IN",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "7500.0000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "manual_prices",
+            "amfi_nav",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.2200441932673737966490732332874935392208"
+        }
+      },
+      {
+        "key": "MF",
+        "value_inr": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "310.1420160000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.009099326627871591509109015613789540512123"
+        }
+      }
+    ],
+    "country": [
+      {
+        "key": "IN",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "19060.1420160000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.5592098097963060831317920988325233885642"
+        }
+      },
+      {
+        "key": "US",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "15023.920320000000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref",
+            "amfi_nav",
+            "manual_prices"
+          ],
+          "status": "stale",
+          "value": "0.4407901902036939168682079011674766114358"
+        }
+      }
+    ],
+    "currency": [
+      {
+        "key": "INR",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "19060.1420160000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.5592098097963060831317920988325233885642"
+        }
+      },
+      {
+        "key": "USD",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "15023.920320000000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref",
+            "amfi_nav",
+            "manual_prices"
+          ],
+          "status": "stale",
+          "value": "0.4407901902036939168682079011674766114358"
+        }
+      }
+    ],
+    "market_cap": [
+      {
+        "key": "UNKNOWN",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "34084.062336000000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "1"
+        }
+      }
+    ],
+    "sector": [
+      {
+        "key": "Technology",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "21623.920320000000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref",
+            "amfi_nav"
+          ],
+          "status": "stale",
+          "value": "0.6344290802789828579193923464604709259501"
+        }
+      },
+      {
+        "key": "UNKNOWN",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "7810.1420160000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "amfi_nav",
+            "manual_prices",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.2291435198952453881581822489012830797330"
+        }
+      },
+      {
+        "key": "Materials",
+        "value_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "4650.0000000000000000"
+        },
+        "weight": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "manual_prices",
+            "amfi_nav",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.1364273998257717539224254046382459943169"
+        }
+      }
+    ]
+  },
+  "as_of": "2026-11-10",
+  "asset_returns": [
+    {
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "xirr": {
+        "measure": "XIRR",
+        "result": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "XIRR: money-weighted, actual/365",
+            "asset has unit moves without cash (switch/transfer/reinvest): approximate"
+          ],
+          "sources": [
+            "ledger"
+          ],
+          "status": "estimated",
+          "value": "-0.2530726455401013406164599789797681580757"
+        },
+        "why": "money-weighted return of this asset alone"
+      }
+    },
+    {
+      "asset": "Demo IPO Ltd",
+      "xirr": {
+        "measure": "XIRR",
+        "result": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "XIRR: money-weighted, actual/365"
+          ],
+          "sources": [
+            "ledger"
+          ],
+          "status": "ok",
+          "value": "0.071833504249360693562885548153727660960"
+        },
+        "why": "money-weighted return of this asset alone"
+      }
+    },
+    {
+      "asset": "Demo India ETF",
+      "xirr": {
+        "measure": "XIRR",
+        "result": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "XIRR: money-weighted, actual/365"
+          ],
+          "sources": [
+            "ledger"
+          ],
+          "status": "ok",
+          "value": "0.645895225938981837803219008183503495379"
+        },
+        "why": "money-weighted return of this asset alone"
+      }
+    },
+    {
+      "asset": "Demo New Co",
+      "xirr": {
+        "measure": "XIRR",
+        "result": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "XIRR: money-weighted, actual/365"
+          ],
+          "sources": [
+            "ledger"
+          ],
+          "status": "ok",
+          "value": "0.113225187266896072314360468273540881607"
+        },
+        "why": "money-weighted return of this asset alone"
+      }
+    },
+    {
+      "asset": "Demo Stock Co",
+      "xirr": {
+        "measure": "XIRR",
+        "result": {
+          "as_of": "2025-10-01T00:00:00+00:00",
+          "notes": [
+            "XIRR: money-weighted, actual/365"
+          ],
+          "sources": [
+            "ledger"
+          ],
+          "status": "ok",
+          "value": "1.350904546195317563845744425871673084401"
+        },
+        "why": "money-weighted return of this asset alone"
+      }
+    },
+    {
+      "asset": "Demo Tech Inc",
+      "xirr": {
+        "measure": "XIRR",
+        "result": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "XIRR: money-weighted, actual/365",
+            "ending value: latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger"
+          ],
+          "status": "stale",
+          "value": "0.517552574146287528417696910029115938335"
+        },
+        "why": "money-weighted return of this asset alone"
+      }
+    }
+  ],
+  "benchmarks": [
+    {
+      "asset": "Demo Growth Equity Fund - Direct Growth",
+      "comparison": {
+        "asset_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "0.000200040008001600320064012802560512102"
+        },
+        "benchmark_id": "NIFTY50_TRI",
+        "benchmark_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "-0.0008991907283444899590368668198621240883"
+        },
+        "beta": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "-0.1099311887895669650743556898200135825313"
+        },
+        "correlation": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "49 common returns"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "-0.4945614425077424471493199455680982282929"
+        },
+        "excess_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "0.001099230736346090279100879622"
+        }
+      }
+    },
+    {
+      "asset": "Demo IPO Ltd",
+      "comparison": {
+        "asset_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0.003039513677811550151975683890577507599"
+        },
+        "benchmark_id": "NIFTY50_TRI",
+        "benchmark_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0008991907283444899590368668198621240883"
+        },
+        "beta": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-1.671333402376159490146607634165477618710"
+        },
+        "correlation": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "49 common returns"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.4949888368183478371137867098385394030229"
+        },
+        "excess_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0.003938704406156040111012550710"
+        }
+      }
+    },
+    {
+      "asset": "Demo India ETF",
+      "comparison": {
+        "asset_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0"
+        },
+        "benchmark_id": "NIFTY50_TRI",
+        "benchmark_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0008991907283444899590368668198621240883"
+        },
+        "beta": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.001044826647289598062315249420619920359895"
+        },
+        "correlation": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "49 common returns"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0005856889244431078195941274736494620259420"
+        },
+        "excess_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0.0008991907283444899590368668199"
+        }
+      }
+    },
+    {
+      "asset": "Demo New Co",
+      "comparison": {
+        "asset_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0"
+        },
+        "benchmark_id": "NIFTY50_TRI",
+        "benchmark_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0008991907283444899590368668198621240883"
+        },
+        "beta": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.003350254012405549163513895667280799910805"
+        },
+        "correlation": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "49 common returns"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.001165621872955684953584612885895726552296"
+        },
+        "excess_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "2026-09-01 to 2026-11-09, 49 common returns, benchmark NIFTY50_TRI"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0.0008991907283444899590368668199"
+        }
+      }
+    },
+    {
+      "asset": "Demo Tech Inc",
+      "comparison": {
+        "asset_return": {
+          "as_of": "2026-11-21T00:00:00+00:00",
+          "notes": [
+            "benchmark comparison needs 20 common returns, have 0"
+          ],
+          "sources": [],
+          "status": "missing",
+          "value": null
+        },
+        "benchmark_id": "SP500_TRI",
+        "benchmark_return": {
+          "as_of": "2026-11-21T00:00:00+00:00",
+          "notes": [
+            "benchmark comparison needs 20 common returns, have 0"
+          ],
+          "sources": [],
+          "status": "missing",
+          "value": null
+        },
+        "beta": {
+          "as_of": "2026-11-21T00:00:00+00:00",
+          "notes": [
+            "benchmark comparison needs 20 common returns, have 0"
+          ],
+          "sources": [],
+          "status": "missing",
+          "value": null
+        },
+        "correlation": {
+          "as_of": "2026-11-21T00:00:00+00:00",
+          "notes": [
+            "benchmark comparison needs 20 common returns, have 0"
+          ],
+          "sources": [],
+          "status": "missing",
+          "value": null
+        },
+        "excess_return": {
+          "as_of": "2026-11-21T00:00:00+00:00",
+          "notes": [
+            "benchmark comparison needs 20 common returns, have 0"
+          ],
+          "sources": [],
+          "status": "missing",
+          "value": null
+        }
+      }
+    }
+  ],
+  "concentration": {
+    "hhi": {
+      "as_of": "2026-11-09T00:00:00+00:00",
+      "notes": [
+        "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+      ],
+      "sources": [
+        "ledger",
+        "tiingo_eod",
+        "fbil_ref",
+        "amfi_nav",
+        "manual_prices"
+      ],
+      "status": "stale",
+      "value": "0.2989066916883895261111391872135393000091"
+    },
+    "top_n": 3,
+    "top_n_weight": {
+      "as_of": "2026-11-09T00:00:00+00:00",
+      "notes": [
+        "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+      ],
+      "sources": [
+        "ledger",
+        "tiingo_eod",
+        "fbil_ref",
+        "amfi_nav",
+        "manual_prices"
+      ],
+      "status": "stale",
+      "value": "0.8544732735463566545684655797479644651709"
+    }
+  },
+  "correlations": [
+    {
+      "a": "Demo Growth Equity Fund - Direct Growth",
+      "b": "Demo IPO Ltd",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "49 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "0.9999984085817298824885535145424776810303"
+      }
+    },
+    {
+      "a": "Demo Growth Equity Fund - Direct Growth",
+      "b": "Demo India ETF",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "49 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "0.0005053577097573361478196541993313199238472"
+      }
+    },
+    {
+      "a": "Demo Growth Equity Fund - Direct Growth",
+      "b": "Demo New Co",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "49 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "0.0008881566181804204856852422312283840870303"
+      }
+    },
+    {
+      "a": "Demo Growth Equity Fund - Direct Growth",
+      "b": "Demo Tech Inc",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "25 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "amfi_nav",
+          "tiingo_eod"
+        ],
+        "status": "ok",
+        "value": "0.001218258249476461880665605894603745058476"
+      }
+    },
+    {
+      "a": "Demo IPO Ltd",
+      "b": "Demo India ETF",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "49 common returns"
+        ],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "-0.001209133678181756733448143566378051516998"
+      }
+    },
+    {
+      "a": "Demo IPO Ltd",
+      "b": "Demo New Co",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "49 common returns"
+        ],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "-0.0008261129724325276393222897162351472531564"
+      }
+    },
+    {
+      "a": "Demo IPO Ltd",
+      "b": "Demo Tech Inc",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "25 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "tiingo_eod"
+        ],
+        "status": "ok",
+        "value": "-0.0004870563643256069525648127141100290930949"
+      }
+    },
+    {
+      "a": "Demo India ETF",
+      "b": "Demo New Co",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "49 common returns"
+        ],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "0.9999998183826476680796694290498937749599"
+      }
+    },
+    {
+      "a": "Demo India ETF",
+      "b": "Demo Tech Inc",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "25 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "tiingo_eod"
+        ],
+        "status": "ok",
+        "value": "0.9999994028834885817105754734414725422732"
+      }
+    },
+    {
+      "a": "Demo New Co",
+      "b": "Demo Tech Inc",
+      "correlation": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "25 common returns"
+        ],
+        "sources": [
+          "manual_prices",
+          "tiingo_eod"
+        ],
+        "status": "ok",
+        "value": "0.9999998837863982679111826264757244558375"
+      }
+    }
+  ],
+  "dataset": "DEMO",
+  "fx_attribution": [
+    {
+      "asset": "Demo Tech Inc",
+      "attribution": {
+        "fx_effect_inr": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger",
+            "fbil_ref"
+          ],
+          "status": "ok",
+          "value": "2.911040000000000000000000000000000003309"
+        },
+        "fx_return": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "fbil_ref",
+            "ledger"
+          ],
+          "status": "ok",
+          "value": "0.0003142857142857142857142857142857142860715"
+        },
+        "gain_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "5761.520320000000000000000000"
+        },
+        "inr_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.6220332008982553117982380376576265330800"
+        },
+        "interaction": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "0.0001953359820348937640352392468474693386223"
+        },
+        "interaction_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod",
+            "fbil_ref"
+          ],
+          "status": "stale",
+          "value": "1.809280000000000000000000000000000002055"
+        },
+        "local_effect_inr": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod"
+          ],
+          "status": "stale",
+          "value": "5756.799999999999999999999999999999999995"
+        },
+        "local_return": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+          ],
+          "sources": [
+            "ledger",
+            "tiingo_eod"
+          ],
+          "status": "stale",
+          "value": "0.6215235792019347037484885126964933494554"
+        },
+        "purchase_rate": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [],
+          "sources": [
+            "ledger"
+          ],
+          "status": "ok",
+          "value": "83.99999999999999999999999999999999999997"
+        },
+        "residual": "0E-36",
+        "valuation_rate_type": "FBIL_REF"
+      }
+    }
+  ],
+  "fx_rate_type": "FBIL_REF",
+  "holdings": [
+    {
+      "cost_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "757.4035"
+      },
+      "fx": null,
+      "fx_rate_type": null,
+      "position": {
+        "account_id": 1,
+        "asset": {
+          "asset_class": "MF",
+          "country": "IN",
+          "currency": "INR",
+          "fund_house": "Demo AMC",
+          "id": 1,
+          "market_cap": null,
+          "name": "Demo Growth Equity Fund - Direct Growth",
+          "sector": null
+        },
+        "cost_inr": "757.4035",
+        "cost_orig": "757.4035",
+        "units": "15.50400000"
+      },
+      "price": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "20.00400000"
+      },
+      "units": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "15.50400000"
+      },
+      "unrealised_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "-447.2614840000000000"
+      },
+      "unrealised_pct": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "-0.5905194311882635873744972131763320343780"
+      },
+      "value_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "310.1420160000000000"
+      },
+      "value_local": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "310.1420160000000000"
+      }
+    },
+    {
+      "cost_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "3108.0000"
+      },
+      "fx": null,
+      "fx_rate_type": null,
+      "position": {
+        "account_id": 2,
+        "asset": {
+          "asset_class": "ETF_IN",
+          "country": "IN",
+          "currency": "INR",
+          "fund_house": null,
+          "id": 2,
+          "market_cap": null,
+          "name": "Demo India ETF",
+          "sector": null
+        },
+        "cost_inr": "3108.0000",
+        "cost_orig": "3108.0000",
+        "units": "30.00000000"
+      },
+      "price": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "250.00000000"
+      },
+      "units": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "30.00000000"
+      },
+      "unrealised_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "4392.0000000000000000"
+      },
+      "unrealised_pct": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "1.413127413127413127413127413127413127413"
+      },
+      "value_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "7500.0000000000000000"
+      },
+      "value_local": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "7500.0000000000000000"
+      }
+    },
+    {
+      "cost_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "6000.0000"
+      },
+      "fx": null,
+      "fx_rate_type": null,
+      "position": {
+        "account_id": 2,
+        "asset": {
+          "asset_class": "EQUITY_IN",
+          "country": "IN",
+          "currency": "INR",
+          "fund_house": null,
+          "id": 4,
+          "market_cap": null,
+          "name": "Demo IPO Ltd",
+          "sector": "Technology"
+        },
+        "cost_inr": "6000.0000",
+        "cost_orig": "6000.0000",
+        "units": "40.00000000"
+      },
+      "price": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "165.00000000"
+      },
+      "units": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "40.00000000"
+      },
+      "unrealised_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "600.0000000000000000"
+      },
+      "unrealised_pct": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "0.100000000000"
+      },
+      "value_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "6600.0000000000000000"
+      },
+      "value_local": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "6600.0000000000000000"
+      }
+    },
+    {
+      "cost_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "3750.0000"
+      },
+      "fx": null,
+      "fx_rate_type": null,
+      "position": {
+        "account_id": 2,
+        "asset": {
+          "asset_class": "EQUITY_IN",
+          "country": "IN",
+          "currency": "INR",
+          "fund_house": null,
+          "id": 6,
+          "market_cap": null,
+          "name": "Demo New Co",
+          "sector": "Materials"
+        },
+        "cost_inr": "3750.0000",
+        "cost_orig": "3750.0000",
+        "units": "15.00000000"
+      },
+      "price": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "310.00000000"
+      },
+      "units": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "15.00000000"
+      },
+      "unrealised_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "900.0000000000000000"
+      },
+      "unrealised_pct": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "0.240000000000"
+      },
+      "value_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "4650.0000000000000000"
+      },
+      "value_local": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger",
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "4650.0000000000000000"
+      }
+    },
+    {
+      "cost_inr": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "9262.4000"
+      },
+      "fx": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "fbil_ref"
+        ],
+        "status": "ok",
+        "value": "84.02640000"
+      },
+      "fx_rate_type": "FBIL_REF",
+      "position": {
+        "account_id": 3,
+        "asset": {
+          "asset_class": "EQUITY_US",
+          "country": "US",
+          "currency": "USD",
+          "fund_house": null,
+          "id": 7,
+          "market_cap": null,
+          "name": "Demo Tech Inc",
+          "sector": "Technology"
+        },
+        "cost_inr": "9262.4000",
+        "cost_orig": "110.2666666666666666666666666666666666667",
+        "units": "1.00000000"
+      },
+      "price": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+        ],
+        "sources": [
+          "tiingo_eod"
+        ],
+        "status": "stale",
+        "value": "178.80000000"
+      },
+      "units": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [],
+        "sources": [
+          "ledger"
+        ],
+        "status": "ok",
+        "value": "1.00000000"
+      },
+      "unrealised_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+        ],
+        "sources": [
+          "ledger",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "stale",
+        "value": "5761.520320000000000000000000"
+      },
+      "unrealised_pct": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+        ],
+        "sources": [
+          "ledger",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "stale",
+        "value": "0.6220332008982553117982380376576265330800"
+      },
+      "value_inr": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+        ],
+        "sources": [
+          "ledger",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "stale",
+        "value": "15023.920320000000000000000000"
+      },
+      "value_local": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+        ],
+        "sources": [
+          "ledger",
+          "tiingo_eod"
+        ],
+        "status": "stale",
+        "value": "178.8000000000000000"
+      }
+    }
+  ],
+  "income": {
+    "dividends_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "253.3000"
+    },
+    "fees_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "199.800000000000"
+    },
+    "interest_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "0"
+    },
+    "reinvested_dividends_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "12.4000000000000000"
+    },
+    "stamp_duty_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "0E-12"
+    },
+    "taxes_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "44.200000000000"
+    }
+  },
+  "invested_inr": {
+    "as_of": "2026-11-10T00:00:00+00:00",
+    "notes": [
+      "purchases, fees and taxes paid, over time"
+    ],
+    "sources": [
+      "ledger"
+    ],
+    "status": "ok",
+    "value": "71213.2035"
+  },
+  "look_through": {
+    "exposure": {
+      "Demo IPO Ltd": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+          "no holdings data for: Demo Growth Equity Fund - Direct Growth, Demo India ETF"
+        ],
+        "sources": [
+          "ledger",
+          "manual_prices",
+          "amfi_nav",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "stale",
+        "value": "0.1936388900752889410511844452929943145143"
+      },
+      "Demo New Co": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+          "no holdings data for: Demo Growth Equity Fund - Direct Growth, Demo India ETF"
+        ],
+        "sources": [
+          "ledger",
+          "manual_prices",
+          "amfi_nav",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "stale",
+        "value": "0.1364273998257717539224254046382459943169"
+      },
+      "Demo Tech Inc": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+          "no holdings data for: Demo Growth Equity Fund - Direct Growth, Demo India ETF"
+        ],
+        "sources": [
+          "ledger",
+          "tiingo_eod",
+          "fbil_ref",
+          "amfi_nav",
+          "manual_prices"
+        ],
+        "status": "stale",
+        "value": "0.4407901902036939168682079011674766114358"
+      }
+    },
+    "without_data": [
+      "Demo Growth Equity Fund - Direct Growth",
+      "Demo India ETF"
+    ]
+  },
+  "realised": {
+    "cost_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "39347.8000"
+    },
+    "gain_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [
+        "before tax; tax unavailable (no verified rule)"
+      ],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "32915.6000"
+    },
+    "proceeds_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "72263.4000"
+    }
+  },
+  "returns": [
+    {
+      "measure": "XIRR",
+      "result": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [
+          "XIRR: money-weighted, actual/365",
+          "cash-flow pattern admits more than one root; only one was found (unique above 0% by Norstrom; negative rates checked by scan only)",
+          "ending value: latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+        ],
+        "sources": [
+          "ledger"
+        ],
+        "status": "stale",
+        "value": "0.714152820630054454627928812263146072428"
+      },
+      "why": "money-weighted: the investor chose when to add money, so timing counts"
+    },
+    {
+      "measure": "TWR",
+      "result": {
+        "as_of": "2024-06-03T00:00:00+00:00",
+        "notes": [
+          "1 of 1 holdings have no usable value and are left out: Demo Stock Co",
+          "2 of 2 holdings have no usable value and are left out: Demo Stock Co, Demo Old Co",
+          "3 of 3 holdings have no usable value and are left out: Demo Growth Equity Fund - Direct Growth, Demo Stock Co, Demo Old Co",
+          "valuation left out holdings with no price on 2024-06-03, 2024-09-02, 2024-11-18 and more: chain-linking over a partial value would count the gap as a loss or a gain"
+        ],
+        "sources": [
+          "ledger",
+          "amfi_nav",
+          "manual_prices",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "missing",
+        "value": null
+      },
+      "why": "chain-linked sub-period returns; removes the effect of when money was added or taken out"
+    },
+    {
+      "measure": "absolute return",
+      "result": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
+          "purchases, fees and taxes paid, over time"
+        ],
+        "sources": [
+          "ledger",
+          "amfi_nav",
+          "manual_prices",
+          "tiingo_eod",
+          "fbil_ref"
+        ],
+        "status": "stale",
+        "value": "0.6233051829496758982342368574951132482054"
+      },
+      "why": "total gain over total invested; ignores when the money went in, so not comparable across periods"
+    }
+  ],
+  "stats": [
+    {
+      "asset": {
+        "asset_class": "MF",
+        "country": "IN",
+        "currency": "INR",
+        "fund_house": "Demo AMC",
+        "id": 1,
+        "market_cap": null,
+        "name": "Demo Growth Equity Fund - Direct Growth",
+        "sector": null
+      },
+      "drawdown": {
+        "current_depth": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "from running peak"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "0"
+        },
+        "depth": {
+          "as_of": "2026-11-10T00:00:00+00:00",
+          "notes": [
+            "worst peak-to-trough fall in the series"
+          ],
+          "sources": [
+            "manual_prices",
+            "amfi_nav"
+          ],
+          "status": "ok",
+          "value": "-0.0004"
+        },
+        "peak": "2026-09-02",
+        "recovered_on": "2026-09-07",
+        "recovery_days": 4,
+        "trough": "2026-09-03"
+      },
+      "volatility": {
+        "as_of": "2026-11-10T00:00:00+00:00",
+        "notes": [
+          "annualised from 50 returns, 252 periods a year"
+        ],
+        "sources": [
+          "manual_prices",
+          "amfi_nav"
+        ],
+        "status": "ok",
+        "value": "0.004534558004831379712372402847252423049410"
+      }
+    },
+    {
+      "asset": {
+        "asset_class": "EQUITY_IN",
+        "country": "IN",
+        "currency": "INR",
+        "fund_house": null,
+        "id": 4,
+        "market_cap": null,
+        "name": "Demo IPO Ltd",
+        "sector": "Technology"
+      },
+      "drawdown": {
+        "current_depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "from running peak"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "0"
+        },
+        "depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "worst peak-to-trough fall in the series"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0060606060606060606060606060606060606061"
+        },
+        "peak": "2026-09-02",
+        "recovered_on": "2026-09-07",
+        "recovery_days": 4,
+        "trough": "2026-09-03"
+      },
+      "volatility": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "annualised from 49 returns, 252 periods a year"
+        ],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "0.06926719550273855166515558729909655449933"
+      }
+    },
+    {
+      "asset": {
+        "asset_class": "ETF_IN",
+        "country": "IN",
+        "currency": "INR",
+        "fund_house": null,
+        "id": 2,
+        "market_cap": null,
+        "name": "Demo India ETF",
+        "sector": null
+      },
+      "drawdown": {
+        "current_depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "from running peak"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0031897926634768740031897926634768740032"
+        },
+        "depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "worst peak-to-trough fall in the series"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0031897926634768740031897926634768740032"
+        },
+        "peak": "2026-09-02",
+        "recovered_on": "2026-09-09",
+        "recovery_days": 2,
+        "trough": "2026-09-07"
+      },
+      "volatility": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "annualised from 49 returns, 252 periods a year"
+        ],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "0.03659629712104500042251818554400109292083"
+      }
+    },
+    {
+      "asset": {
+        "asset_class": "EQUITY_IN",
+        "country": "IN",
+        "currency": "INR",
+        "fund_house": null,
+        "id": 6,
+        "market_cap": null,
+        "name": "Demo New Co",
+        "sector": "Materials"
+      },
+      "drawdown": {
+        "current_depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "from running peak"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0051347881899871630295250320924261874198"
+        },
+        "depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "worst peak-to-trough fall in the series"
+          ],
+          "sources": [
+            "manual_prices"
+          ],
+          "status": "ok",
+          "value": "-0.0051347881899871630295250320924261874198"
+        },
+        "peak": "2026-09-02",
+        "recovered_on": "2026-09-09",
+        "recovery_days": 2,
+        "trough": "2026-09-07"
+      },
+      "volatility": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "annualised from 49 returns, 252 periods a year"
+        ],
+        "sources": [
+          "manual_prices"
+        ],
+        "status": "ok",
+        "value": "0.05896305316799925404943796233161983399924"
+      }
+    },
+    {
+      "asset": {
+        "asset_class": "EQUITY_US",
+        "country": "US",
+        "currency": "USD",
+        "fund_house": null,
+        "id": 7,
+        "market_cap": null,
+        "name": "Demo Tech Inc",
+        "sector": "Technology"
+      },
+      "drawdown": {
+        "current_depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "from running peak"
+          ],
+          "sources": [
+            "tiingo_eod"
+          ],
+          "status": "ok",
+          "value": "-0.0066666666666666666666666666666666666667"
+        },
+        "depth": {
+          "as_of": "2026-11-09T00:00:00+00:00",
+          "notes": [
+            "worst peak-to-trough fall in the series"
+          ],
+          "sources": [
+            "tiingo_eod"
+          ],
+          "status": "ok",
+          "value": "-0.0066666666666666666666666666666666666667"
+        },
+        "peak": "2026-10-07",
+        "recovered_on": "2026-10-14",
+        "recovery_days": 2,
+        "trough": "2026-10-12"
+      },
+      "volatility": {
+        "as_of": "2026-11-09T00:00:00+00:00",
+        "notes": [
+          "annualised from 25 returns, 252 periods a year"
+        ],
+        "sources": [
+          "tiingo_eod"
+        ],
+        "status": "ok",
+        "value": "0.07660700989068192764327347078033217393574"
+      }
+    }
+  ],
+  "totals": {
+    "cost_inr": {
+      "as_of": "2026-11-10T00:00:00+00:00",
+      "notes": [],
+      "sources": [
+        "ledger"
+      ],
+      "status": "ok",
+      "value": "22877.8035"
+    },
+    "holdings": 5,
+    "unrealised_inr": {
+      "as_of": "2026-11-09T00:00:00+00:00",
+      "notes": [
+        "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+      ],
+      "sources": [
+        "ledger",
+        "amfi_nav",
+        "manual_prices",
+        "tiingo_eod",
+        "fbil_ref"
+      ],
+      "status": "stale",
+      "value": "11206.258836000000000000000000"
+    },
+    "unrealised_pct": {
+      "as_of": "2026-11-09T00:00:00+00:00",
+      "notes": [
+        "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+      ],
+      "sources": [
+        "ledger",
+        "amfi_nav",
+        "manual_prices",
+        "tiingo_eod",
+        "fbil_ref"
+      ],
+      "status": "stale",
+      "value": "0.4898310642453065916052649022883687238594"
+    },
+    "unvalued": [],
+    "value_inr": {
+      "as_of": "2026-11-09T00:00:00+00:00",
+      "notes": [
+        "latest 2026-11-09, expected 2026-11-10 (1 days behind)"
+      ],
+      "sources": [
+        "ledger",
+        "amfi_nav",
+        "manual_prices",
+        "tiingo_eod",
+        "fbil_ref"
+      ],
+      "status": "stale",
+      "value": "34084.062336000000000000000000"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.m { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; }
+.num { font-variant-numeric: tabular-nums; font-weight: 600; }
+.asof { font-size: 0.75rem; color: var(--muted); }
+.badge {
+  font-size: 0.7rem; font-weight: 700; padding: 0.05rem 0.4rem; border-radius: 0.6rem;
+  border: 1px solid currentColor; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.ok { color: var(--ok); }
+.stale { color: var(--warn); }
+.missing { color: var(--muted); }
+.estimated { color: var(--info); }
+.conflicting, .quarantined { color: var(--bad); }
