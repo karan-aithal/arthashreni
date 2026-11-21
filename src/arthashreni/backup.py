@@ -68,7 +68,16 @@ class PgTarget:
         )
 
 
+# Client tools must match the server major version (.env points at the PG 14 cluster).
+# Ubuntu's pg_dump wrapper picks the newest installed client (19), whose dump sets
+# transaction_timeout, which the 14 server rejects on restore.
+PG_CLIENT_BIN = Path(os.environ.get("ARTHA_PG_CLIENT_BIN", "/usr/lib/postgresql/14/bin"))
+
+
 def _run(cmd: list[str], target: PgTarget) -> None:
+    tool = PG_CLIENT_BIN / cmd[0]
+    if tool.is_file():
+        cmd = [str(tool), *cmd[1:]]
     result = subprocess.run(cmd, env=target.env(), capture_output=True, text=True, check=False)
     if result.returncode != 0:
         raise BackupError(f"{cmd[0]} failed: {result.stderr.strip()[:500]}")
