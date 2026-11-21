@@ -4,14 +4,14 @@ Structured Wealth. Intelligent Decisions.
 
 Personal investment intelligence platform for one Indian investor: ledger, data quality, calculations, risk and policy engine, and a read-only web UI, built in gated phases. Decision support only; it never trades, never stores broker credentials and never sends your data anywhere without logged consent. Not investment advice.
 
-**Status:** Phases 0 to 5 approved. Phase 6 (read-only UI) is built and waiting for `docs/gates/phase-6.approved`. Everything runs on synthetic DEMO data until you import real statements (allowed after the Phase 4 gate).
+**Status:** Phases 0 to 5 approved, plus the Phase 5 follow-ups (ADR-0029). Phase 6 (read-only UI) is built and waiting for `docs/gates/phase-6.approved`. Everything runs on synthetic DEMO data until you import real statements (allowed after the Phase 4 gate).
 
 | Document | What it covers |
 | --- | --- |
 | `CLAUDE.md` | The constitution (Parts A to G): invariants and gate rules |
 | `docs/architecture.md` | Packages, boundaries, data flow |
 | `docs/data-model.md` | Tables and constraints |
-| `docs/decisions/` | ADRs (0001 to 0028) |
+| `docs/decisions/` | ADRs (0001 to 0029) |
 | `docs/runbook.md` | Detailed operating commands |
 | `docs/gates/` | Phase reports, verify logs and approval files |
 | `docs/verify-register.md` | Open `[VERIFY]` items (tax, regulatory, source terms) |
@@ -43,7 +43,7 @@ Not built yet: research and IPO module (Phase 7), local LLM (Phase 8), approval 
 git clone <repo> arthashreni && cd arthashreni
 bash scripts/db_setup.sh        # once per machine; asks for sudo; writes .env (mode 600)
 make install                    # uv sync --frozen + git pre-commit hook
-make migrate                    # alembic upgrade head
+make migrate                    # alembic upgrade head (re-run after pulling: migration 0005 adds asset theme and fund category)
 make user                       # create the single local login (password of 12+ characters)
 ```
 
@@ -92,6 +92,7 @@ Open http://127.0.0.1:3100 and sign in with the login from `make user`.
 | `ARTHA_CONSENTED_SOURCES` | Comma-separated external sources you consent to contact. Empty means nothing is fetched |
 | `ARTHA_TIINGO_API_KEY`, `ARTHA_SEC_USER_AGENT` | Optional keys and contact string for market-data adapters |
 | `ARTHA_INGEST_TIME` | Daily ingest time, Asia/Kolkata (default 20:00) |
+| `ARTHA_NOTIFY` | `desktop` (default) raises a local `notify-send` notification for new risk alerts; `off` silences it. Test with `arthashreni scheduler notify-test` |
 | `ARTHA_BACKUP_RECIPIENT` | `age` public key for encrypted backups |
 | `ARTHA_API_URL` | Web UI only: API address the proxy targets (set at `npm run build`) |
 
@@ -103,7 +104,7 @@ Everything that changes data goes through the CLI. The UI only reads. `uv run ar
 
 | Group | Purpose |
 | --- | --- |
-| `account`, `asset` | Broker accounts and the asset registry |
+| `account`, `asset` | Broker accounts and the asset registry. `asset set REF --category DEBT` (mutual funds: EQUITY, HYBRID, DEBT) and `--theme NAME` feed scenarios and the IPS theme limit; unknown counts as equity |
 | `import` | Preview a statement file, then commit or reject. Nothing commits without your approval |
 | `ledger`, `reconcile` | Holdings, corrections, ledger vs statement differences |
 | `market` | Data sources, ingest, prices, FX |
@@ -111,7 +112,7 @@ Everything that changes data goes through the CLI. The UI only reads. `uv run ar
 | `portfolio` | Valuation and return reports |
 | `budget`, `sip`, `reserve`, `ipo`, `context`, `ips` | Budget, SIP mandates, reserves, IPO sinking fund, personal context, Investment Policy Statement |
 | `risk`, `review` | Risk run, monthly review, record a decision (never executes anything) |
-| `scheduler` | Daily ingest, risk and monthly jobs |
+| `scheduler` | Daily ingest, risk and monthly jobs (the monthly review starts on the first BSE trading day) |
 | `backup`, `user`, `demo` | Encrypted backups, local login, DEMO data |
 
 Typical monthly flow, once real data and an approved IPS exist:
