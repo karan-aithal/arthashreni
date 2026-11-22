@@ -32,8 +32,8 @@ Checked 2026-11-22 by web search plus a direct fetch of a few pages. **This is a
 | IREN, IONQ (stocks) | SEC EDGAR (already the D1 source for US fundamentals) | EDGAR needs a declared User-Agent with a contact email |
 
 - **Tickers given by the investor on 2026-11-22**, with the issuer I took each to be (from general knowledge, not looked up): QNT (Quantinuum, a stock, not an ETF: use EDGAR like IREN and IONQ), QQQM (Invesco), SPY and XME (State Street SPDR), VOO, VOOV, VOOG and VTI (Vanguard), JPXN and IVV (iShares), QTUM (Defiance). The earlier "Quantinuum ETF" question is settled: it is the stock. A leveraged QNT fund (QNTU, Tradr) exists but is not on the list.
-- **Not in the ticker list but named earlier:** iShares MSCI South Korea, WisdomTree Japan hedged equity and Vanguard Energy. Say if you still hold them and I will add their tickers.
-- Five issuers cover all ten ETFs: Vanguard, iShares, State Street SPDR, Invesco and Defiance. Of these, only Vanguard's terms were read.
+- **Also held (investor confirmed 2026-11-22, tickers from general knowledge, not looked up):** EWY (iShares MSCI South Korea), DXJ (WisdomTree Japan Hedged Equity) and VDE (Vanguard Energy).
+- Six issuers cover all thirteen ETFs: Vanguard, iShares, State Street SPDR, Invesco, Defiance and WisdomTree. Of these, only Vanguard's terms were read.
 
 ## Official news feeds (V36)
 
