@@ -14,7 +14,7 @@ from arthashreni import research_store as rs
 from arthashreni.analytics.allocation import overlap
 from arthashreni.core.config import get_settings
 from arthashreni.db.session import session_scope
-from arthashreni.dq.measured import day_stamp
+from arthashreni.dq.measured import QualityStatus, day_stamp, with_status
 from arthashreni.ledger.assets import resolve_asset
 from arthashreni.research.ipo import REQUIRED_FACTS, missing_facts
 
@@ -64,9 +64,16 @@ def holdings_overlap(
         a, b = (resolve_asset(db, get_settings().dataset, r) for r in (a_ref, b_ref))
         loaded = rs.load_fund_holdings(db, day)
     m = overlap(loaded.weights.get(a.id), loaded.weights.get(b.id), day_stamp(day))
+    for f in (a, b):
+        if f.id in loaded.stale and m.value is not None:
+            m = with_status(m, QualityStatus.STALE, f"holdings file for {f.name} is out of date")
     typer.echo(
         f"overlap {a.name} / {b.name}: "
-        + (f"{m.value:.2%} [{m.status.value}]" if m.value is not None else f"missing ({'; '.join(m.notes)})")
+        + (
+            f"{m.value:.2%} [{m.status.value}] {'; '.join(m.notes)}".rstrip()
+            if m.value is not None
+            else f"missing ({'; '.join(m.notes)})"
+        )
     )
 
 

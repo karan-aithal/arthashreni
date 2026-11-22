@@ -207,6 +207,15 @@ def record_ipo_fact(db: Session, ref: str, fact: str, value: str, source_doc: st
             text("UPDATE ipo_applications SET min_lot_value_inr = :m WHERE ipo_ref = :r"),
             {"m": lot, "r": ref},
         )
+    # A new fact changes what the classification was based on: the investor must classify again. The
+    # ALLOWED row stays in ipo_classifications; NOT_ALLOWED already blocks, so it is left alone.
+    db.execute(
+        text(
+            "UPDATE ipo_applications SET research_class = 'UNRATED' "
+            "WHERE ipo_ref = :r AND research_class = 'ALLOWED' AND status = 'PLANNED'"
+        ),
+        {"r": ref},
+    )
     return fid
 
 

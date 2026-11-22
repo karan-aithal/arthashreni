@@ -185,6 +185,40 @@ def test_ipo_needs_checklist_classification_and_money() -> None:
         rs.classify_ipo(db, "ACME", "ALLOWED", "again")
 
 
+def test_a_changed_fact_withdraws_the_classification_until_reclassified() -> None:
+    rid = fund_reserve("20000")
+    with session_scope("demo") as db:
+        pstore.add_ipo(db, "REVISED", "MAINBOARD", "rhp.pdf", None, "UNRATED")
+        for fact in REQUIRED_FACTS:
+            rs.record_ipo_fact(db, "REVISED", fact, "14,800" if fact == "min_lot_value" else "read", "RHP")
+        rs.classify_ipo(db, "REVISED", "ALLOWED", "reviewed risk factors")
+    with session_scope("demo") as db:  # the RHP is amended: a revised lot size
+        rs.record_ipo_fact(db, "REVISED", "min_lot_value", "15,200", "RHP addendum")
+        assert (
+            db.execute(
+                text("SELECT research_class FROM ipo_applications WHERE ipo_ref='REVISED'")
+            ).scalar_one()
+            == "UNRATED"
+        )
+    with session_scope("demo") as db, pytest.raises(pstore.PolicyError, match="UNRATED, not ALLOWED"):
+        pstore.ipo_block(db, "REVISED", rid, D("16000"), DEMO_TODAY)
+    assert count("ipo_classifications") >= 1  # the old ALLOWED row is history, not deleted
+    with session_scope("demo") as db:
+        rs.classify_ipo(db, "REVISED", "ALLOWED", "re-read the addendum")
+        pstore.ipo_block(db, "REVISED", rid, D("16000"), DEMO_TODAY)
+
+
+def test_a_fact_does_not_loosen_a_not_allowed_classification() -> None:
+    with session_scope("demo") as db:
+        pstore.add_ipo(db, "NOGO", "MAINBOARD", "rhp.pdf", None, "UNRATED")
+        rs.classify_ipo(db, "NOGO", "NOT_ALLOWED", "weak financials")
+        rs.record_ipo_fact(db, "NOGO", "issue_size", "500 cr", "RHP")
+        assert (
+            db.execute(text("SELECT research_class FROM ipo_applications WHERE ipo_ref='NOGO'")).scalar_one()
+            == "NOT_ALLOWED"
+        )
+
+
 def test_sme_ipos_are_never_eligible() -> None:
     rid = fund_reserve("10000")
     with session_scope("demo") as db:
@@ -299,3 +333,14 @@ def test_cli_end_to_end(tmp_path: Path) -> None:
     )
     assert "claim" in run("claim", "add", "GAMMA", "size noted", "--kind", "ipo_fact", "--evidence-id", "1")
     assert "size noted" in run("claim", "list", "--subject", "GAMMA")
+
+
+def test_cli_overlap_of_stale_files_is_marked_stale(tmp_path: Path) -> None:
+    old = tmp_path / "fund_july.csv"
+    old.write_text(f"isin,name,pct_to_nav\n{STOCK},Demo Stock Co,50\n,TREPS,50\n")
+    res = runner.invoke(cli_app, ["holdings", "import", FUND, str(old), "--as-of", "2026-07-31"])
+    assert res.exit_code == 0, res.output
+    # on 29 Sep only the July files are known (ETF: stock 26, TREPS 24): 26 + 24 = 50%, but 31 Aug is overdue
+    res = runner.invoke(cli_app, ["holdings", "overlap", FUND, ETF, "--date", "2026-09-29"])
+    assert res.exit_code == 0, res.output
+    assert "50.00% [stale]" in res.output and "out of date" in res.output
