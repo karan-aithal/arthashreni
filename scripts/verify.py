@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PKG = ROOT / "src" / "arthashreni"
 
 # Packages that need >= 95% branch coverage once they exist (G1.8).
-COVERAGE_PACKAGES = ["ledger", "dq", "analytics", "policy", "risk"]
+COVERAGE_PACKAGES = ["ledger", "dq", "analytics", "policy", "risk", "research"]
 
 # Outside PYTHONPATH (e.g. ROS) must not leak plugins into the project environment.
 ENV = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}

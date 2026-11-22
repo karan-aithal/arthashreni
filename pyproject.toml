@@ -8,6 +8,7 @@ dependencies = [
     "apscheduler>=3.11,<4",
     "argon2-cffi>=25.1.0",
     "casparser>=1.4.1",
+    "defusedxml>=0.7.1",
     "exchange-calendars>=4.13",
     "fastapi>=0.162.4",
     "httpx>=0.28.1",
@@ -45,6 +46,7 @@ dev = [
     "pytest-socket>=0.8.1",
     "pyxirr>=0.10.8",
     "ruff>=0.17.4",
+    "types-defusedxml>=0.7.0.20260504",
     "types-openpyxl>=3.1.5.20261017",
 ]
 
@@ -110,7 +112,7 @@ name = "ledger is pure: no ingestion, api, cli or web frameworks (add ai/researc
 type = "forbidden"
 source_modules = ["arthashreni.ledger"]
 forbidden_modules = ["arthashreni.ingestion", "arthashreni.api", "arthashreni.cli", "arthashreni.policy",
-                     "arthashreni.risk", "arthashreni.reports", "fastapi", "starlette"]
+                     "arthashreni.risk", "arthashreni.reports", "arthashreni.research", "arthashreni.research_store", "arthashreni.cli_research", "fastapi", "starlette"]
 
 [[tool.importlinter.contracts]]
 name = "ingestion does not reach api, cli, policy, risk or web frameworks (add ai when it exists)"
@@ -124,7 +126,7 @@ name = "dq is pure: no db, ingestion adapters, api, cli or web frameworks (add a
 type = "forbidden"
 source_modules = ["arthashreni.dq"]
 forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
-                     "arthashreni.policy", "arthashreni.risk", "arthashreni.reports", "fastapi", "starlette"]
+                     "arthashreni.policy", "arthashreni.risk", "arthashreni.reports", "arthashreni.research", "arthashreni.research_store", "arthashreni.cli_research", "fastapi", "starlette"]
 
 [[tool.importlinter.contracts]]
 name = "analytics is pure: no db, ingestion, api, cli, sqlalchemy or web frameworks (add ai/research when they exist)"
@@ -132,7 +134,7 @@ type = "forbidden"
 source_modules = ["arthashreni.analytics"]
 forbidden_modules = ["arthashreni.db", "arthashreni.ingestion", "arthashreni.api", "arthashreni.cli",
                      "arthashreni.portfolio", "arthashreni.policy", "arthashreni.risk", "arthashreni.reports",
-                     "sqlalchemy", "fastapi", "starlette", "flask"]
+                     "arthashreni.research", "arthashreni.research_store", "arthashreni.cli_research", "sqlalchemy", "fastapi", "starlette", "flask"]
 
 [[tool.importlinter.contracts]]
 name = "policy and risk: no ingestion, api, cli, arthashreni.db, service layers or web frameworks (add ai/research when they exist)"
@@ -140,7 +142,7 @@ type = "forbidden"
 source_modules = ["arthashreni.policy", "arthashreni.risk"]
 forbidden_modules = ["arthashreni.ingestion", "arthashreni.api", "arthashreni.cli", "arthashreni.cli_policy",
                      "arthashreni.db", "arthashreni.review", "arthashreni.portfolio", "arthashreni.demo",
-                     "fastapi", "starlette", "flask"]
+                     "arthashreni.research", "arthashreni.research_store", "arthashreni.cli_research", "fastapi", "starlette", "flask"]
 
 [[tool.importlinter.contracts]]
 name = "risk sits below policy: risk never imports policy"
@@ -161,6 +163,16 @@ type = "forbidden"
 source_modules = ["arthashreni.policy", "arthashreni.risk", "arthashreni.reports"]
 forbidden_modules = ["httpx", "requests", "urllib3", "ollama"]
 
+[[tool.importlinter.contracts]]
+name = "research is pure (E4): no db, market-data stores, ingestion, service layers, api, cli, network or web frameworks"
+type = "forbidden"
+source_modules = ["arthashreni.research"]
+forbidden_modules = ["arthashreni.db", "arthashreni.dq.store", "arthashreni.ingestion", "arthashreni.api",
+                     "arthashreni.cli", "arthashreni.cli_policy", "arthashreni.cli_research",
+                     "arthashreni.research_store", "arthashreni.portfolio", "arthashreni.review",
+                     "arthashreni.policy", "arthashreni.risk", "arthashreni.reports", "sqlalchemy",
+                     "httpx", "requests", "urllib3", "ollama", "fastapi", "starlette", "flask"]
+
 [tool.mutmut]
 source_paths = ["src/arthashreni/"]
 do_not_mutate = [
@@ -172,6 +184,7 @@ do_not_mutate = [
     "src/arthashreni/ledger/repository.py", "src/arthashreni/ledger/models.py",
     "src/arthashreni/risk/store.py",
     "src/arthashreni/review.py", "src/arthashreni/cli_policy.py",
+    "src/arthashreni/research_store.py", "src/arthashreni/cli_research.py",
 ]
 also_copy = ["tests/", "demo/", "config/", "alembic.ini", "migrations/", "docs/", "scripts/", ".env"]
 pytest_add_cli_args = ["-p", "no:cacheprovider", "--no-cov", "--allow-hosts=127.0.0.1,::1"]
@@ -180,5 +193,5 @@ pytest_add_cli_args_test_selection = [
     "tests/test_xirr.py", "tests/test_lots.py", "tests/test_ledger_exact.py", "tests/test_ledger_properties.py",
     "tests/test_policy_envelope.py", "tests/test_policy_rules.py", "tests/test_policy_decision.py",
     "tests/test_risk.py", "tests/test_risk_exact.py", "tests/test_reports.py", "tests/test_classify.py",
-    "tests/test_policy_db.py", "tests/test_phase5_gate.py",
+    "tests/test_policy_db.py", "tests/test_phase5_gate.py", "tests/test_research.py",
 ]

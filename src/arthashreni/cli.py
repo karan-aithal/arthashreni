@@ -9,7 +9,8 @@ from typing import Annotated, Any
 import typer
 from sqlalchemy import create_engine, text
 
-from arthashreni.cli_policy import APPS
+from arthashreni.cli_policy import APPS as POLICY_APPS
+from arthashreni.cli_research import APPS as RESEARCH_APPS
 from arthashreni.core.config import get_settings
 from arthashreni.core.logging import configure_logging
 from arthashreni.db.session import session_scope
@@ -36,7 +37,7 @@ for _name, _sub in (
     ("portfolio", portfolio_app),
 ):  # fmt: skip
     app.add_typer(_sub, name=_name)
-for _name, _sub in APPS:
+for _name, _sub in (*POLICY_APPS, *RESEARCH_APPS):
     app.add_typer(_sub, name=_name)
 
 log = logging.getLogger("arthashreni.cli")

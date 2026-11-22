@@ -12,7 +12,7 @@ MVP = Phases 0–5 plus the read-only UI of Phase 6: a tested ledger, DQ layer, 
 | Tax | Rules registry with only verified rules; otherwise "tax unavailable" | Full ITR schedules, Form 67 workflow |
 | Risk/policy | B1–B6, F2, F3, stress scenarios, alerts, template report | SIP timing study (Phase 10), 5–10-year scenarios (Phase 10) |
 | UI | Read-only pages (Phase 6) | Approval workflow, full dashboard (Phase 9) |
-| Research | — | Fundamentals, overlap, IPO tracker, news (Phase 7) |
+| Research | Phase 7: holdings files, overlap, news import, IPO checklist, claims (CLI) | Fetchers, per-AMC parsers, commodity drivers, UI pages |
 | AI | — | Local Ollama narrative layer (Phase 8) |
 | Social media | Out of scope | Out of scope |
 | Indian exchange prices | Statement/manual only (NSE terms) | Official licensed feed via ADR if ever needed |

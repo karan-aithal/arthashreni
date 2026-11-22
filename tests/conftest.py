@@ -94,6 +94,7 @@ NO_DB_MODULES = frozenset(
         "test_reports",
         "test_risk_exact",
         "test_classify",
+        "test_research",
     }
 )
 

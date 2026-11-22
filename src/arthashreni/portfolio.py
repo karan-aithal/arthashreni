@@ -55,6 +55,7 @@ from arthashreni.dq.measured import Measured, QualityStatus, day_stamp, m_add, m
 from arthashreni.ledger.lots import build_lots
 from arthashreni.ledger.repository import load_actions, load_effective
 from arthashreni.ledger.types import ActionType, CorporateAction, TxnRow
+from arthashreni.research_store import LoadedHoldings, load_fund_holdings
 
 ALLOCATION_DIMENSIONS: tuple[Dimension, ...] = ("asset_class", "country", "currency", "sector", "market_cap")
 STATS_DAYS = 365  # window for volatility, drawdown, correlation and benchmark comparison
@@ -119,7 +120,7 @@ def load_assets(db: Session, ids: set[int]) -> dict[int, AssetInfo]:
     rows = db.execute(
         text(
             """SELECT id, name, asset_class, currency, country, sector, market_cap_bucket, fund_house,
-                      theme, fund_category
+                      theme, fund_category, isin
                FROM ref.assets WHERE id = ANY(:ids)"""
         ),
         {"ids": sorted(ids)},
@@ -299,10 +300,15 @@ def build_report(
 ) -> PortfolioReport:
     """Everything the investor sees about the portfolio on `day`, using only data known by `known_at`.
 
-    `fund_holdings` (fund asset id to underlying weights) is empty until fund-house files are imported
-    (Phase 7); look-through then lists every fund as having no data.
+    `fund_holdings` (fund asset id to underlying weights) overrides the stored disclosure files; by default
+    they are read from the database as known at `known_at`. A fund with no file is listed as having no data.
     """
     txns, actions = load_effective(db), load_actions(db)
+    loaded = (
+        load_fund_holdings(db, day, known_at)
+        if fund_holdings is None
+        else LoadedHoldings(fund_holdings, frozenset())
+    )
     book = build_lots(txns, actions, day)
     asset_ids = {lot.asset_id for lot in book.lots} | {t.asset_id for t in txns if t.asset_id is not None}
     assets = load_assets(db, asset_ids)
@@ -330,7 +336,7 @@ def build_report(
         fx_attribution=_fx_rows(holdings),
         allocation={d: allocate(holdings, d) for d in ALLOCATION_DIMENSIONS},
         concentration=concentration(holdings),
-        look_through=look_through(holdings, fund_holdings or {}),
+        look_through=look_through(holdings, loaded.weights, stale_funds=loaded.stale),
         stats=stats,
         correlations=pairs,
         benchmarks=bench,

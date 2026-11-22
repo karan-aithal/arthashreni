@@ -1119,6 +1119,7 @@
           "fund_category": null,
           "fund_house": "Demo AMC",
           "id": 1,
+          "isin": "ZZDEMOMF0001",
           "market_cap": null,
           "name": "Demo Growth Equity Fund - Direct Growth",
           "sector": null,
@@ -1208,6 +1209,7 @@
           "fund_category": null,
           "fund_house": null,
           "id": 2,
+          "isin": "ZZDEMOETF001",
           "market_cap": null,
           "name": "Demo India ETF",
           "sector": null,
@@ -1297,6 +1299,7 @@
           "fund_category": null,
           "fund_house": null,
           "id": 4,
+          "isin": "ZZDEMOIPO001",
           "market_cap": null,
           "name": "Demo IPO Ltd",
           "sector": "Technology",
@@ -1386,6 +1389,7 @@
           "fund_category": null,
           "fund_house": null,
           "id": 6,
+          "isin": "ZZDEMONEW001",
           "market_cap": null,
           "name": "Demo New Co",
           "sector": "Materials",
@@ -1483,6 +1487,7 @@
           "fund_category": null,
           "fund_house": null,
           "id": 7,
+          "isin": "ZZDEMOUS0001",
           "market_cap": null,
           "name": "Demo Tech Inc",
           "sector": "Technology",
@@ -1634,7 +1639,7 @@
   },
   "look_through": {
     "exposure": {
-      "Demo IPO Ltd": {
+      "ZZDEMOIPO001": {
         "as_of": "2026-11-09T00:00:00+00:00",
         "notes": [
           "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
@@ -1650,7 +1655,7 @@
         "status": "stale",
         "value": "0.1936388900752889410511844452929943145143"
       },
-      "Demo New Co": {
+      "ZZDEMONEW001": {
         "as_of": "2026-11-09T00:00:00+00:00",
         "notes": [
           "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
@@ -1666,7 +1671,7 @@
         "status": "stale",
         "value": "0.1364273998257717539224254046382459943169"
       },
-      "Demo Tech Inc": {
+      "ZZDEMOUS0001": {
         "as_of": "2026-11-09T00:00:00+00:00",
         "notes": [
           "latest 2026-11-09, expected 2026-11-10 (1 days behind)",
@@ -1790,6 +1795,7 @@
         "fund_category": null,
         "fund_house": "Demo AMC",
         "id": 1,
+        "isin": "ZZDEMOMF0001",
         "market_cap": null,
         "name": "Demo Growth Equity Fund - Direct Growth",
         "sector": null,
@@ -1846,6 +1852,7 @@
         "fund_category": null,
         "fund_house": null,
         "id": 4,
+        "isin": "ZZDEMOIPO001",
         "market_cap": null,
         "name": "Demo IPO Ltd",
         "sector": "Technology",
@@ -1899,6 +1906,7 @@
         "fund_category": null,
         "fund_house": null,
         "id": 2,
+        "isin": "ZZDEMOETF001",
         "market_cap": null,
         "name": "Demo India ETF",
         "sector": null,
@@ -1952,6 +1960,7 @@
         "fund_category": null,
         "fund_house": null,
         "id": 6,
+        "isin": "ZZDEMONEW001",
         "market_cap": null,
         "name": "Demo New Co",
         "sector": "Materials",
@@ -2005,6 +2014,7 @@
         "fund_category": null,
         "fund_house": null,
         "id": 7,
+        "isin": "ZZDEMOUS0001",
         "market_cap": null,
         "name": "Demo Tech Inc",
         "sector": "Technology",
