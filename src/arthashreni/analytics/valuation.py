@@ -44,6 +44,7 @@ class AssetInfo:
     fund_house: str | None = None
     theme: str | None = None
     fund_category: str | None = None
+    isin: str | None = None
 
 
 @dataclass(frozen=True)

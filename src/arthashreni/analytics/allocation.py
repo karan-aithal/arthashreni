@@ -102,12 +102,14 @@ def look_through(
     holdings: Sequence[HoldingValue],
     fund_holdings: FundHoldings,
     fund_classes: frozenset[str] = frozenset({"MF", "ETF_IN", "ETF_US", "GOLD_ETF", "SILVER_ETF"}),
+    stale_funds: frozenset[int] = frozenset(),
 ) -> LookThrough:
     """Exposure to underlying securities through funds, using their disclosed holdings where known.
 
     A fund with no holdings data is listed in `without_data`, never guessed; direct holdings count as
     themselves. Each exposure is `estimated` if any fund was missing data (shares are then of the whole
-    portfolio but understate what the unknown funds hold).
+    portfolio but understate what the unknown funds hold). Funds in `stale_funds` have a holdings file that is
+    out of date: their exposure is used but marked `stale`. A direct holding is keyed by ISIN when it has one.
     """
     valued, _ = split_valued(holdings)
     if not valued:
@@ -123,10 +125,11 @@ def look_through(
                 unknown.append(a.name)
                 continue
             for key, w in parts.items():
-                weight = Measured(w, QualityStatus.OK, h.value_inr.as_of, ("fund_holdings",))
+                status = QualityStatus.STALE if a.id in stale_funds else QualityStatus.OK
+                weight = Measured(w, status, h.value_inr.as_of, ("fund_holdings",))
                 exposure.setdefault(key, []).append(m_div(m_mul(h.value_inr, weight), total))
         else:
-            exposure.setdefault(a.name, []).append(m_div(h.value_inr, total))
+            exposure.setdefault(a.isin or a.name, []).append(m_div(h.value_inr, total))
     out: dict[str, Measured[Decimal]] = {}
     for key, parts_m in exposure.items():
         m = m_sum(parts_m)

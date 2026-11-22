@@ -27,7 +27,9 @@ Personal investment intelligence platform for one Indian investor: ledger, data 
 - **Monthly review:** a recommendation plus a template report, with no LLM. Every recommendation needs your approval, and nothing is executed.
 - **Web UI (read-only):** Overview, Portfolio, Transactions & Imports, Data Quality & Sources, Risk Monitor, Monthly Report.
 
-Not built yet: research and IPO module (Phase 7), local LLM (Phase 8), approval workflow in the UI (Phase 9), SIP research (Phase 10).
+- **Research (Phase 7):** fund and ETF holdings files (look-through and overlap), official news files de-duplicated to one event, an IPO checklist read from the RHP with your classification, and research claims that cite stored evidence. All by CLI (`holdings`, `news`, `ipo-research`, `claim`); nothing is fetched automatically.
+
+Not built yet: local LLM (Phase 8), approval workflow in the UI (Phase 9), SIP research (Phase 10).
 
 ## Requirements
 

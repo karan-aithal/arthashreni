@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGES = ("ledger", "dq", "analytics", "policy", "risk")
+PACKAGES = ("ledger", "dq", "analytics", "policy", "risk", "research")
 
 
 def violations(source: str, name: str) -> list[str]:

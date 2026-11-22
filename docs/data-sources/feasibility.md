@@ -25,10 +25,10 @@ Legend for **Automation**: `yes` = terms or official docs allow scripted access 
 | `fred` | FRED API | US macro | yes | personal API key | no fixed number published; reasonable bandwidth | personal use; third-party copyrighted series need owner permission; attribution notice if distributed | 1 | later (Phase 5 risk) |
 | `rbi_dbie` | RBI DBIE (data.rbi.org.in) | IN macro | manual (Excel download; no official API found) | none | — | terms not found | 1 | later |
 | `mospi` | MOSPI | IN macro | not checked | — | — | — | 2 | later |
-| `fund_disclosures` | Fund-house monthly portfolio files | Fund holdings | not checked (per fund house, Phase 7) | — | — | — | 1 | later |
-| `issuer_etf_holdings` | US ETF issuer holdings files | ETF holdings | not checked (Phase 7) | — | — | — | 1 | later |
+| `fund_disclosures` | Fund-house monthly portfolio files | Fund holdings | not checked (per fund house, V35) | manual CSV | — | — | 1 | manual only |
+| `issuer_etf_holdings` | US ETF issuer holdings files | ETF holdings | not checked (V35) | manual CSV | — | — | 1 | manual only |
 | `sebi_nse_bse_ipo` | SEBI/NSE/BSE DRHP/RHP | IPO filings | manual download (NSE automation prohibited) | — | — | — | 1 | later |
-| `official_rss` | Official RSS feeds | News | not checked (Phase 7) | — | — | — | 1 | later |
+| `official_rss` | Official RSS feeds | News | not checked (V36) | manual file import | — | — | 1 | manual only |
 | `social` | Reddit, X, Discord | Social | out of scope | — | — | — | — | no |
 
 ## Evidence per source
